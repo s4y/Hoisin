@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E9BC4C0719A36F9D00E7CA90 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BC4C0619A36F9D00E7CA90 /* main.swift */; };
+		E9BC4C0919A36F9D00E7CA90 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BC4C0819A36F9D00E7CA90 /* Document.swift */; };
+		E9BC4C0C19A36F9D00E7CA90 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0A19A36F9D00E7CA90 /* Document.xib */; };
+		E9BC4C0E19A36F9D00E7CA90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */; };
+		E9BC4C1119A36F9D00E7CA90 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */; };
+		E9BC4C1D19A36F9D00E7CA90 /* HoisinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BC4C1C19A36F9D00E7CA90 /* HoisinTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9BC4C1719A36F9D00E7CA90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BC4BF919A36F9D00E7CA90 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BC4C0019A36F9D00E7CA90;
+			remoteInfo = Hoisin;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoisin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BC4C0519A36F9D00E7CA90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BC4C0619A36F9D00E7CA90 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		E9BC4C0819A36F9D00E7CA90 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		E9BC4C0B19A36F9D00E7CA90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E9BC4C1019A36F9D00E7CA90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E9BC4C1619A36F9D00E7CA90 /* HoisinTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoisinTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BC4C1B19A36F9D00E7CA90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BC4C1C19A36F9D00E7CA90 /* HoisinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoisinTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E9BC4BFE19A36F9D00E7CA90 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BC4C1319A36F9D00E7CA90 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E9BC4BF819A36F9D00E7CA90 = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C0319A36F9D00E7CA90 /* Hoisin */,
+				E9BC4C1919A36F9D00E7CA90 /* HoisinTests */,
+				E9BC4C0219A36F9D00E7CA90 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E9BC4C0219A36F9D00E7CA90 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */,
+				E9BC4C1619A36F9D00E7CA90 /* HoisinTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9BC4C0319A36F9D00E7CA90 /* Hoisin */ = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C0819A36F9D00E7CA90 /* Document.swift */,
+				E9BC4C0A19A36F9D00E7CA90 /* Document.xib */,
+				E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */,
+				E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */,
+				E9BC4C0419A36F9D00E7CA90 /* Supporting Files */,
+			);
+			path = Hoisin;
+			sourceTree = "<group>";
+		};
+		E9BC4C0419A36F9D00E7CA90 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C0519A36F9D00E7CA90 /* Info.plist */,
+				E9BC4C0619A36F9D00E7CA90 /* main.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9BC4C1919A36F9D00E7CA90 /* HoisinTests */ = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C1C19A36F9D00E7CA90 /* HoisinTests.swift */,
+				E9BC4C1A19A36F9D00E7CA90 /* Supporting Files */,
+			);
+			path = HoisinTests;
+			sourceTree = "<group>";
+		};
+		E9BC4C1A19A36F9D00E7CA90 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9BC4C1B19A36F9D00E7CA90 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E9BC4C0019A36F9D00E7CA90 /* Hoisin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9BC4C2019A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "Hoisin" */;
+			buildPhases = (
+				E9BC4BFD19A36F9D00E7CA90 /* Sources */,
+				E9BC4BFE19A36F9D00E7CA90 /* Frameworks */,
+				E9BC4BFF19A36F9D00E7CA90 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hoisin;
+			productName = Hoisin;
+			productReference = E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E9BC4C1519A36F9D00E7CA90 /* HoisinTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9BC4C2319A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "HoisinTests" */;
+			buildPhases = (
+				E9BC4C1219A36F9D00E7CA90 /* Sources */,
+				E9BC4C1319A36F9D00E7CA90 /* Frameworks */,
+				E9BC4C1419A36F9D00E7CA90 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9BC4C1819A36F9D00E7CA90 /* PBXTargetDependency */,
+			);
+			name = HoisinTests;
+			productName = HoisinTests;
+			productReference = E9BC4C1619A36F9D00E7CA90 /* HoisinTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E9BC4BF919A36F9D00E7CA90 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = s4y;
+				TargetAttributes = {
+					E9BC4C0019A36F9D00E7CA90 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					E9BC4C1519A36F9D00E7CA90 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = E9BC4C0019A36F9D00E7CA90;
+					};
+				};
+			};
+			buildConfigurationList = E9BC4BFC19A36F9D00E7CA90 /* Build configuration list for PBXProject "Hoisin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E9BC4BF819A36F9D00E7CA90;
+			productRefGroup = E9BC4C0219A36F9D00E7CA90 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E9BC4C0019A36F9D00E7CA90 /* Hoisin */,
+				E9BC4C1519A36F9D00E7CA90 /* HoisinTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E9BC4BFF19A36F9D00E7CA90 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BC4C0C19A36F9D00E7CA90 /* Document.xib in Resources */,
+				E9BC4C0E19A36F9D00E7CA90 /* Images.xcassets in Resources */,
+				E9BC4C1119A36F9D00E7CA90 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BC4C1419A36F9D00E7CA90 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E9BC4BFD19A36F9D00E7CA90 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BC4C0919A36F9D00E7CA90 /* Document.swift in Sources */,
+				E9BC4C0719A36F9D00E7CA90 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BC4C1219A36F9D00E7CA90 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BC4C1D19A36F9D00E7CA90 /* HoisinTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9BC4C1819A36F9D00E7CA90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9BC4C0019A36F9D00E7CA90 /* Hoisin */;
+			targetProxy = E9BC4C1719A36F9D00E7CA90 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E9BC4C0A19A36F9D00E7CA90 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E9BC4C0B19A36F9D00E7CA90 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E9BC4C1019A36F9D00E7CA90 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E9BC4C1E19A36F9D00E7CA90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E9BC4C1F19A36F9D00E7CA90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E9BC4C2119A36F9D00E7CA90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Hoisin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E9BC4C2219A36F9D00E7CA90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Hoisin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E9BC4C2419A36F9D00E7CA90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HoisinTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hoisin.app/Contents/MacOS/Hoisin";
+			};
+			name = Debug;
+		};
+		E9BC4C2519A36F9D00E7CA90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HoisinTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hoisin.app/Contents/MacOS/Hoisin";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E9BC4BFC19A36F9D00E7CA90 /* Build configuration list for PBXProject "Hoisin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BC4C1E19A36F9D00E7CA90 /* Debug */,
+				E9BC4C1F19A36F9D00E7CA90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9BC4C2019A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "Hoisin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BC4C2119A36F9D00E7CA90 /* Debug */,
+				E9BC4C2219A36F9D00E7CA90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E9BC4C2319A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "HoisinTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BC4C2419A36F9D00E7CA90 /* Debug */,
+				E9BC4C2519A36F9D00E7CA90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E9BC4BF919A36F9D00E7CA90 /* Project object */;
+}
