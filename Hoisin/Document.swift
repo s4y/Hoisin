@@ -7,9 +7,70 @@
 //
 
 import Cocoa
+import WebKit
+import JavaScriptCore
+
+class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
+    
+    var connection: NSURLConnection? = nil
+    
+    override class func load() {
+        NSURLProtocol.registerClass(self)
+    }
+    
+    override class func canInitWithRequest(request: NSURLRequest) -> Bool {
+        if request.URL.scheme == "hoisin" {
+            return true
+        }
+        return false
+    }
+    
+    override class func canonicalRequestForRequest(request: NSURLRequest) -> NSURLRequest {
+        return request
+    }
+    
+    override func startLoading() {
+        if cachedResponse != nil {
+            println("Will respond from cache with \(cachedResponse)")
+            client!.URLProtocol(self, cachedResponseIsValid: cachedResponse!)
+            return
+        }
+        connection = NSURLConnection(
+            request: NSURLRequest(URL: NSBundle.mainBundle().URLForResource(
+                "index", withExtension: "html", subdirectory: "ui"
+                )!),
+            delegate: self,
+            startImmediately: true
+        )
+
+    }
+    
+    override func stopLoading() {
+        self.connection!.cancel()
+        self.connection = nil
+    }
+    
+    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
+        self.client!.URLProtocol(self, didReceiveResponse: response, cacheStoragePolicy: .AllowedInMemoryOnly)
+    }
+    
+    func connection(connection: NSURLConnection, didReceiveData data: NSData) {
+        self.client!.URLProtocol(self, didLoadData: data)
+    }
+    
+    func connectionDidFinishLoading(connection: NSURLConnection) {
+        self.client!.URLProtocolDidFinishLoading(self)
+    }
+    
+    func connection(connection: NSURLConnection, didFailWithError error: NSError) {
+        self.client!.URLProtocol(self, didFailWithError: error)
+    }
+}
 
 class Document: NSDocument {
-                            
+    
+    @IBOutlet var webView: WebView?
+
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
@@ -18,13 +79,16 @@ class Document: NSDocument {
 
     override func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
-                                    
-        // Add any code here that needs to be executed once the windowController has loaded the document's window.
-                                    
+        
+        webView!.frameLoadDelegate = self
+        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin:shell")))
+//        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSBundle.mainBundle().URLForResource(
+//            "index", withExtension: "html", subdirectory: "ui"
+//        )))
     }
 
     override class func autosavesInPlace() -> Bool {
-        return true
+        return false // until we make saving work
     }
 
     override var windowNibName: String {
@@ -47,7 +111,53 @@ class Document: NSDocument {
         outError.memory = NSError.errorWithDomain(NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return false
     }
+    
+    // MARK: - WebFrameLoadDelegate
+    
+    override func webView(sender: WebView!, didCommitLoadForFrame frame: WebFrame!) {
+        frame.windowObject.setValue(self, forKey: "Shell")
+    }
 
-
+    // MARK: - JavaScript API
+    
+    override class func isSelectorExcludedFromWebScript(sel: Selector) -> Bool {
+        return !String(_sel: sel).hasPrefix("js_")
+    }
+    
+    override class func webScriptNameForSelector(sel: Selector) -> String {
+        let s = String(_sel: sel)
+        if let colon = s.rangeOfString(":") {
+            return s.substringWithRange(Range(start: advance(s.startIndex, 3), end: colon.startIndex))
+        } else {
+            return s.substringWithRange(Range(start: advance(s.startIndex, 3), end: s.endIndex))
+        }
+    }
+    
+    
+    func js_spawn(cmd: String, callbacks: WebScriptObject) -> AnyObject! {
+        let task = HoisinTask(cmd)
+        task.control?.readHandler = {
+            println("message from task: \($0)")
+        }
+        task.launch {
+            callbacks.callWebScriptMethod("exit", withArguments: [NSNumber(int: $0)])
+            return ()
+        }
+        task.stdout!.readabilityHandler = {
+            let outString = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)
+            dispatch_after(0, dispatch_get_main_queue()) {
+                callbacks.callWebScriptMethod("stdout", withArguments: [outString])
+                return ()
+            }
+        }
+        task.stderr!.readabilityHandler = {
+            let outString = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)
+            dispatch_after(0, dispatch_get_main_queue()) {
+                callbacks.callWebScriptMethod("stderr", withArguments: [outString])
+                return ()
+            }
+        }
+        return task
+    }
 }
 

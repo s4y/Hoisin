@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <style>
 
 body {
@@ -8,8 +9,7 @@ body {
 
 .cell {
 	position: relative;
-	margin: 20px 0;
-	padding-bottom: 20px;
+	margin: 40px 0;
 }
 
 .cellContent {
@@ -36,7 +36,7 @@ body {
 
 .meta {
 	background: #eee;
-	padding: 0 0 0 1.5em;
+	padding: 0 0 0 2.5em;
 }
 
 .command {
@@ -47,52 +47,172 @@ body {
 	float: left;
 }
 
+.commandStatus::before {
+	position: absolute;
+	width: 2.25em;
+	text-align: right;
+	color: rgba(0, 0, 0, 0.7);
+}
+
 .commandStatus.ready::before {
 	content: '$';
-	position: absolute;
-	width: 1.25em;
-	text-align: right;
+}
+
+.commandStatus.running::before {
+	content: '…';
+}
+
+.commandStatus.exited::before {
+	content: attr(data-exit-status);
 }
 
 .commandInput {
 	border: none;
 	font: inherit;
 	box-sizing: border-box;
-	padding: 0 0 0 1.5em;
+	padding: 0 0 0 2.5em;
 	margin: 0;
 	width: 100%;
 	outline: none;
 }
 
-.stdout {
+.stdout, .stderr {
 	margin: 0.25em 0;
-	padding-left: .3em;
-	margin-left: 1.0em;
+	padding-left: .5em;
+	margin-left: 2em;
+	white-space: pre-wrap;
+}
+
+.stdout {
 	border-left: 0.2em solid rgba(0, 0, 0, 0.5);
 }
 
+.stderr {
+	border-left: 0.2em solid rgba(255, 0, 0, 0.5);
+}
+
 </style>
-<div class=cell>
-	<div class=cellContent>
-		<div class=meta>
-			~
-		</div>
-		<div class=command>
-			<div class=commandLine>
-				<div class="commandStatus ready"></div>
-				<input class="commandInput" value=ls disabled>
-			</div>
-			<div class="stdout">
-				foo
-				bar
-				baz
-			</div>
-		</div>
-		<div class=command>
-			<div class=commandLine>
-				<div class="commandStatus ready"></div>
-				<input class="commandInput" value=ps>
-			</div>
-		</div>
-	</div>
-</div>
+<div id=shell></div>
+<script>
+var Views = {
+	Command: function() {
+		function Command() {
+			this.el = document.createElement('div');
+			this.el.classList.add('command');
+			this.els = {
+				commandLine: document.createElement('div'),
+				commandStatus: document.createElement('div'),
+				commandForm: document.createElement('form'),
+				commandInput: document.createElement('input')
+			};
+			this.els.commandLine.classList.add('commandLine');
+			this.els.commandStatus.classList.add('commandStatus');
+			this.els.commandStatus.classList.add('ready');
+			this.els.commandInput.classList.add('commandInput');
+			this.els.commandInput.spellcheck = false;
+			this.els.commandInput.autocomplete = false;
+
+			this.els.commandLine.appendChild(this.els.commandStatus);
+			this.els.commandForm.appendChild(this.els.commandInput);
+			this.els.commandLine.appendChild(this.els.commandForm);
+
+			this.el.appendChild(this.els.commandLine);
+
+			this.els.commandForm.addEventListener('submit', function(e) {
+				e.preventDefault();
+				if (this.onexecute) {
+					this.onexecute(this);
+				}
+			}.bind(this));
+		}
+		Command.prototype.value = function() {
+			return this.els.commandInput.value;
+		}
+		Command.prototype.select = function() {
+			this.els.commandInput.focus();
+		};
+		Command.prototype.lock = function() {
+			this.els.commandInput.disabled = true;
+			this.els.commandStatus.classList.remove('ready');
+			this.els.commandStatus.classList.add('running');
+		};
+		Command.prototype.exit = function(exitStatus) {
+			this.els.commandStatus.classList.remove('ready');
+			this.els.commandStatus.classList.add('exited');
+			this.els.commandStatus.dataset.exitStatus = exitStatus;
+		};
+		Command.prototype.stdout = function(text) {
+			if (!this.els.stdout) {
+				this.els.stdout = document.createElement('div');
+				this.els.stdout.classList.add('stdout');
+				this.el.appendChild(this.els.stdout);
+			}
+			this.els.stdout.textContent += text;
+		};
+		Command.prototype.stderr = function(text) {
+			console.log(text);
+			if (!this.els.stderr) {
+				this.els.stderr = document.createElement('div');
+				this.els.stderr.classList.add('stderr');
+				this.el.appendChild(this.els.stderr);
+			}
+			this.els.stderr.textContent += text;
+		};
+		return Command;
+	}(),
+	Cell: function() {
+		function Cell() {
+			this.el = document.createElement('div');
+			this.el.classList.add('cell');
+			this.els = {
+				cellContent: document.createElement('div'),
+			};
+			this.els.cellContent.classList.add('cellContent');
+			this.el.appendChild(this.els.cellContent);
+		}
+		Cell.prototype.meta = function(text) {
+			var metaEl = document.createElement('div');
+			metaEl.classList.add('meta');
+			metaEl.textContent = text
+			this.els.cellContent.appendChild(metaEl);
+		};
+		Cell.prototype.select = function() {
+			if (this.currentCommand) {
+				return;
+			}
+			this.currentCommand = new Views.Command(this);
+			this.els.cellContent.appendChild(this.currentCommand.el);
+			this.currentCommand.onexecute = function(command) {
+				command.lock();
+				Shell.spawn(command.value(), {
+					exit: function(exitStatus){
+						command.exit(exitStatus);
+						delete this.currentCommand;
+						this.select();
+					}.bind(this),
+					stdout: command.stdout.bind(command),
+					stderr: command.stderr.bind(command)
+				});
+			}.bind(this);
+
+			this.currentCommand.select();
+		};
+		return Cell;
+	}()
+};
+
+var cli = {
+	cells: [],
+
+	newCell: function (){
+		var cell = new Views.Cell();
+		this.cells.push(cell);
+		shell.appendChild(cell.el);
+		cell.meta('~');
+		cell.select();
+	}
+};
+
+cli.newCell();
+
+</script>
