@@ -10,6 +10,15 @@ Hoisin is an HTML-based shell with a few ambitious goals:
 
 - If you want to save a command's output or keep working while a long running command does its thing, you can "fork" a new shell. This takes the form of iPython-style cells: each cell has its own command history and can run commands independently.
 
+- All of your shell's state, including command inputs and outputs, can be saved to/loaded from a file.
+
+- Commands don't have to be built in to modify shell state. Any command can talk to the shell and ask it to change the working directory, change environment variables, etc. These changes are always shown to the user.
+
+
+## Status
+
+Hoisin’s pretty early in development.
+
 ## Examples
 
 ### Hoisin running stock `ls`
