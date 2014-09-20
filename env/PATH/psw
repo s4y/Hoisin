@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+
+import hoisin
+import sys
+import psutil
+
+cli = hoisin.cli()
+cliout = cli.checkin(hoisin.out_dict)
+
+pids = set(psutil.pids())
+
+import select
+
+kq = select.kqueue()
+
+def monproc(pid, action):
+    try:
+        kq.control([select.kevent(
+            pid, select.KQ_FILTER_PROC,
+            action,
+            select.KQ_NOTE_EXIT | select.KQ_NOTE_FORK | select.KQ_NOTE_EXEC
+        )], 0)
+        return True
+    except:
+        return False
+
+def addprocs(pids):
+    for pid in pids:
+        monproc(pid, select.KQ_EV_ADD)
+
+addprocs(pids)
+
+for pid in pids:
+    cliout[pid] = psutil.Process(pid).name()
+
+try:
+    while True:
+        for event in kq.control(None, 10000):
+            if event.fflags & select.KQ_NOTE_EXIT != 0:
+                pids.remove(event.ident)
+                del cliout[event.ident]
+            elif event.fflags & select.KQ_NOTE_FORK != 0:
+                # Nasty hack, because OS X supports neither NOTE_TRACK nor
+                # NOTE_FORK hinting (pid in the lower bits of fflags)
+                current_pids = set(psutil.pids())
+                new_pids = current_pids - pids
+                addprocs(new_pids)
+                pids |= new_pids
+                for pid in new_pids:
+                    try:
+                        cliout[pid] = psutil.Process(pid).name()
+                    except:
+                        # Sometimes a process exits before we grab it
+                        pass
+                # Also take this opportunity to clean up zombies
+                gone_pids = pids - current_pids
+                pids -= gone_pids
+                for pid in gone_pids:
+                    if pid in cliout:
+                        del cliout[pid]
+
+            elif event.fflags & select.KQ_NOTE_EXEC != 0:
+                cliout[event.ident] = psutil.Process(pid).name()
+
+except KeyboardInterrupt:
+    pass

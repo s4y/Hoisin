@@ -6,4 +6,21 @@
 //  Copyright (c) 2014 s4y. All rights reserved.
 //
 
-import Foundation
+func withCStrings<Result>(
+    strings: Slice<String>,
+    f: ([UnsafeMutablePointer<CChar>]) -> Result,
+    var unsafes: [UnsafeMutablePointer<CChar>] = []
+    ) -> Result {
+        if strings.isEmpty {
+            return f(unsafes)
+        }
+        return strings[0].withCString {
+            unsafes.append(UnsafeMutablePointer($0))
+            if strings.endIndex == 1 {
+                unsafes.append(UnsafeMutablePointer())
+                return withCStrings(Slice<String>(), f, unsafes: unsafes)
+            }
+            return withCStrings(strings[1...(strings.endIndex-1)], f, unsafes: unsafes)
+        }
+}
+

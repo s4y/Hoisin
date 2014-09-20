@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="stylesheet" href="/common.css"></link>
 <style>
-
-body {
-	margin: 0;
-	font: 14px "Source Code Pro", monospace;
-}
 
 .cell {
 	position: relative;
@@ -14,6 +10,7 @@ body {
 
 .cellContent {
 	overflow: auto;
+	padding-left: 2.5em;
 }
 
 .cell::before, .cell::after {
@@ -36,20 +33,18 @@ body {
 
 .meta {
 	background: #eee;
-	padding: 0 0 0 2.5em;
+	margin-left: -2.5em;
+	padding-left: 2.5em;
 }
 
 .command {
 	margin: 0.5em 0;
 }
 
-.commandStatus {
-	float: left;
-}
-
 .commandStatus::before {
 	position: absolute;
 	width: 2.25em;
+	margin-left: -2.5em;
 	text-align: right;
 	color: rgba(0, 0, 0, 0.7);
 }
@@ -70,16 +65,16 @@ body {
 	border: none;
 	font: inherit;
 	box-sizing: border-box;
-	padding: 0 0 0 2.5em;
+	padding: 0;
 	margin: 0;
 	width: 100%;
 	outline: none;
 }
 
-.stdout, .stderr {
+.stdout, .stderr, .messageout {
 	margin: 0.25em 0;
 	padding-left: .5em;
-	margin-left: 2em;
+	margin-left: -.5em;
 	white-space: pre-wrap;
 }
 
@@ -91,8 +86,18 @@ body {
 	border-left: 0.2em solid rgba(255, 0, 0, 0.5);
 }
 
+.messageout {
+	border-left: 0.2em solid rgba(0, 255, 0, 0.5);
+}
+
+.ui {
+	border: none;
+	width: 100%;
+}
+
 </style>
 <div id=shell></div>
+<script src="/common.js"></script>
 <script>
 var Views = {
 	Command: function() {
@@ -131,7 +136,7 @@ var Views = {
 		Command.prototype.select = function() {
 			this.els.commandInput.focus();
 		};
-		Command.prototype.lock = function() {
+		Command.prototype.setRunning = function() {
 			this.els.commandInput.disabled = true;
 			this.els.commandStatus.classList.remove('ready');
 			this.els.commandStatus.classList.add('running');
@@ -140,6 +145,15 @@ var Views = {
 			this.els.commandStatus.classList.remove('ready');
 			this.els.commandStatus.classList.add('exited');
 			this.els.commandStatus.dataset.exitStatus = exitStatus;
+		};
+		Command.prototype.messageout = function(m) {
+			if (!this.els.messageout) {
+				this.els.messageout = document.createElement('div');
+				this.els.messageout.classList.add('messageout');
+				this.el.appendChild(this.els.messageout);
+			}
+			this.els.messageout.textContent += JSON.stringify(m);
+			this.els.messageout.textContent += '\n';
 		};
 		Command.prototype.stdout = function(text) {
 			if (!this.els.stdout) {
@@ -150,13 +164,15 @@ var Views = {
 			this.els.stdout.textContent += text;
 		};
 		Command.prototype.stderr = function(text) {
-			console.log(text);
 			if (!this.els.stderr) {
 				this.els.stderr = document.createElement('div');
 				this.els.stderr.classList.add('stderr');
 				this.el.appendChild(this.els.stderr);
 			}
 			this.els.stderr.textContent += text;
+		};
+		Command.prototype.addUI = function(ui) {
+			this.el.appendChild(ui.el);
 		};
 		return Command;
 	}(),
@@ -183,22 +199,108 @@ var Views = {
 			this.currentCommand = new Views.Command(this);
 			this.els.cellContent.appendChild(this.currentCommand.el);
 			this.currentCommand.onexecute = function(command) {
-				command.lock();
-				Shell.spawn(command.value(), {
-					exit: function(exitStatus){
-						command.exit(exitStatus);
-						delete this.currentCommand;
-						this.select();
-					}.bind(this),
-					stdout: command.stdout.bind(command),
-					stderr: command.stderr.bind(command)
-				});
+				(new Task(command)).spawn(command.value(), function() {
+					delete this.currentCommand;
+					this.select();
+				}.bind(this));
 			}.bind(this);
 
 			this.currentCommand.select();
 		};
 		return Cell;
+	}(),
+	UI: function() {
+		function UIInterface(data, frame) {
+			this.data = data;
+			this.frame = frame;
+		}
+
+		UIInterface.prototype.resize = function(){
+			this.frame.style.height = this.frame.contentWindow.getComputedStyle(this.frame.contentDocument.body).height;
+		};
+
+		function UI(data, path) {
+			this.data = data;
+
+			this.el = document.createElement('iframe');
+			this.el.className = 'ui';
+			this.el.shell = this.interface = new UIInterface(data, this.el);
+			this.el.src = path;
+		}
+		UI.prototype.onmessage = function(m) {
+			if (this.interface.onmessage) {
+				this.interface.onmessage(m);
+			}
+		}
+		return UI;
 	}()
+};
+
+function DictionaryOutput() {
+	this.dict = {};
+}
+
+DictionaryOutput.prototype.onmessage = util.dispatchMessage;
+
+DictionaryOutput.prototype.msg_set = function(m) {
+	var k;
+	for (k in m) {
+		this.dict[k] = m[k];
+	}
+};
+
+DictionaryOutput.prototype.msg_delete = function(m) {
+	m.forEach(function(k) {
+		delete this.dict[k];
+	}.bind(this));
+};
+
+
+function Task(view) {
+	this.view = view;
+}
+
+Task.prototype.spawn = function(command, onexit) {
+	this.view.setRunning();
+	Shell.spawn(command, {
+		exit: function(exitStatus){
+			this.view.exit(exitStatus);
+			onexit();
+		}.bind(this),
+		stdout: this.view.stdout.bind(this.view),
+		stderr: this.view.stderr.bind(this.view),
+		message: function(json) {
+			this.onmessage(JSON.parse(json))
+		}.bind(this)
+	});
+};
+
+Task.prototype.onmessage = function(m) {
+	// this.view.messageout(m);
+	util.dispatchMessage.call(this, m);
+};
+
+Task.prototype.msg_checkin = function(m) {
+	if ("output_type" in m) switch (m.output_type) {
+	case "dictionary":
+		this.output = new DictionaryOutput();
+		this.outputView = new Views.UI(this.output, '/output/dictionary.html');
+		this.view.addUI(this.outputView);
+		break;
+	default:
+		throw new Error("Unknown output type: " + m.output_type);
+	}
+};
+
+Task.prototype.msg_output = function(m) {
+	if (!this.output) {
+		throw new Error("Task sent output before checking in");
+	}
+	this.output.onmessage(m);
+	if (this.outputView) {
+		this.outputView.onmessage(m);
+	}
+
 };
 
 var cli = {

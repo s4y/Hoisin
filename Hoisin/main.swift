@@ -8,4 +8,10 @@
 
 import Cocoa
 
+signal(SIGPIPE, CFunctionPointer<((Int32) -> Void)>(COpaquePointer(bitPattern: 1)))
+
+NSUserDefaults.standardUserDefaults().registerDefaults([
+    "WebKitDeveloperExtras": true
+])
+
 NSApplicationMain(C_ARGC, C_ARGV)

@@ -52,6 +52,6 @@ class cli(object):
 
     def checkin(self, output_type):
         self.ctl.send({ "checkin": {
-                "output_type": output_type.name
+            "output_type": output_type.name
         }})
         return output_type(self)

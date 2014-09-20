@@ -24,6 +24,7 @@ class HoisinTask : NSObject {
     let args: [String]
     let env: [String:String]
     var pid: pid_t = 0
+    var exitstatus: Int32? = nil
     var control: JSONTransport? = nil
     var stdout: NSFileHandle? = nil
     var stderr: NSFileHandle? = nil
@@ -39,6 +40,14 @@ class HoisinTask : NSObject {
     }
     
     func launch(completion: (Int32) -> ()) {
+        let onexit = { (status: Int32) -> () in
+            self.exitstatus = status
+            self.stdout?.readabilityHandler = nil
+            self.stderr?.readabilityHandler = nil
+            self.control?.close()
+            completion(status)
+        }
+        
         var env = self.env
         
         for dir in ENV_DIRS {
@@ -46,6 +55,9 @@ class HoisinTask : NSObject {
             let name = path.lastPathComponent
             if let existing = env[name] {
                 env[name] = "\(path):\(existing)"
+                // Quick hack to make PATH work with posix_spawnp, we should replace this
+                // all with a more legit environment system.
+                setenv(name, "\(path):\(existing)", 1)
             } else {
                 env[name] = path
             }
@@ -82,14 +94,16 @@ class HoisinTask : NSObject {
                 let ret = posix_spawnp(&self.pid, self.command, &file_actions, nil, argv, env)
                 if ret != 0 {
                     println("spawn fail: \(ret)")
-                    completion(-1)
+                    onexit(-1)
                 }
             }
         }
         
         posix_spawn_file_actions_destroy(&file_actions)
         close(socks[1])
-        childCatcher.waitpid(pid, completion)
+        if exitstatus == nil {
+            childCatcher.waitpid(pid, onexit)
+        }
     }
     
 }

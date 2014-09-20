@@ -37,8 +37,8 @@ class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
         }
         connection = NSURLConnection(
             request: NSURLRequest(URL: NSBundle.mainBundle().URLForResource(
-                "index", withExtension: "html", subdirectory: "ui"
-                )!),
+                "ui", withExtension: nil
+                )!.URLByAppendingPathComponent(request.URL.path!)),
             delegate: self,
             startImmediately: true
         )
@@ -81,7 +81,7 @@ class Document: NSDocument {
         super.windowControllerDidLoadNib(aController)
         
         webView!.frameLoadDelegate = self
-        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin:shell")))
+        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin://ui/index.html")))
 //        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSBundle.mainBundle().URLForResource(
 //            "index", withExtension: "html", subdirectory: "ui"
 //        )))
@@ -100,7 +100,7 @@ class Document: NSDocument {
     override func dataOfType(typeName: String?, error outError: NSErrorPointer) -> NSData? {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-        outError.memory = NSError.errorWithDomain(NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return nil
     }
 
@@ -108,7 +108,7 @@ class Document: NSDocument {
         // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-        outError.memory = NSError.errorWithDomain(NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return false
     }
     
@@ -136,12 +136,18 @@ class Document: NSDocument {
     
     func js_spawn(cmd: String, callbacks: WebScriptObject) -> AnyObject! {
         let task = HoisinTask(cmd)
-        task.control?.readHandler = {
-            println("message from task: \($0)")
-        }
         task.launch {
             callbacks.callWebScriptMethod("exit", withArguments: [NSNumber(int: $0)])
             return ()
+        }
+        task.control!.readHandler = { (m: AnyObject) -> () in
+            dispatch_after(0, dispatch_get_main_queue()) {
+                // callWebScriptMethod doesn't work with dictionaries, this is a quick and dirty workaround
+                callbacks.callWebScriptMethod("message", withArguments: [
+                    NSString(data: NSJSONSerialization.dataWithJSONObject(m, options: NSJSONWritingOptions(0), error: nil)!, encoding: NSUTF8StringEncoding)
+                ])
+                return ()
+            }
         }
         task.stdout!.readabilityHandler = {
             let outString = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)
