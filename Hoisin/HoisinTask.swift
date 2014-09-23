@@ -20,8 +20,7 @@ let ENV_DIRS: [NSURL] = {
 }()
 
 class HoisinTask : NSObject {
-    let command: String
-    let args: [String]
+    let argv: [String]
     let env: [String:String]
     var pid: pid_t = 0
     var exitstatus: Int32? = nil
@@ -29,9 +28,8 @@ class HoisinTask : NSObject {
     var stdout: NSFileHandle? = nil
     var stderr: NSFileHandle? = nil
     
-    init (_ command: String, args: [String] = [], env: [String:String]? = nil) {
-        self.command = command
-        self.args = args
+    init (_ argv: [String] = [], env: [String:String]? = nil) {
+        self.argv = argv
         if let env = env {
             self.env = env
         } else {
@@ -75,8 +73,6 @@ class HoisinTask : NSObject {
             envArray.append("\(k)=\(v)")
         }
         
-        let argv = [command] + args
-        
         let stdoutPipe = NSPipe()
         let stderrPipe = NSPipe()
         
@@ -90,8 +86,8 @@ class HoisinTask : NSObject {
         posix_spawn_file_actions_addinherit_np(&file_actions, socks[1])
         
         withCStrings(Slice(envArray)) { env -> () in
-            withCStrings(Slice(argv)) { argv -> () in
-                let ret = posix_spawnp(&self.pid, self.command, &file_actions, nil, argv, env)
+            withCStrings(Slice(self.argv)) { argv -> () in
+                let ret = posix_spawnp(&self.pid, self.argv[0], &file_actions, nil, argv, env)
                 if ret != 0 {
                     println("spawn fail: \(ret)")
                     onexit(-1)

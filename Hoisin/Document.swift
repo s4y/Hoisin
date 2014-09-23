@@ -134,8 +134,10 @@ class Document: NSDocument {
     }
     
     
-    func js_spawn(cmd: String, callbacks: WebScriptObject) -> AnyObject! {
-        let task = HoisinTask(cmd)
+    func js_spawn(args: String, callbacks: WebScriptObject) -> AnyObject! {
+        let task = HoisinTask(NSJSONSerialization.JSONObjectWithData(
+            args.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, options: NSJSONReadingOptions(), error: nil
+        )! as [String])
         task.launch {
             callbacks.callWebScriptMethod("exit", withArguments: [NSNumber(int: $0)])
             return ()

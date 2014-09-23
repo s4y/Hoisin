@@ -95,10 +95,151 @@
 	width: 100%;
 }
 
+.shellcolor-shadow {
+	position: absolute;
+	white-space: pre;
+	pointer-events: none;
+}
+
+.shellcolor-syn-softquote {
+	color: green;
+}
+
 </style>
 <div id=shell></div>
 <script src="/common.js"></script>
 <script>
+'use strict';
+
+var CLI = {
+	Parser: function(){
+		function CLIParser() {
+			this.pos = 0;
+			this.arguments = [];
+			this.syntax = [];
+		}
+
+		CLIParser.prototype.advance = function() {
+			this.input = this.input.substr(1);
+			this.pos++;
+		};
+
+		CLIParser.prototype.tok = function(tok) {
+			if (!this.syntax.length || this.syntax[this.syntax.length-1].name != tok) {
+				this.syntax.push({
+					pos: this.pos,
+					name: tok
+				});
+			}
+		};
+
+		CLIParser.prototype.consume = function(f) {
+			var c;
+			var ret;
+			while (this.input) {
+				c = this.input[0];
+				ret = f.call(this, c);
+				if (ret !== undefined) {
+					return ret;
+				}
+				this.advance();
+			}
+		}
+
+		CLIParser.prototype.parseSoftQuote = function() {
+			var out = '';
+
+			this.consume(function(c) {
+				switch (c) {
+				case '"':
+					return true;
+				default:
+					out += c;
+				}
+			});
+
+			return out;
+		}
+
+		CLIParser.prototype.parseHardQuote = function() {
+			var out = '';
+
+			this.consume(function(c) {
+				switch (c) {
+				case "'":
+					return true;
+				default:
+					out += c;
+				}
+			});
+
+			return out;
+		}
+
+		CLIParser.prototype.parseArgument = function() {
+			var argument = '';
+
+			this.consume(function(c) {
+				switch (c) {
+				case ' ':
+					return true;
+				case '"':
+					this.tok('softquote');
+					this.advance();
+					argument += this.parseSoftQuote();
+					break;
+				case "'":
+					this.tok('hardquote');
+					this.advance();
+					argument += this.parseHardQuote();
+					break;
+				default:
+					this.tok('argument');
+					argument += c;
+				}
+			});
+
+			return argument;
+		};
+
+		CLIParser.prototype.parse = function(input) {
+			this.input = input;
+
+			while (this.input) {
+				if (this.input[0] == ' ') {
+					this.tok('whitespace');
+					this.advance();
+				} else {
+					this.arguments.push(this.parseArgument());
+				}
+			}
+		};
+
+		return CLIParser;
+	}(),
+
+	colorizeInput: function(el, cb) {
+		var wrapperEl = document.createElement('div');
+		var shadowEl = document.createElement('div');
+		wrapperEl.classList.add('shellcolor');
+		shadowEl.classList.add('shellcolor-shadow');
+		el.parentNode.replaceChild(wrapperEl, el);
+		wrapperEl.appendChild(shadowEl);
+		wrapperEl.appendChild(el);
+
+		var inputStyle = getComputedStyle(el);
+		shadowEl.style.paddingTop = (parseFloat(inputStyle.borderTopWidth, 10) || 0) + (parseFloat(inputStyle.paddingTop, 10) || 0) + (parseFloat(inputStyle.marginTop, 10) || 0) + 'px';
+		shadowEl.style.paddingRight = (parseFloat(inputStyle.borderRightWidth, 10) || 0) + (parseFloat(inputStyle.paddingRight, 10) || 0) + (parseFloat(inputStyle.marginRight, 10) || 0) + 'px';
+		shadowEl.style.paddingBottom = (parseFloat(inputStyle.borderBottomWidth, 10) || 0) + (parseFloat(inputStyle.paddingBottom, 10) || 0) + (parseFloat(inputStyle.marginBottom, 10) || 0) + 'px';
+		shadowEl.style.paddingLeft = (parseFloat(inputStyle.borderLeftWidth, 10) || 0) + (parseFloat(inputStyle.paddingLeft, 10) || 0) + (parseFloat(inputStyle.marginLeft, 10) || 0) + 'px';
+
+		el.addEventListener('input', function() {
+			shadowEl.innerHTML = '';
+			shadowEl.appendChild(cb(el.value));
+		});
+	}
+};
+
 var Views = {
 	Command: function() {
 		function Command() {
@@ -121,6 +262,26 @@ var Views = {
 			this.els.commandForm.appendChild(this.els.commandInput);
 			this.els.commandLine.appendChild(this.els.commandForm);
 
+			CLI.colorizeInput(this.els.commandInput, function(value) {
+				var parser = new CLI.Parser()
+				parser.parse(value);
+				this.arguments = parser.arguments;
+
+				var frag = document.createDocumentFragment();
+
+				parser.syntax.forEach(function(tok, i) {
+					var el = document.createElement('span');
+					el.classList.add('shellcolor-syn-' + tok.name);
+					if (i < parser.syntax.length - 1) {
+						el.textContent = value.substring(tok.pos, parser.syntax[i+1].pos);
+					} else {
+						el.textContent = value.substring(tok.pos);
+					}
+					frag.appendChild(el);
+				});
+				return frag;
+			}.bind(this));
+
 			this.el.appendChild(this.els.commandLine);
 
 			this.els.commandForm.addEventListener('submit', function(e) {
@@ -129,9 +290,6 @@ var Views = {
 					this.onexecute(this);
 				}
 			}.bind(this));
-		}
-		Command.prototype.value = function() {
-			return this.els.commandInput.value;
 		}
 		Command.prototype.select = function() {
 			this.els.commandInput.focus();
@@ -199,7 +357,7 @@ var Views = {
 			this.currentCommand = new Views.Command(this);
 			this.els.cellContent.appendChild(this.currentCommand.el);
 			this.currentCommand.onexecute = function(command) {
-				(new Task(command)).spawn(command.value(), function() {
+				(new Task(command)).spawn(JSON.stringify(command.arguments), function() {
 					delete this.currentCommand;
 					this.select();
 				}.bind(this));
