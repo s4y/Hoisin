@@ -76,7 +76,10 @@ class JSONTransport {
     }
     
     func write(json: AnyObject) {
-        write(NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions(), error: nil)!)
+        let data = NSMutableData()
+        data.appendData(NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions(), error: nil)!)
+        data.appendBytes("\n", length: 1)
+        write(data)
     }
     
     func close() {
