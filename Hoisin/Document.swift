@@ -8,7 +8,6 @@
 
 import Cocoa
 import WebKit
-import JavaScriptCore
 
 class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
     
@@ -67,7 +66,15 @@ class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
     }
 }
 
-class Document: NSDocument {
+@objc protocol DocumentJS: JSExport {
+    func getenv() -> [String:String]
+    func standardizePath(string: String) -> String
+    
+    // JSExport doesn't support constructors, this is a workaround
+    func createTask([String]?) -> HoisinTaskJS
+}
+
+class Document: NSDocument, DocumentJS {
     
     @IBOutlet var webView: WebView?
 
@@ -81,7 +88,7 @@ class Document: NSDocument {
         super.windowControllerDidLoadNib(aController)
         
         webView!.frameLoadDelegate = self
-        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin://ui/index.html")))
+        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin://ui/index.html")!))
 //        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSBundle.mainBundle().URLForResource(
 //            "index", withExtension: "html", subdirectory: "ui"
 //        )))
@@ -115,55 +122,23 @@ class Document: NSDocument {
     // MARK: - WebFrameLoadDelegate
     
     override func webView(sender: WebView!, didCommitLoadForFrame frame: WebFrame!) {
-        frame.windowObject.setValue(self, forKey: "Shell")
+        frame.windowObject.JSValue().setValue(self, forProperty: "os")
     }
 
     // MARK: - JavaScript API
     
-    override class func isSelectorExcludedFromWebScript(sel: Selector) -> Bool {
-        return !String(_sel: sel).hasPrefix("js_")
+    func getenv() -> [String:String] {
+        return NSProcessInfo.processInfo().environment as [String:String]
     }
     
-    override class func webScriptNameForSelector(sel: Selector) -> String {
-        let s = String(_sel: sel)
-        if let colon = s.rangeOfString(":") {
-            return s.substringWithRange(Range(start: advance(s.startIndex, 3), end: colon.startIndex))
-        } else {
-            return s.substringWithRange(Range(start: advance(s.startIndex, 3), end: s.endIndex))
-        }
+    func standardizePath(string: String) -> String {
+        return NSURL(fileURLWithPath: string.stringByStandardizingPath)!.path!
     }
     
-    
-    func js_spawn(args: String, callbacks: WebScriptObject) -> AnyObject! {
-        let task = HoisinTask(NSJSONSerialization.JSONObjectWithData(
-            args.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, options: NSJSONReadingOptions(), error: nil
-        )! as [String])
-        task.launch {
-            callbacks.callWebScriptMethod("exit", withArguments: [NSNumber(int: $0)])
-            return ()
-        }
-        task.control!.readHandler = { (m: AnyObject) -> () in
-            dispatch_after(0, dispatch_get_main_queue()) {
-                // callWebScriptMethod doesn't work with dictionaries, this is a quick and dirty workaround
-                callbacks.callWebScriptMethod("message", withArguments: [
-                    NSString(data: NSJSONSerialization.dataWithJSONObject(m, options: NSJSONWritingOptions(0), error: nil)!, encoding: NSUTF8StringEncoding)
-                ])
-                return ()
-            }
-        }
-        task.stdout!.readabilityHandler = {
-            let outString = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)
-            dispatch_after(0, dispatch_get_main_queue()) {
-                callbacks.callWebScriptMethod("stdout", withArguments: [outString])
-                return ()
-            }
-        }
-        task.stderr!.readabilityHandler = {
-            let outString = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)
-            dispatch_after(0, dispatch_get_main_queue()) {
-                callbacks.callWebScriptMethod("stderr", withArguments: [outString])
-                return ()
-            }
+    func createTask(argv: [String]?) -> HoisinTaskJS {
+        let task = HoisinTask()
+        if let argv = argv {
+            task.argv = argv
         }
         return task
     }

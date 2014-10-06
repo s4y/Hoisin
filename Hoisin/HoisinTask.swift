@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WebKit
 
 let ENV_DIRS: [NSURL] = {
     let envRoot = NSBundle.mainBundle().URLForResource("env", withExtension: nil)!
@@ -19,33 +20,39 @@ let ENV_DIRS: [NSURL] = {
     }
 }()
 
-class HoisinTask : NSObject {
-    let argv: [String]
-    let env: [String:String]
+@objc protocol HoisinTaskJS: JSExport {
+    var argv: [String] { get set }
+    var env: [String:String] { get set }
+    // JSExport doesn't support setting closure properties (you can call them but setting them does nothing)
+    var onstdout: JSValue? { get set }
+    var onstderr: JSValue? { get set }
+    var onmessage: JSValue? { get set }
+    
+    func launch(JSValue)
+    func send(AnyObject)
+}
+
+class HoisinTask : NSObject, HoisinTaskJS {
+    var argv: [String] = []
+    var env: [String:String] = [:]
     var pid: pid_t = 0
     var exitstatus: Int32? = nil
     var control: JSONTransport? = nil
     var stdout: NSFileHandle? = nil
     var stderr: NSFileHandle? = nil
     
-    init (_ argv: [String] = [], env: [String:String]? = nil) {
-        self.argv = argv
-        if let env = env {
-            self.env = env
-        } else {
-            self.env = NSProcessInfo.processInfo().environment as [String:String]
+    var onstdout: JSValue?
+    var onstderr: JSValue?
+    var onmessage: JSValue?
+
+    func launch(completion: JSValue) {
+        launch {
+            completion.callWithArguments([NSNumber(int: $0)])
+            return ()
         }
     }
     
     func launch(completion: (Int32) -> ()) {
-        let onexit = { (status: Int32) -> () in
-            self.exitstatus = status
-            self.stdout?.readabilityHandler = nil
-            self.stderr?.readabilityHandler = nil
-            self.control?.close()
-            completion(status)
-        }
-        
         var env = self.env
         
         for dir in ENV_DIRS {
@@ -64,7 +71,7 @@ class HoisinTask : NSObject {
         var socks: [Int32] = [0, 0]
         socketpair(PF_LOCAL, SOCK_STREAM, 0, &socks)
         
-        control = JSONTransport(NSFileHandle(fileDescriptor: socks[0]))
+        control = JSONTransport(NSFileHandle(fileDescriptor: socks[0], closeOnDealloc: true))
         
         env["HOISINCHANNEL"] = String(socks[1])
         
@@ -79,6 +86,31 @@ class HoisinTask : NSObject {
         stdout = stdoutPipe.fileHandleForReading
         stderr = stderrPipe.fileHandleForReading
         
+        control!.readHandler = { (message: AnyObject) in
+            dispatch_after(0, dispatch_get_main_queue()) {
+                self.onmessage?.callWithArguments([message])
+                return ()
+            }
+        }
+        
+        stdout!.readabilityHandler = {
+            self.onstdout?.callWithArguments([NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!])
+            return ()
+        }
+        
+        stderr!.readabilityHandler = {
+            self.onstderr?.callWithArguments([NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!])
+            return ()
+        }
+        
+        let onexit = { (status: Int32) -> () in
+            self.exitstatus = status
+            self.stdout!.readabilityHandler = nil
+            self.stderr!.readabilityHandler = nil
+            self.control!.close()
+            completion(status)
+        }
+        
         var file_actions = posix_spawn_file_actions_t()
         posix_spawn_file_actions_init(&file_actions)
         posix_spawn_file_actions_adddup2(&file_actions, stdoutPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
@@ -89,7 +121,6 @@ class HoisinTask : NSObject {
             withCStrings(Slice(self.argv)) { argv -> () in
                 let ret = posix_spawnp(&self.pid, self.argv[0], &file_actions, nil, argv, env)
                 if ret != 0 {
-                    println("spawn fail: \(ret)")
                     onexit(-1)
                 }
             }
@@ -102,4 +133,7 @@ class HoisinTask : NSObject {
         }
     }
     
+    func send(obj: AnyObject) {
+        control!.write(obj)
+    }
 }
