@@ -72,6 +72,7 @@ class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
     
     // JSExport doesn't support constructors, this is a workaround
     func createTask([String]?) -> HoisinTaskJS
+    func createCwd(String) -> Cwd?
 }
 
 class Document: NSDocument, DocumentJS {
@@ -141,6 +142,10 @@ class Document: NSDocument, DocumentJS {
             task.argv = argv
         }
         return task
+    }
+    
+    func createCwd(path: String) -> Cwd? {
+        return Cwd(path: path)
     }
 }
 

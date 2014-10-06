@@ -41,17 +41,22 @@ class ui(object):
         self.cli = cli
         self.options = options
 
-class cli(object):
-    def __init__(self):
-        if 'HOISINCHANNEL' in os.environ:
-            fd = int(os.environ['HOISINCHANNEL'])
-            self.ctl = jsont(socket.fromfd(fd, socket.AF_UNIX, socket.SOCK_STREAM))
-            self.connected = True
-        else:
-            self.connected = False
+if 'HOISINCHANNEL' in os.environ:
+    fd = int(os.environ['HOISINCHANNEL'])
+    ctl = jsont(socket.fromfd(fd, socket.AF_UNIX, socket.SOCK_STREAM))
+    connected = True
+else:
+    connected = False
 
-    def checkin(self, output_type):
-        self.ctl.send({ "checkin": {
-            "output_type": output_type.name
-        }})
-        return output_type(self)
+def checkin(self, output_type):
+    ctl.send({ "checkin": {
+        "output_type": output_type.name
+    }})
+    return output_type(self)
+
+send = ctl.send
+
+def recv(**kwargs):
+    for k, v in ctl.recv().iteritems():
+        if k in kwargs:
+            kwargs[k](v)

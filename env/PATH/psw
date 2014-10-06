@@ -4,8 +4,7 @@ import hoisin
 import sys
 import psutil
 
-cli = hoisin.cli()
-cliout = cli.checkin(hoisin.out_dict)
+cliout = hoisin.checkin(hoisin.out_dict)
 
 pids = set(psutil.pids())
 
