@@ -47,6 +47,8 @@
 	margin-left: -2.5em;
 	text-align: right;
 	color: rgba(0, 0, 0, 0.7);
+	padding-right: 0.1em;
+	border-radius: 0 3px 3px 0;
 }
 
 .commandStatus.ready::before {
@@ -59,6 +61,10 @@
 
 .commandStatus.exited::before {
 	content: attr(data-exit-status);
+}
+
+.commandStatus.error::before {
+	background: #fcc;
 }
 
 .commandInput {
@@ -306,6 +312,9 @@ var Views = {
 			this.els.commandStatus.classList.remove('ready');
 			this.els.commandStatus.classList.add('exited');
 			this.els.commandStatus.dataset.exitStatus = exitStatus;
+			if (exitStatus != 0) {
+				this.els.commandStatus.classList.add('error');
+			}
 		};
 		Command.prototype.messageout = function(m) {
 			if (!this.els.messageout) {
