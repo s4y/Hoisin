@@ -30,6 +30,8 @@ let ENV_DIRS: [NSURL] = {
     
     func launch(JSValue)
     func send(AnyObject)
+    func sendStdin(String)
+    func kill(Int32)
 }
 
 class HoisinTask : NSObject, HoisinTaskJS {
@@ -38,6 +40,7 @@ class HoisinTask : NSObject, HoisinTaskJS {
     var pid: pid_t = 0
     var exitstatus: Int32? = nil
     var control: JSONTransport? = nil
+    var stdin: NSFileHandle? = nil
     var stdout: NSFileHandle? = nil
     var stderr: NSFileHandle? = nil
     
@@ -80,9 +83,11 @@ class HoisinTask : NSObject, HoisinTaskJS {
             envArray.append("\(k)=\(v)")
         }
         
+        let stdinPipe = NSPipe()
         let stdoutPipe = NSPipe()
         let stderrPipe = NSPipe()
         
+        stdin = stdinPipe.fileHandleForWriting
         stdout = stdoutPipe.fileHandleForReading
         stderr = stderrPipe.fileHandleForReading
         
@@ -94,13 +99,19 @@ class HoisinTask : NSObject, HoisinTaskJS {
         }
         
         stdout!.readabilityHandler = {
-            self.onstdout?.callWithArguments([NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!])
-            return ()
+            let s = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!
+            dispatch_after(0, dispatch_get_main_queue()) {
+                self.onstdout?.callWithArguments([s])
+                return ()
+            }
         }
         
         stderr!.readabilityHandler = {
-            self.onstderr?.callWithArguments([NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!])
-            return ()
+            let s = NSString(data: $0.availableData, encoding: NSUTF8StringEncoding)!
+            dispatch_after(0, dispatch_get_main_queue()) {
+                self.onstderr?.callWithArguments([s])
+                return ()
+            }
         }
         
         let onexit = { (status: Int32) -> () in
@@ -113,6 +124,7 @@ class HoisinTask : NSObject, HoisinTaskJS {
         
         var file_actions = posix_spawn_file_actions_t()
         posix_spawn_file_actions_init(&file_actions)
+        posix_spawn_file_actions_adddup2(&file_actions, stdinPipe.fileHandleForReading.fileDescriptor, STDIN_FILENO)
         posix_spawn_file_actions_adddup2(&file_actions, stdoutPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
         posix_spawn_file_actions_adddup2(&file_actions, stderrPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
         posix_spawn_file_actions_addinherit_np(&file_actions, socks[1])
@@ -135,5 +147,13 @@ class HoisinTask : NSObject, HoisinTaskJS {
     
     func send(obj: AnyObject) {
         control!.write(obj)
+    }
+    
+    func sendStdin(s: String) {
+        stdin!.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+    }
+
+    func kill(signal: Int32) {
+        Foundation.kill(pid, signal)
     }
 }
