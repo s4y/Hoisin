@@ -19,26 +19,24 @@ class out_dict(dict):
 
     name = "dictionary"
 
-    def __init__(self, cli, *args):
+    def __init__(self, *args):
         dict.__init__(self, *args)
-        self.cli = cli
 
     def __setitem__(self, k, v):
         dict.__setitem__(self, k, v)
-        self.cli.ctl.send({ "output": {
+        ctl.send({ "output": {
             "set": { k: v }
         }})
 
     def __delitem__(self, k):
         dict.__delitem__(self, k)
-        self.cli.ctl.send({ "output": {
+        ctl.send({ "output": {
             "delete": [k]
         }})
 
 
 class ui(object):
-    def __init__(self, cli, options):
-        self.cli = cli
+    def __init__(self, options):
         self.options = options
 
 if 'HOISINCHANNEL' in os.environ:
@@ -48,11 +46,11 @@ if 'HOISINCHANNEL' in os.environ:
 else:
     connected = False
 
-def checkin(self, output_type):
+def checkin(output_type):
     ctl.send({ "checkin": {
         "output_type": output_type.name
     }})
-    return output_type(self)
+    return output_type()
 
 send = ctl.send
 
