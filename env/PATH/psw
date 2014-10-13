@@ -59,7 +59,9 @@ try:
                         del cliout[pid]
 
             elif event.fflags & select.KQ_NOTE_EXEC != 0:
-                cliout[event.ident] = psutil.Process(pid).name()
+                try:
+                    cliout[event.ident] = psutil.Process(pid).name()
+                except: pass
 
 except KeyboardInterrupt:
     pass
