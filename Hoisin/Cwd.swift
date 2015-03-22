@@ -15,7 +15,6 @@ class Cwd: NSObject, CwdJS {
     init(_ handle: NSFileHandle?, _ path: String) {
         self.handle = handle
         self.path = path
-        super.init()
     }
     
     convenience init?(path: String) {
@@ -29,16 +28,9 @@ class Cwd: NSObject, CwdJS {
     }
     
     func wrap(f: JSValue) {
-        wrap {
-            f.callWithArguments([])
-            return ()
-        }
-    }
-    
-    func wrap(f: () -> ()) {
         let oldcwd = open(".", 0)
         fchdir(handle!.fileDescriptor)
-        f()
+        f.callWithArguments([])
         fchdir(oldcwd)
     }
     

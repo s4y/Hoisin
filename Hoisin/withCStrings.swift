@@ -8,8 +8,8 @@
 
 func withCStrings<Result>(
     strings: Slice<String>,
-    f: ([UnsafeMutablePointer<CChar>]) -> Result,
-    var unsafes: [UnsafeMutablePointer<CChar>] = []
+    var unsafes: [UnsafeMutablePointer<CChar>] = [],
+    f: ([UnsafeMutablePointer<CChar>]) -> Result
     ) -> Result {
         if strings.isEmpty {
             return f(unsafes)
@@ -18,9 +18,9 @@ func withCStrings<Result>(
             unsafes.append(UnsafeMutablePointer($0))
             if strings.endIndex == 1 {
                 unsafes.append(UnsafeMutablePointer())
-                return withCStrings(Slice<String>(), f, unsafes: unsafes)
+                return withCStrings(Slice<String>(), unsafes: unsafes, f)
             }
-            return withCStrings(strings[1...(strings.endIndex-1)], f, unsafes: unsafes)
+            return withCStrings(strings[1...(strings.endIndex-1)], unsafes: unsafes, f)
         }
 }
 

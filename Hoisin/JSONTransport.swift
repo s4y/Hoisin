@@ -1,11 +1,3 @@
-//
-//  JSONTransport.swift
-//  Hoisin
-//
-//  Created by Sidney San Martín on 8/24/14.
-//  Copyright (c) 2014 s4y. All rights reserved.
-//
-
 import Foundation
 
 class JSONTransport {
@@ -58,8 +50,9 @@ class JSONTransport {
                 return
             }
             var totalSent = 0
+            var vData = data
             self.writeBuf.enumerateByteRangesUsingBlock { data, range, stop in
-                let sent = send(self.handle.fileDescriptor, data, UInt(range.length), MSG_DONTWAIT)
+                let sent = send(self.handle.fileDescriptor, &vData, range.length, MSG_DONTWAIT)
                 if sent < 0 {
                     println("write fail: \(sent)")
                     stop.initialize(true)

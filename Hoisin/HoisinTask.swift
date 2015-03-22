@@ -1,11 +1,3 @@
-//
-//  HoisinTask.swift
-//  Hoisin
-//
-//  Created by Sidney San Martín on 8/19/14.
-//  Copyright (c) 2014 s4y. All rights reserved.
-//
-
 import Foundation
 import WebKit
 
@@ -34,7 +26,7 @@ let ENV_DIRS: [NSURL] = {
     func kill(Int32)
 }
 
-class HoisinTask : NSObject, HoisinTaskJS {
+class HoisinTask: NSObject, HoisinTaskJS {
     var argv: [String] = []
     var env: [String:String] = [:]
     var pid: pid_t = 0
@@ -49,13 +41,13 @@ class HoisinTask : NSObject, HoisinTaskJS {
     var onmessage: JSValue?
 
     func launch(completion: JSValue) {
-        launch {
+        launchImpl {
             completion.callWithArguments([NSNumber(int: $0)])
             return ()
         }
     }
     
-    func launch(completion: (Int32) -> ()) {
+    func launchImpl(completion: (Int32) -> ()) {
         var env = self.env
         
         for dir in ENV_DIRS {
@@ -141,7 +133,7 @@ class HoisinTask : NSObject, HoisinTaskJS {
         posix_spawn_file_actions_destroy(&file_actions)
         close(socks[1])
         if exitstatus == nil {
-            childCatcher.waitpid(pid, onexit)
+            childCatcher.waitpid(pid, cb: onexit)
         }
     }
     

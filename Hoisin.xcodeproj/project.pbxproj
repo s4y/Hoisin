@@ -7,92 +7,91 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E923CC9D19AACCF600786723 /* JSONTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E923CC9C19AACCF600786723 /* JSONTransport.swift */; };
-		E9289DF519AA20A0009A645A /* env in Resources */ = {isa = PBXBuildFile; fileRef = E9289DF419AA20A0009A645A /* env */; };
-		E95BD51719A451C1006EB0EB /* HoisinTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BD51619A451C1006EB0EB /* HoisinTask.swift */; };
-		E9BC4C0719A36F9D00E7CA90 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BC4C0619A36F9D00E7CA90 /* main.swift */; };
-		E9BC4C0919A36F9D00E7CA90 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BC4C0819A36F9D00E7CA90 /* Document.swift */; };
-		E9BC4C0C19A36F9D00E7CA90 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0A19A36F9D00E7CA90 /* Document.xib */; };
-		E9BC4C0E19A36F9D00E7CA90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */; };
-		E9BC4C1119A36F9D00E7CA90 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */; };
-		E9BC4C2919A371C300E7CA90 /* ui in Resources */ = {isa = PBXBuildFile; fileRef = E9BC4C2819A371C300E7CA90 /* ui */; };
-		E9BC4C2B19A373A900E7CA90 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BC4C2A19A373A900E7CA90 /* WebKit.framework */; };
-		E9C1BD4E19DA70A7003DC35A /* Cwd.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C1BD4D19DA70A7003DC35A /* Cwd.swift */; };
-		E9E646C819A8D8420016097B /* childCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E646C719A8D8420016097B /* childCatcher.swift */; };
-		E9FE8E9E19A8410F00FFA917 /* withCStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE8E9D19A8410F00FFA917 /* withCStrings.swift */; };
+		E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10291ABE3B20009B087D /* AppDelegate.swift */; };
+		E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C102B1ABE3B20009B087D /* ViewController.swift */; };
+		E99C102E1ABE3B20009B087D /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C102D1ABE3B20009B087D /* Document.swift */; };
+		E99C10301ABE3B20009B087D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E99C102F1ABE3B20009B087D /* Images.xcassets */; };
+		E99C10331ABE3B20009B087D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99C10311ABE3B20009B087D /* Main.storyboard */; };
+		E99C104A1ABE3B69009B087D /* env in Resources */ = {isa = PBXBuildFile; fileRef = E99C10481ABE3B69009B087D /* env */; };
+		E99C104B1ABE3B69009B087D /* ui in Resources */ = {isa = PBXBuildFile; fileRef = E99C10491ABE3B69009B087D /* ui */; };
+		E99C104F1ABE3B95009B087D /* Cwd.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104C1ABE3B95009B087D /* Cwd.swift */; };
+		E99C10501ABE3B95009B087D /* HoisinTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104D1ABE3B95009B087D /* HoisinTask.swift */; };
+		E99C10511ABE3B95009B087D /* JSONTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104E1ABE3B95009B087D /* JSONTransport.swift */; };
+		E99C10531ABE3BC2009B087D /* HoisinURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */; };
+		E99C10561ABE3FB0009B087D /* withCStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10541ABE3FB0009B087D /* withCStrings.swift */; };
+		E99C10571ABE3FB0009B087D /* childCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10551ABE3FB0009B087D /* childCatcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E923CC9C19AACCF600786723 /* JSONTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTransport.swift; sourceTree = "<group>"; };
-		E9289DF419AA20A0009A645A /* env */ = {isa = PBXFileReference; lastKnownFileType = folder; path = env; sourceTree = "<group>"; };
-		E95BD51619A451C1006EB0EB /* HoisinTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoisinTask.swift; sourceTree = "<group>"; };
-		E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoisin.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9BC4C0519A36F9D00E7CA90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E9BC4C0619A36F9D00E7CA90 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		E9BC4C0819A36F9D00E7CA90 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		E9BC4C0B19A36F9D00E7CA90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
-		E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E9BC4C1019A36F9D00E7CA90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		E9BC4C2819A371C300E7CA90 /* ui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ui; sourceTree = "<group>"; };
-		E9BC4C2A19A373A900E7CA90 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		E9C1BD4D19DA70A7003DC35A /* Cwd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cwd.swift; sourceTree = "<group>"; };
-		E9E646C719A8D8420016097B /* childCatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = childCatcher.swift; sourceTree = "<group>"; };
-		E9FE8E9D19A8410F00FFA917 /* withCStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = withCStrings.swift; sourceTree = "<group>"; };
+		E99C10241ABE3B20009B087D /* Hoisin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoisin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99C10281ABE3B20009B087D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E99C10291ABE3B20009B087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E99C102B1ABE3B20009B087D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E99C102D1ABE3B20009B087D /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		E99C102F1ABE3B20009B087D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E99C10321ABE3B20009B087D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E99C10481ABE3B69009B087D /* env */ = {isa = PBXFileReference; lastKnownFileType = folder; path = env; sourceTree = "<group>"; };
+		E99C10491ABE3B69009B087D /* ui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ui; sourceTree = "<group>"; };
+		E99C104C1ABE3B95009B087D /* Cwd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cwd.swift; sourceTree = "<group>"; };
+		E99C104D1ABE3B95009B087D /* HoisinTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoisinTask.swift; sourceTree = "<group>"; };
+		E99C104E1ABE3B95009B087D /* JSONTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTransport.swift; sourceTree = "<group>"; };
+		E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoisinURLProtocol.swift; sourceTree = "<group>"; };
+		E99C10541ABE3FB0009B087D /* withCStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = withCStrings.swift; sourceTree = "<group>"; };
+		E99C10551ABE3FB0009B087D /* childCatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = childCatcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E9BC4BFE19A36F9D00E7CA90 /* Frameworks */ = {
+		E99C10211ABE3B20009B087D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9BC4C2B19A373A900E7CA90 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E9BC4BF819A36F9D00E7CA90 = {
+		E99C101B1ABE3B20009B087D = {
 			isa = PBXGroup;
 			children = (
-				E9BC4C2A19A373A900E7CA90 /* WebKit.framework */,
-				E9BC4C0319A36F9D00E7CA90 /* Hoisin */,
-				E9BC4C2819A371C300E7CA90 /* ui */,
-				E9289DF419AA20A0009A645A /* env */,
-				E9BC4C0219A36F9D00E7CA90 /* Products */,
+				E99C10261ABE3B20009B087D /* Hoisin */,
+				E99C10481ABE3B69009B087D /* env */,
+				E99C10491ABE3B69009B087D /* ui */,
+				E99C10251ABE3B20009B087D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		E9BC4C0219A36F9D00E7CA90 /* Products */ = {
+		E99C10251ABE3B20009B087D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */,
+				E99C10241ABE3B20009B087D /* Hoisin.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E9BC4C0319A36F9D00E7CA90 /* Hoisin */ = {
+		E99C10261ABE3B20009B087D /* Hoisin */ = {
 			isa = PBXGroup;
 			children = (
-				E9C1BD4D19DA70A7003DC35A /* Cwd.swift */,
-				E95BD51619A451C1006EB0EB /* HoisinTask.swift */,
-				E923CC9C19AACCF600786723 /* JSONTransport.swift */,
-				E9BC4C0819A36F9D00E7CA90 /* Document.swift */,
-				E9BC4C0A19A36F9D00E7CA90 /* Document.xib */,
-				E9BC4C0D19A36F9D00E7CA90 /* Images.xcassets */,
-				E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */,
-				E9BC4C0419A36F9D00E7CA90 /* Supporting Files */,
-				E9FE8E9D19A8410F00FFA917 /* withCStrings.swift */,
-				E9E646C719A8D8420016097B /* childCatcher.swift */,
+				E99C10541ABE3FB0009B087D /* withCStrings.swift */,
+				E99C10551ABE3FB0009B087D /* childCatcher.swift */,
+				E99C104C1ABE3B95009B087D /* Cwd.swift */,
+				E99C104D1ABE3B95009B087D /* HoisinTask.swift */,
+				E99C104E1ABE3B95009B087D /* JSONTransport.swift */,
+				E99C10291ABE3B20009B087D /* AppDelegate.swift */,
+				E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */,
+				E99C102B1ABE3B20009B087D /* ViewController.swift */,
+				E99C102D1ABE3B20009B087D /* Document.swift */,
+				E99C102F1ABE3B20009B087D /* Images.xcassets */,
+				E99C10311ABE3B20009B087D /* Main.storyboard */,
+				E99C10271ABE3B20009B087D /* Supporting Files */,
 			);
 			path = Hoisin;
 			sourceTree = "<group>";
 		};
-		E9BC4C0419A36F9D00E7CA90 /* Supporting Files */ = {
+		E99C10271ABE3B20009B087D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E9BC4C0519A36F9D00E7CA90 /* Info.plist */,
-				E9BC4C0619A36F9D00E7CA90 /* main.swift */,
+				E99C10281ABE3B20009B087D /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -100,13 +99,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E9BC4C0019A36F9D00E7CA90 /* Hoisin */ = {
+		E99C10231ABE3B20009B087D /* Hoisin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9BC4C2019A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "Hoisin" */;
+			buildConfigurationList = E99C10421ABE3B20009B087D /* Build configuration list for PBXNativeTarget "Hoisin" */;
 			buildPhases = (
-				E9BC4BFD19A36F9D00E7CA90 /* Sources */,
-				E9BC4BFE19A36F9D00E7CA90 /* Frameworks */,
-				E9BC4BFF19A36F9D00E7CA90 /* Resources */,
+				E99C10201ABE3B20009B087D /* Sources */,
+				E99C10211ABE3B20009B087D /* Frameworks */,
+				E99C10221ABE3B20009B087D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -114,24 +113,24 @@
 			);
 			name = Hoisin;
 			productName = Hoisin;
-			productReference = E9BC4C0119A36F9D00E7CA90 /* Hoisin.app */;
+			productReference = E99C10241ABE3B20009B087D /* Hoisin.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E9BC4BF919A36F9D00E7CA90 /* Project object */ = {
+		E99C101C1ABE3B20009B087D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = s4y;
 				TargetAttributes = {
-					E9BC4C0019A36F9D00E7CA90 = {
-						CreatedOnToolsVersion = 6.0;
+					E99C10231ABE3B20009B087D = {
+						CreatedOnToolsVersion = 6.3;
 					};
 				};
 			};
-			buildConfigurationList = E9BC4BFC19A36F9D00E7CA90 /* Build configuration list for PBXProject "Hoisin" */;
+			buildConfigurationList = E99C101F1ABE3B20009B087D /* Build configuration list for PBXProject "Hoisin" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -139,69 +138,62 @@
 				en,
 				Base,
 			);
-			mainGroup = E9BC4BF819A36F9D00E7CA90;
-			productRefGroup = E9BC4C0219A36F9D00E7CA90 /* Products */;
+			mainGroup = E99C101B1ABE3B20009B087D;
+			productRefGroup = E99C10251ABE3B20009B087D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E9BC4C0019A36F9D00E7CA90 /* Hoisin */,
+				E99C10231ABE3B20009B087D /* Hoisin */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E9BC4BFF19A36F9D00E7CA90 /* Resources */ = {
+		E99C10221ABE3B20009B087D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9BC4C2919A371C300E7CA90 /* ui in Resources */,
-				E9BC4C0C19A36F9D00E7CA90 /* Document.xib in Resources */,
-				E9BC4C0E19A36F9D00E7CA90 /* Images.xcassets in Resources */,
-				E9BC4C1119A36F9D00E7CA90 /* MainMenu.xib in Resources */,
-				E9289DF519AA20A0009A645A /* env in Resources */,
+				E99C104B1ABE3B69009B087D /* ui in Resources */,
+				E99C104A1ABE3B69009B087D /* env in Resources */,
+				E99C10301ABE3B20009B087D /* Images.xcassets in Resources */,
+				E99C10331ABE3B20009B087D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E9BC4BFD19A36F9D00E7CA90 /* Sources */ = {
+		E99C10201ABE3B20009B087D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9C1BD4E19DA70A7003DC35A /* Cwd.swift in Sources */,
-				E9FE8E9E19A8410F00FFA917 /* withCStrings.swift in Sources */,
-				E923CC9D19AACCF600786723 /* JSONTransport.swift in Sources */,
-				E9BC4C0919A36F9D00E7CA90 /* Document.swift in Sources */,
-				E9E646C819A8D8420016097B /* childCatcher.swift in Sources */,
-				E95BD51719A451C1006EB0EB /* HoisinTask.swift in Sources */,
-				E9BC4C0719A36F9D00E7CA90 /* main.swift in Sources */,
+				E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */,
+				E99C10511ABE3B95009B087D /* JSONTransport.swift in Sources */,
+				E99C10501ABE3B95009B087D /* HoisinTask.swift in Sources */,
+				E99C10531ABE3BC2009B087D /* HoisinURLProtocol.swift in Sources */,
+				E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */,
+				E99C104F1ABE3B95009B087D /* Cwd.swift in Sources */,
+				E99C10571ABE3FB0009B087D /* childCatcher.swift in Sources */,
+				E99C10561ABE3FB0009B087D /* withCStrings.swift in Sources */,
+				E99C102E1ABE3B20009B087D /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E9BC4C0A19A36F9D00E7CA90 /* Document.xib */ = {
+		E99C10311ABE3B20009B087D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E9BC4C0B19A36F9D00E7CA90 /* Base */,
+				E99C10321ABE3B20009B087D /* Base */,
 			);
-			name = Document.xib;
-			sourceTree = "<group>";
-		};
-		E9BC4C0F19A36F9D00E7CA90 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E9BC4C1019A36F9D00E7CA90 /* Base */,
-			);
-			name = MainMenu.xib;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		E9BC4C1E19A36F9D00E7CA90 /* Debug */ = {
+		E99C10401ABE3B20009B087D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -220,9 +212,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -243,7 +237,7 @@
 			};
 			name = Debug;
 		};
-		E9BC4C1F19A36F9D00E7CA90 /* Release */ = {
+		E99C10411ABE3B20009B087D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -261,11 +255,12 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -278,24 +273,21 @@
 			};
 			name = Release;
 		};
-		E9BC4C2119A36F9D00E7CA90 /* Debug */ = {
+		E99C10431ABE3B20009B087D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Hoisin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		E9BC4C2219A36F9D00E7CA90 /* Release */ = {
+		E99C10441ABE3B20009B087D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Hoisin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -306,25 +298,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E9BC4BFC19A36F9D00E7CA90 /* Build configuration list for PBXProject "Hoisin" */ = {
+		E99C101F1ABE3B20009B087D /* Build configuration list for PBXProject "Hoisin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E9BC4C1E19A36F9D00E7CA90 /* Debug */,
-				E9BC4C1F19A36F9D00E7CA90 /* Release */,
+				E99C10401ABE3B20009B087D /* Debug */,
+				E99C10411ABE3B20009B087D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9BC4C2019A36F9D00E7CA90 /* Build configuration list for PBXNativeTarget "Hoisin" */ = {
+		E99C10421ABE3B20009B087D /* Build configuration list for PBXNativeTarget "Hoisin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E9BC4C2119A36F9D00E7CA90 /* Debug */,
-				E9BC4C2219A36F9D00E7CA90 /* Release */,
+				E99C10431ABE3B20009B087D /* Debug */,
+				E99C10441ABE3B20009B087D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = E9BC4BF919A36F9D00E7CA90 /* Project object */;
+	rootObject = E99C101C1ABE3B20009B087D /* Project object */;
 }
