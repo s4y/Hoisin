@@ -11,10 +11,5 @@ elif len(sys.argv) > 2:
     sys.stderr.write("usage: cd [dir]\n")
     sys.exit(1)
 
-hoisin.send({ "cd": target })
-
-def on_cd(success):
-    if not success:
-        sys.exit(1)
-
-hoisin.recv(cd=on_cd)
+if not hoisin.cd(target):
+    sys.exit(1)

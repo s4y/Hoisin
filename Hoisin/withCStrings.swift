@@ -1,3 +1,4 @@
+
 //
 //  withCStrings.swift
 //  Hoisin
@@ -7,7 +8,7 @@
 //
 
 func withCStrings<Result>(
-    strings: Slice<String>,
+    strings: ArraySlice<String>,
     var unsafes: [UnsafeMutablePointer<CChar>] = [],
     f: ([UnsafeMutablePointer<CChar>]) -> Result
     ) -> Result {
@@ -18,7 +19,7 @@ func withCStrings<Result>(
             unsafes.append(UnsafeMutablePointer($0))
             if strings.endIndex == 1 {
                 unsafes.append(UnsafeMutablePointer())
-                return withCStrings(Slice<String>(), unsafes: unsafes, f)
+                return withCStrings(ArraySlice<String>(), unsafes: unsafes, f)
             }
             return withCStrings(strings[1...(strings.endIndex-1)], unsafes: unsafes, f)
         }

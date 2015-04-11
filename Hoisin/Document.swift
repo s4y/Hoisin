@@ -2,15 +2,8 @@ import Cocoa
 import WebKit
 
 class Document: NSDocument {
-
-    @IBOutlet var webView: WebView?
     
-    override func windowControllerDidLoadNib(aController: NSWindowController) {
-        super.windowControllerDidLoadNib(aController)
-        
-        webView!.frameLoadDelegate = self
-        webView!.mainFrame.loadRequest(NSURLRequest(URL: NSURL(string: "hoisin://ui/index.html")!))
-    }
+    var sessions: [Session] = []
 
     override class func autosavesInPlace() -> Bool {
         return false // until we make saving work

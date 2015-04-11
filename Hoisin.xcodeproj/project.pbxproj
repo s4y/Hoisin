@@ -15,11 +15,14 @@
 		E99C104A1ABE3B69009B087D /* env in Resources */ = {isa = PBXBuildFile; fileRef = E99C10481ABE3B69009B087D /* env */; };
 		E99C104B1ABE3B69009B087D /* ui in Resources */ = {isa = PBXBuildFile; fileRef = E99C10491ABE3B69009B087D /* ui */; };
 		E99C104F1ABE3B95009B087D /* Cwd.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104C1ABE3B95009B087D /* Cwd.swift */; };
-		E99C10501ABE3B95009B087D /* HoisinTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104D1ABE3B95009B087D /* HoisinTask.swift */; };
+		E99C10501ABE3B95009B087D /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104D1ABE3B95009B087D /* Task.swift */; };
 		E99C10511ABE3B95009B087D /* JSONTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C104E1ABE3B95009B087D /* JSONTransport.swift */; };
 		E99C10531ABE3BC2009B087D /* HoisinURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */; };
 		E99C10561ABE3FB0009B087D /* withCStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10541ABE3FB0009B087D /* withCStrings.swift */; };
 		E99C10571ABE3FB0009B087D /* childCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10551ABE3FB0009B087D /* childCatcher.swift */; };
+		E9D8A0681ABF5D6300FB8C60 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A0671ABF5D6300FB8C60 /* Session.swift */; };
+		E9D8A06A1ABF5E7000FB8C60 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A0691ABF5E7000FB8C60 /* Cell.swift */; };
+		E9D8A06C1ABF6ED900FB8C60 /* OS.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A06B1ABF6ED900FB8C60 /* OS.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,12 +35,15 @@
 		E99C10321ABE3B20009B087D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E99C10481ABE3B69009B087D /* env */ = {isa = PBXFileReference; lastKnownFileType = folder; path = env; sourceTree = "<group>"; };
 		E99C10491ABE3B69009B087D /* ui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ui; sourceTree = "<group>"; };
-		E99C104C1ABE3B95009B087D /* Cwd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cwd.swift; sourceTree = "<group>"; };
-		E99C104D1ABE3B95009B087D /* HoisinTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoisinTask.swift; sourceTree = "<group>"; };
-		E99C104E1ABE3B95009B087D /* JSONTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTransport.swift; sourceTree = "<group>"; };
+		E99C104C1ABE3B95009B087D /* Cwd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cwd.swift; path = Hoisin/Cwd.swift; sourceTree = "<group>"; };
+		E99C104D1ABE3B95009B087D /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Task.swift; path = Hoisin/Task.swift; sourceTree = "<group>"; };
+		E99C104E1ABE3B95009B087D /* JSONTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONTransport.swift; path = Hoisin/JSONTransport.swift; sourceTree = "<group>"; };
 		E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoisinURLProtocol.swift; sourceTree = "<group>"; };
-		E99C10541ABE3FB0009B087D /* withCStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = withCStrings.swift; sourceTree = "<group>"; };
-		E99C10551ABE3FB0009B087D /* childCatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = childCatcher.swift; sourceTree = "<group>"; };
+		E99C10541ABE3FB0009B087D /* withCStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = withCStrings.swift; path = Hoisin/withCStrings.swift; sourceTree = "<group>"; };
+		E99C10551ABE3FB0009B087D /* childCatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = childCatcher.swift; path = Hoisin/childCatcher.swift; sourceTree = "<group>"; };
+		E9D8A0671ABF5D6300FB8C60 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Hoisin/Session.swift; sourceTree = "<group>"; };
+		E9D8A0691ABF5E7000FB8C60 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cell.swift; path = Hoisin/Cell.swift; sourceTree = "<group>"; };
+		E9D8A06B1ABF6ED900FB8C60 /* OS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OS.swift; path = Hoisin/OS.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +60,10 @@
 		E99C101B1ABE3B20009B087D = {
 			isa = PBXGroup;
 			children = (
-				E99C10261ABE3B20009B087D /* Hoisin */,
+				E9D8A0641ABF5AA800FB8C60 /* Utilities */,
+				E9D8A0651ABF5ABA00FB8C60 /* Guts */,
+				E9D8A0661ABF5AD000FB8C60 /* Shell */,
+				E99C10261ABE3B20009B087D /* App */,
 				E99C10481ABE3B69009B087D /* env */,
 				E99C10491ABE3B69009B087D /* ui */,
 				E99C10251ABE3B20009B087D /* Products */,
@@ -69,14 +78,9 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E99C10261ABE3B20009B087D /* Hoisin */ = {
+		E99C10261ABE3B20009B087D /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E99C10541ABE3FB0009B087D /* withCStrings.swift */,
-				E99C10551ABE3FB0009B087D /* childCatcher.swift */,
-				E99C104C1ABE3B95009B087D /* Cwd.swift */,
-				E99C104D1ABE3B95009B087D /* HoisinTask.swift */,
-				E99C104E1ABE3B95009B087D /* JSONTransport.swift */,
 				E99C10291ABE3B20009B087D /* AppDelegate.swift */,
 				E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */,
 				E99C102B1ABE3B20009B087D /* ViewController.swift */,
@@ -85,6 +89,7 @@
 				E99C10311ABE3B20009B087D /* Main.storyboard */,
 				E99C10271ABE3B20009B087D /* Supporting Files */,
 			);
+			name = App;
 			path = Hoisin;
 			sourceTree = "<group>";
 		};
@@ -94,6 +99,35 @@
 				E99C10281ABE3B20009B087D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9D8A0641ABF5AA800FB8C60 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E99C10541ABE3FB0009B087D /* withCStrings.swift */,
+				E99C10551ABE3FB0009B087D /* childCatcher.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		E9D8A0651ABF5ABA00FB8C60 /* Guts */ = {
+			isa = PBXGroup;
+			children = (
+				E99C104E1ABE3B95009B087D /* JSONTransport.swift */,
+			);
+			name = Guts;
+			sourceTree = "<group>";
+		};
+		E9D8A0661ABF5AD000FB8C60 /* Shell */ = {
+			isa = PBXGroup;
+			children = (
+				E99C104C1ABE3B95009B087D /* Cwd.swift */,
+				E99C104D1ABE3B95009B087D /* Task.swift */,
+				E9D8A0691ABF5E7000FB8C60 /* Cell.swift */,
+				E9D8A0671ABF5D6300FB8C60 /* Session.swift */,
+				E9D8A06B1ABF6ED900FB8C60 /* OS.swift */,
+			);
+			name = Shell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,13 +201,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D8A0681ABF5D6300FB8C60 /* Session.swift in Sources */,
 				E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */,
 				E99C10511ABE3B95009B087D /* JSONTransport.swift in Sources */,
-				E99C10501ABE3B95009B087D /* HoisinTask.swift in Sources */,
+				E99C10501ABE3B95009B087D /* Task.swift in Sources */,
 				E99C10531ABE3BC2009B087D /* HoisinURLProtocol.swift in Sources */,
+				E9D8A06C1ABF6ED900FB8C60 /* OS.swift in Sources */,
 				E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */,
 				E99C104F1ABE3B95009B087D /* Cwd.swift in Sources */,
 				E99C10571ABE3FB0009B087D /* childCatcher.swift in Sources */,
+				E9D8A06A1ABF5E7000FB8C60 /* Cell.swift in Sources */,
 				E99C10561ABE3FB0009B087D /* withCStrings.swift in Sources */,
 				E99C102E1ABE3B20009B087D /* Document.swift in Sources */,
 			);

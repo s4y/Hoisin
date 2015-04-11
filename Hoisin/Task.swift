@@ -12,7 +12,7 @@ let ENV_DIRS: [NSURL] = {
     }
 }()
 
-@objc protocol HoisinTaskJS: JSExport {
+@objc protocol TaskJS: JSExport {
     var argv: [String] { get set }
     var env: [String:String] { get set }
     // JSExport doesn't support setting closure properties (you can call them but setting them does nothing)
@@ -26,7 +26,7 @@ let ENV_DIRS: [NSURL] = {
     func kill(Int32)
 }
 
-class HoisinTask: NSObject, HoisinTaskJS {
+class Task: NSObject, TaskJS {
     var argv: [String] = []
     var env: [String:String] = [:]
     var pid: pid_t = 0
@@ -121,8 +121,8 @@ class HoisinTask: NSObject, HoisinTaskJS {
         posix_spawn_file_actions_adddup2(&file_actions, stderrPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
         posix_spawn_file_actions_addinherit_np(&file_actions, socks[1])
         
-        withCStrings(Slice(envArray)) { env -> () in
-            withCStrings(Slice(self.argv)) { argv -> () in
+        withCStrings(ArraySlice(envArray)) { env -> () in
+            withCStrings(ArraySlice(self.argv)) { argv -> () in
                 let ret = posix_spawnp(&self.pid, self.argv[0], &file_actions, nil, argv, env)
                 if ret != 0 {
                     onexit(-1)

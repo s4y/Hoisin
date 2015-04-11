@@ -9,22 +9,13 @@ import WebKit
 }
 
 class Cwd: NSObject, CwdJS {
-    var handle: NSFileHandle? = nil
-    var path: String
+    
+    var handle: NSFileHandle?
+    let path: String
     
     init(_ handle: NSFileHandle?, _ path: String) {
         self.handle = handle
         self.path = path
-    }
-    
-    convenience init?(path: String) {
-        let fd = open(path, 0)
-        if fd == -1 {
-            // For some reason Swift makes you fully initialize before returning nil
-            self.init(nil, path)
-            return nil
-        }
-        self.init(NSFileHandle(fileDescriptor: fd, closeOnDealloc: true), path)
     }
     
     func wrap(f: JSValue) {
@@ -40,5 +31,13 @@ class Cwd: NSObject, CwdJS {
     
     func dup() -> CwdJS {
         return Cwd(handle, path)
+    }
+    
+    class func at(path: String) -> Cwd? {
+        let fd = open(path, 0)
+        if fd == -1 {
+            return nil
+        }
+        return Cwd(NSFileHandle(fileDescriptor: fd, closeOnDealloc: true), path)
     }
 }
