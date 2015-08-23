@@ -8,6 +8,9 @@ import WebKit
     var sessions: [Session] { get }
     
     func createSession() -> Session
+    
+    func createTask(argv: [String]?) -> TaskJS
+    func createCwd(path: String) -> CwdJS?
 }
 
 class OS: NSObject {
@@ -44,7 +47,7 @@ extension OS: OSJS {
         return task
     }
     
-    @objc func createCwd(path: String) -> CwdJS? {
+   func createCwd(path: String) -> CwdJS? {
         return Cwd.at(path)
     }
 }

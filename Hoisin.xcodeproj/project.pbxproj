@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E988C7AE1B87907A000ED85B /* TerminalSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */; };
 		E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10291ABE3B20009B087D /* AppDelegate.swift */; };
 		E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C102B1ABE3B20009B087D /* ViewController.swift */; };
 		E99C102E1ABE3B20009B087D /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C102D1ABE3B20009B087D /* Document.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSplitView.swift; sourceTree = "<group>"; };
 		E99C10241ABE3B20009B087D /* Hoisin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoisin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E99C10281ABE3B20009B087D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E99C10291ABE3B20009B087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				E99C10291ABE3B20009B087D /* AppDelegate.swift */,
 				E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */,
 				E99C102B1ABE3B20009B087D /* ViewController.swift */,
+				E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */,
 				E99C102D1ABE3B20009B087D /* Document.swift */,
 				E99C102F1ABE3B20009B087D /* Images.xcassets */,
 				E99C10311ABE3B20009B087D /* Main.storyboard */,
@@ -156,6 +159,7 @@
 		E99C101C1ABE3B20009B087D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = s4y;
 				TargetAttributes = {
@@ -213,6 +217,7 @@
 				E9D8A06A1ABF5E7000FB8C60 /* Cell.swift in Sources */,
 				E99C10561ABE3FB0009B087D /* withCStrings.swift in Sources */,
 				E99C102E1ABE3B20009B087D /* Document.swift in Sources */,
+				E988C7AE1B87907A000ED85B /* TerminalSplitView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
