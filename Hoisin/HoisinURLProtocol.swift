@@ -5,7 +5,7 @@ class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
     var connection: NSURLConnection? = nil
     
     override class func canInitWithRequest(request: NSURLRequest) -> Bool {
-        if request.URL!.scheme! == "hoisin" {
+        if request.URL!.scheme == "hoisin" {
             return true
         }
         return false
@@ -17,7 +17,7 @@ class HoisonURLProtocol : NSURLProtocol, NSURLConnectionDataDelegate {
     
     override func startLoading() {
         if cachedResponse != nil {
-            println("Will respond from cache with \(cachedResponse)")
+            print("Will respond from cache with \(cachedResponse)")
             client!.URLProtocol(self, cachedResponseIsValid: cachedResponse!)
             return
         }

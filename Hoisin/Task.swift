@@ -3,9 +3,8 @@ import WebKit
 
 let ENV_DIRS: [NSURL] = {
     let envRoot = NSBundle.mainBundle().URLForResource("env", withExtension: nil)!
-    if let envDirs = NSFileManager.defaultManager().contentsOfDirectoryAtURL(
-        envRoot, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions(0), error: nil
-    ) as? [NSURL] {
+    if let envDirs = (try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(
+        envRoot, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions(rawValue: 0))) {
         return envDirs
     } else {
         return []
@@ -20,10 +19,10 @@ let ENV_DIRS: [NSURL] = {
     var onstderr: JSValue? { get set }
     var onmessage: JSValue? { get set }
     
-    func launch(JSValue)
-    func send(AnyObject)
-    func sendStdin(String)
-    func kill(Int32)
+    func launch(_: JSValue)
+    func send(_: AnyObject)
+    func sendStdin(_: String)
+    func kill(_: Int32)
 }
 
 class Task: NSObject, TaskJS {
@@ -52,7 +51,7 @@ class Task: NSObject, TaskJS {
         
         for dir in ENV_DIRS {
             let path = dir.path!
-            let name = path.lastPathComponent
+            let name = NSURL(string: path)!.lastPathComponent!
             if let existing = env[name] {
                 env[name] = "\(path):\(existing)"
                 // Quick hack to make PATH work with posix_spawnp, we should replace this

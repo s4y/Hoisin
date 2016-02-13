@@ -24,6 +24,7 @@
 		E9D8A0681ABF5D6300FB8C60 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A0671ABF5D6300FB8C60 /* Session.swift */; };
 		E9D8A06A1ABF5E7000FB8C60 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A0691ABF5E7000FB8C60 /* Cell.swift */; };
 		E9D8A06C1ABF6ED900FB8C60 /* OS.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8A06B1ABF6ED900FB8C60 /* OS.swift */; };
+		E9FC91C01BA1330F0020A219 /* TerminalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		E9D8A0671ABF5D6300FB8C60 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = Hoisin/Session.swift; sourceTree = "<group>"; };
 		E9D8A0691ABF5E7000FB8C60 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cell.swift; path = Hoisin/Cell.swift; sourceTree = "<group>"; };
 		E9D8A06B1ABF6ED900FB8C60 /* OS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OS.swift; path = Hoisin/OS.swift; sourceTree = "<group>"; };
+		E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */,
 				E99C102B1ABE3B20009B087D /* ViewController.swift */,
 				E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */,
+				E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */,
 				E99C102D1ABE3B20009B087D /* Document.swift */,
 				E99C102F1ABE3B20009B087D /* Images.xcassets */,
 				E99C10311ABE3B20009B087D /* Main.storyboard */,
@@ -159,8 +162,9 @@
 		E99C101C1ABE3B20009B087D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = s4y;
 				TargetAttributes = {
 					E99C10231ABE3B20009B087D = {
@@ -205,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9FC91C01BA1330F0020A219 /* TerminalViewController.swift in Sources */,
 				E9D8A0681ABF5D6300FB8C60 /* Session.swift in Sources */,
 				E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */,
 				E99C10511ABE3B95009B087D /* JSONTransport.swift in Sources */,
@@ -256,6 +261,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -322,6 +328,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Hoisin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "us.s4y.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -333,6 +340,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Hoisin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "us.s4y.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

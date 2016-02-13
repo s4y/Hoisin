@@ -3,7 +3,7 @@ import WebKit
 
 @objc protocol CwdJS: JSExport {
     var path: String { get }
-    func wrap(JSValue)
+    func wrap(_: JSValue)
     func close()
     func dup() -> CwdJS
 }

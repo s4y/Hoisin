@@ -21,7 +21,7 @@ class JSONTransport {
                     )
                     if nlRange.length != 0 {
                         self.readBuf.appendData(newData.subdataWithRange(NSRange(location: 0, length: nlRange.location)))
-                        if let msg: AnyObject = NSJSONSerialization.JSONObjectWithData(self.readBuf, options: NSJSONReadingOptions(), error: nil) {
+                        if let msg: AnyObject = try? NSJSONSerialization.JSONObjectWithData(self.readBuf, options: NSJSONReadingOptions()) {
                             self.readHandler!(msg)
                         }
                         self.readBuf.length = 0
@@ -54,7 +54,7 @@ class JSONTransport {
             self.writeBuf.enumerateByteRangesUsingBlock { data, range, stop in
                 let sent = send(self.handle.fileDescriptor, &vData, range.length, MSG_DONTWAIT)
                 if sent < 0 {
-                    println("write fail: \(sent)")
+                    print("write fail: \(sent)")
                     stop.initialize(true)
                     self.handle.writeabilityHandler = nil
                     return
@@ -70,7 +70,7 @@ class JSONTransport {
     
     func write(json: AnyObject) {
         let data = NSMutableData()
-        data.appendData(NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions(), error: nil)!)
+        data.appendData(try! NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions()))
         data.appendBytes("\n", length: 1)
         write(data)
     }

@@ -32,11 +32,11 @@ extension OS: OSJS {
     }
     
     func getenv() -> [String:String] {
-        return NSProcessInfo.processInfo().environment as! [String:String]
+        return NSProcessInfo.processInfo().environment 
     }
     
     func standardizePath(string: String) -> String {
-        return NSURL(fileURLWithPath: string.stringByStandardizingPath)!.path!
+        return NSURL(fileURLWithPath: string).URLByStandardizingPath!.path!
     }
     
     func createTask(argv: [String]?) -> TaskJS {

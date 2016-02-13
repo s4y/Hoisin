@@ -5,7 +5,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     override init() {
         super.init()
-        signal(SIGPIPE, CFunctionPointer<((Int32) -> Void)>(COpaquePointer(bitPattern: 1)))
+        // TODO do not commit
+//        signal(SIGPIPE, COpaquePointer(bitPattern: 1))
         
         NSUserDefaults.standardUserDefaults().registerDefaults([
             "WebKitDeveloperExtras": true

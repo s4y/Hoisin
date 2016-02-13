@@ -1,5 +1,7 @@
 import Cocoa
 
+private let dragZoneWidth: CGFloat = 2
+
 extension NSView {
     var terminalSplitView: TerminalSplitView? {
         get {
@@ -13,71 +15,6 @@ extension NSView {
     }
 }
 
-class ContentView: NSView {
-    
-    private func sharedInit() {
-        wantsLayer = true
-        
-        layer!.backgroundColor = NSColor.blueColor().CGColor
-        
-        func makeSplitButton(title: String, action: Selector, offset: CGFloat) {
-            let splitButton = NSButton()
-            
-            splitButton.title = title
-            splitButton.setButtonType(.MomentaryPushInButton)
-            splitButton.bezelStyle = .RoundedBezelStyle
-            
-            splitButton.target = self
-            splitButton.action = action
-            
-            splitButton.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(splitButton)
-            
-            NSLayoutConstraint(
-                item: self, attribute: .CenterY, relatedBy: .Equal,
-                toItem: splitButton, attribute: .CenterY, multiplier: 1, constant: offset
-                ).active = true
-            
-            NSLayoutConstraint(
-                item: self, attribute: .CenterX, relatedBy: .Equal,
-                toItem: splitButton, attribute: .CenterX, multiplier: 1, constant: 0
-                ).active = true
-        }
-        
-        makeSplitButton("Split H", "splitH:", 15)
-        makeSplitButton("Split V", "splitV:", -15)
-        
-    }
-    
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        sharedInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        sharedInit()
-    }
-    
-    func split(vertical: Bool) {
-        
-    }
-    
-    func splitH(sender: NSButton) {
-        terminalSplitView!.splitChildView(self, newView: makeContentView(), vertically: false)
-    }
-    
-    func splitV(sender: NSButton) {
-        terminalSplitView!.splitChildView(self, newView: makeContentView(), vertically: true)
-    }
-}
-
-func makeContentView() -> ContentView {
-    let view = ContentView(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-}
-
 class TerminalSplitView: NSView {
     
     private weak var parent: TerminalSplitView? = nil
@@ -87,7 +24,7 @@ class TerminalSplitView: NSView {
 
     private func sharedInit() {
         wantsLayer = true
-        layer!.backgroundColor = NSColor.greenColor().CGColor
+        layer!.backgroundColor = NSColor.whiteColor().CGColor
     }
     
     override init(frame frameRect: NSRect) {
@@ -97,7 +34,7 @@ class TerminalSplitView: NSView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        insertChildView(makeContentView(), atIndex: views.count)
+        sharedInit()
     }
     
     func insertChildView(view: NSView, atIndex index: Int) {
@@ -120,7 +57,7 @@ class TerminalSplitView: NSView {
             return
         }
         
-        let index = find(views, view)!
+        let index = views.indexOf(view)!
         
         if vertically == vertical {
             insertChildView(newView, atIndex: index + 1)
@@ -142,12 +79,12 @@ class TerminalSplitView: NSView {
         viewConstraints = []
         
         let widthMultiplier = 1 / CGFloat(views.count)
-        for (i, view) in enumerate(views) {
+        for (i, view) in views.enumerate() {
             viewConstraints.append(NSLayoutConstraint(
                 item: view, attribute: self.vertical ? .Height : .Width, relatedBy: .Equal,
                 toItem: self, attribute: self.vertical ? .Height : .Width,
                 multiplier: widthMultiplier, constant: -(CGFloat(views.count) - 1) * widthMultiplier
-                ))
+            ))
             viewConstraints.append(NSLayoutConstraint(
                   item: view, attribute: self.vertical ? .Bottom : .Right, relatedBy: .Equal,
                 toItem: self, attribute: self.vertical ? .Bottom : .Right,
@@ -162,40 +99,47 @@ class TerminalSplitView: NSView {
                   item: self, attribute: self.vertical ? .Right : .Bottom, relatedBy: .Equal,
                 toItem: view, attribute: self.vertical ? .Right : .Bottom,
                 multiplier: 1, constant: 0
-                ))
+            ))
         }
         
         NSLayoutConstraint.activateConstraints(viewConstraints)
         
     }
     
+    private func positionOfZone(i: Int) -> CGFloat {
+        return (vertical ? self.bounds.height : self.bounds.width) * (CGFloat(i) / CGFloat(views.count))
+    }
+    
+    private func zoneIndex(point: NSPoint) -> Int? {
+        if views.count == 0 { return nil }
+        let pos = vertical ? point.y : point.x
+        for i in 1..<views.count {
+            let zonePos = positionOfZone(i)
+            if pos > zonePos - dragZoneWidth && pos < zonePos + dragZoneWidth {
+                return i
+            }
+        }
+        return nil
+    }
+    
     override func resetCursorRects() {
         super.resetCursorRects()
+        if views.count == 0 { return }
         
         let cursor = vertical ? NSCursor.resizeUpDownCursor() : NSCursor.resizeLeftRightCursor()
-        let dragZoneWidth: CGFloat = 2
         
         for i in 1..<views.count {
-            let pos = (vertical ? self.bounds.height : self.bounds.width) * (CGFloat(i) / CGFloat(views.count))
+            let pos = positionOfZone(i)
             if vertical {
                 addCursorRect(NSRect(x: 0, y: pos - dragZoneWidth, width: bounds.width, height: dragZoneWidth * 2 + 1), cursor: cursor)
             } else {
-                
+                addCursorRect(NSRect(x: pos - dragZoneWidth, y: 0, width: dragZoneWidth * 2 + 1, height: bounds.height), cursor: cursor)
             }
         }
     }
     
-    override func mouseDown(theEvent: NSEvent) {
-        println("\(self) mouseDown: \(theEvent)")
+    override func hitTest(point: NSPoint) -> NSView? {
+        return zoneIndex(point) != nil ? self : super.hitTest(point)
     }
-    
-    override func mouseDragged(theEvent: NSEvent) {
-        println("\(self) mouseDragged: \(theEvent)")
-    }
-    
-//    override func hitTest(aPoint: NSPoint) -> NSView? {
-//        println("\(self) hit test: \(aPoint)")
-//        return self
-//    }
     
 }
