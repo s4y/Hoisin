@@ -9,10 +9,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        signal(SIGPIPE, COpaquePointer(bitPattern: 1))
         
         NSUserDefaults.standardUserDefaults().registerDefaults([
-            "WebKitDeveloperExtras": true
+            "MonospacedFont": [
+                "Name": "Source Code Pro",
+                "Size": NSNumber(double: 12)
+            ]
         ])
         
-        NSURLProtocol.registerClass(HoisonURLProtocol)
+//        NSURLProtocol.registerClass(HoisonURLProtocol)
     }
     
 }

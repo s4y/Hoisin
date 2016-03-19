@@ -1,14 +1,19 @@
 import Cocoa
-import WebKit
+import HoisinKit
 
-class Document: NSDocument {
+final class Document: NSDocument {
     
-    var sessions: [Session] = []
-
-    override class func autosavesInPlace() -> Bool {
-        return false // until we make saving work
+    var history: [TerminalCell]
+    var selectedHistoryEntry: Int
+    var cwd: HoisinKit.Cwd
+    
+    override init() {
+        cwd = HoisinKit.Cwd(at: "~") ?? HoisinKit.Cwd(at: "/")!
+        history = [WorkingDirectoryCell(path: cwd.path), TaskCell(), CommandLineCell()]
+        selectedHistoryEntry = history.count-1
+        super.init()
     }
-
+    
     override func makeWindowControllers() {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
@@ -16,6 +21,7 @@ class Document: NSDocument {
         contentVC.representedObject = self
 
         let terminalVC = storyboard.instantiateControllerWithIdentifier("terminal") as! TerminalViewController
+        terminalVC.representedObject = self
         terminalVC.view.translatesAutoresizingMaskIntoConstraints = false
 
         contentVC.addChildViewController(terminalVC)
@@ -23,7 +29,7 @@ class Document: NSDocument {
         contentVC.splitView.addChildView(terminalVC.view)
         self.addWindowController(windowController)
     }
-
+    
     override func dataOfType(typeName: String) throws -> NSData {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
@@ -35,6 +41,10 @@ class Document: NSDocument {
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+    }
+    
+    override class func canConcurrentlyReadDocumentsOfType(typeName: String) -> Bool {
+        return true
     }
 }
 

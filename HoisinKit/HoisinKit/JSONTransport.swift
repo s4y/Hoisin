@@ -8,7 +8,7 @@ class JSONTransport {
         didSet {
             if readHandler != nil {
                 if handle.readabilityHandler != nil { return }
-                handle.readabilityHandler = { handle -> () in
+                handle.readabilityHandler = { [unowned self] handle -> () in
                     let newData = self.handle.availableData
                     if newData.length == 0 {
                         self.handle.readabilityHandler = nil
@@ -44,7 +44,7 @@ class JSONTransport {
     func write(data: NSData) {
         writeBuf.appendData(data)
         if handle.writeabilityHandler != nil { return }
-        handle.writeabilityHandler = { handle -> () in
+        handle.writeabilityHandler = { [unowned self] handle -> () in
             if (self.writeBuf.length == 0) {
                 self.handle.writeabilityHandler = nil
                 return
@@ -73,10 +73,5 @@ class JSONTransport {
         data.appendData(try! NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions()))
         data.appendBytes("\n", length: 1)
         write(data)
-    }
-    
-    func close() {
-        self.readHandler = nil
-        self.handle.writeabilityHandler = nil
     }
 }
