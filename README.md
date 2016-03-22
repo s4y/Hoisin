@@ -1,3 +1,7 @@
+Note: I stopped development on this version of Hoisin and started an OS X native version on the [wip](https://github.com/Sidnicious/Hoisin/tree/wip) branch. It's not in a working state yet but feel free to look at the code.
+
+- - -
+
 # Hoisin
 
 Hoisin is an HTML-based shell with a few ambitious goals:
