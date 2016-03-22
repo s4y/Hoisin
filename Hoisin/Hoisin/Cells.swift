@@ -1,16 +1,10 @@
 import Cocoa
 
-protocol ViewIdentifierProvider {
-    var viewIdentifier: String { get }
-}
-
-protocol TerminalCell: ViewIdentifierProvider, NSObjectProtocol {
+protocol TerminalCell: NSObjectProtocol {
     // TODO: Saving/restoring, etc.
 }
 
 class WorkingDirectoryCell: NSObject, TerminalCell {
-    var viewIdentifier: String { return "Working Directory" }
-    
     let path: String
     
     init(path: String) {
@@ -19,8 +13,6 @@ class WorkingDirectoryCell: NSObject, TerminalCell {
 }
 
 class CommandLineCell: NSObject, TerminalCell {
-    var viewIdentifier: String { return "Command Line" }
-    
     dynamic var command: String? = nil
     dynamic var locked: Bool = false
     
@@ -30,6 +22,4 @@ class CommandLineCell: NSObject, TerminalCell {
     }
 }
 
-class TaskCell: NSObject, TerminalCell {
-    var viewIdentifier: String { return "Task" }
-}
+class TaskCell: NSObject, TerminalCell {}

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9081A991C9FB62500AF5357 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9081A981C9FB62500AF5357 /* RowView.swift */; };
+		E9081A9B1C9FB66B00AF5357 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9081A9A1C9FB66B00AF5357 /* CellView.swift */; };
 		E986B71B1C9A1419000CE6C3 /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = E986B71A1C9A1419000CE6C3 /* Cells.swift */; };
 		E988C7AE1B87907A000ED85B /* TerminalSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */; };
 		E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99C10291ABE3B20009B087D /* AppDelegate.swift */; };
@@ -15,7 +17,6 @@
 		E99C10301ABE3B20009B087D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E99C102F1ABE3B20009B087D /* Images.xcassets */; };
 		E99C10331ABE3B20009B087D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99C10311ABE3B20009B087D /* Main.storyboard */; };
 		E99C104A1ABE3B69009B087D /* env in Resources */ = {isa = PBXBuildFile; fileRef = E99C10481ABE3B69009B087D /* env */; };
-		E9B53EB91C9C5D54006B5710 /* CommandLineTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B53EB81C9C5D54006B5710 /* CommandLineTextView.swift */; };
 		E9D26C8D1C9CFEA60027D0CF /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D26C8C1C9CFEA60027D0CF /* Defaults.swift */; };
 		E9E834BB1C9A07D400991EC1 /* HoisinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E834B81C9A07C700991EC1 /* HoisinKit.framework */; };
 		E9FC91C01BA1330F0020A219 /* TerminalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E9081A981C9FB62500AF5357 /* RowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RowView.swift; path = Hoisin/RowView.swift; sourceTree = "<group>"; };
+		E9081A9A1C9FB66B00AF5357 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellView.swift; path = Hoisin/CellView.swift; sourceTree = "<group>"; };
 		E986B71A1C9A1419000CE6C3 /* Cells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cells.swift; path = Hoisin/Cells.swift; sourceTree = "<group>"; };
 		E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TerminalSplitView.swift; path = Hoisin/TerminalSplitView.swift; sourceTree = "<group>"; };
 		E99C10241ABE3B20009B087D /* Hoisin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoisin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,11 +49,9 @@
 		E99C10291ABE3B20009B087D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Hoisin/AppDelegate.swift; sourceTree = "<group>"; };
 		E99C102B1ABE3B20009B087D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Hoisin/ViewController.swift; sourceTree = "<group>"; };
 		E99C102D1ABE3B20009B087D /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Document.swift; path = Hoisin/Document.swift; sourceTree = "<group>"; };
-		E99C102F1ABE3B20009B087D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Hoisin/Images.xcassets; sourceTree = "<group>"; };
+		E99C102F1ABE3B20009B087D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E99C10321ABE3B20009B087D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E99C10481ABE3B69009B087D /* env */ = {isa = PBXFileReference; lastKnownFileType = folder; path = env; sourceTree = "<group>"; };
-		E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HoisinURLProtocol.swift; path = Hoisin/HoisinURLProtocol.swift; sourceTree = "<group>"; };
-		E9B53EB81C9C5D54006B5710 /* CommandLineTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommandLineTextView.swift; path = Hoisin/CommandLineTextView.swift; sourceTree = "<group>"; };
 		E9D26C8C1C9CFEA60027D0CF /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Defaults.swift; path = Hoisin/Defaults.swift; sourceTree = "<group>"; };
 		E9E834B31C9A07C700991EC1 /* HoisinKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HoisinKit.xcodeproj; path = ../HoisinKit/HoisinKit.xcodeproj; sourceTree = "<group>"; };
 		E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TerminalViewController.swift; path = Hoisin/TerminalViewController.swift; sourceTree = "<group>"; };
@@ -68,19 +69,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E99C101B1ABE3B20009B087D = {
+		E9081A911C9FB4A900AF5357 /* Hoisin */ = {
 			isa = PBXGroup;
 			children = (
 				E99C10291ABE3B20009B087D /* AppDelegate.swift */,
-				E9D26C8C1C9CFEA60027D0CF /* Defaults.swift */,
-				E99C10521ABE3BC2009B087D /* HoisinURLProtocol.swift */,
-				E99C102B1ABE3B20009B087D /* ViewController.swift */,
-				E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */,
-				E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */,
-				E9B53EB81C9C5D54006B5710 /* CommandLineTextView.swift */,
 				E99C102D1ABE3B20009B087D /* Document.swift */,
 				E986B71A1C9A1419000CE6C3 /* Cells.swift */,
-				E99C102F1ABE3B20009B087D /* Images.xcassets */,
+				E9081A971C9FB5C700AF5357 /* Utility */,
+				E9081A951C9FB56700AF5357 /* Windowing */,
+				E9081A961C9FB5A800AF5357 /* Terminal */,
+			);
+			name = Hoisin;
+			sourceTree = "<group>";
+		};
+		E9081A951C9FB56700AF5357 /* Windowing */ = {
+			isa = PBXGroup;
+			children = (
+				E988C7AD1B87907A000ED85B /* TerminalSplitView.swift */,
+				E99C102B1ABE3B20009B087D /* ViewController.swift */,
+			);
+			name = Windowing;
+			sourceTree = "<group>";
+		};
+		E9081A961C9FB5A800AF5357 /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				E9081A981C9FB62500AF5357 /* RowView.swift */,
+				E9081A9A1C9FB66B00AF5357 /* CellView.swift */,
+				E9FC91BF1BA1330F0020A219 /* TerminalViewController.swift */,
+			);
+			name = Terminal;
+			sourceTree = "<group>";
+		};
+		E9081A971C9FB5C700AF5357 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				E9D26C8C1C9CFEA60027D0CF /* Defaults.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		E99C101B1ABE3B20009B087D = {
+			isa = PBXGroup;
+			children = (
+				E9081A911C9FB4A900AF5357 /* Hoisin */,
 				E99C10311ABE3B20009B087D /* Main.storyboard */,
 				E99C10271ABE3B20009B087D /* Supporting Files */,
 				E99C10481ABE3B69009B087D /* env */,
@@ -101,6 +133,7 @@
 		E99C10271ABE3B20009B087D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E99C102F1ABE3B20009B087D /* Images.xcassets */,
 				E99C10281ABE3B20009B087D /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -221,9 +254,10 @@
 			files = (
 				E9FC91C01BA1330F0020A219 /* TerminalViewController.swift in Sources */,
 				E9D26C8D1C9CFEA60027D0CF /* Defaults.swift in Sources */,
-				E9B53EB91C9C5D54006B5710 /* CommandLineTextView.swift in Sources */,
 				E99C102C1ABE3B20009B087D /* ViewController.swift in Sources */,
+				E9081A991C9FB62500AF5357 /* RowView.swift in Sources */,
 				E986B71B1C9A1419000CE6C3 /* Cells.swift in Sources */,
+				E9081A9B1C9FB66B00AF5357 /* CellView.swift in Sources */,
 				E99C102A1ABE3B20009B087D /* AppDelegate.swift in Sources */,
 				E99C102E1ABE3B20009B087D /* Document.swift in Sources */,
 				E988C7AE1B87907A000ED85B /* TerminalSplitView.swift in Sources */,

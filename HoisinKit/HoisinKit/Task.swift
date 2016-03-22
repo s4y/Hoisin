@@ -55,7 +55,7 @@ class Task: NSObject {
         stdout = stdoutPipe.fileHandleForReading
         stderr = stderrPipe.fileHandleForReading
         
-        var file_actions = posix_spawn_file_actions_t()
+        var file_actions: posix_spawn_file_actions_t = nil
         posix_spawn_file_actions_init(&file_actions)
         posix_spawn_file_actions_adddup2(&file_actions, stdinPipe.fileHandleForReading.fileDescriptor, STDIN_FILENO)
         posix_spawn_file_actions_adddup2(&file_actions, stdoutPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)

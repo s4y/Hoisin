@@ -5,10 +5,12 @@ private let dragZoneWidth: CGFloat = 2
 extension NSView {
     var terminalSplitView: TerminalSplitView? {
         get {
-            for var view: NSView? = self; view != nil; view = view!.superview {
+            var view: NSView? = self
+            while view != nil {
                 if let terminalSplitView = view as? TerminalSplitView {
                     return terminalSplitView
                 }
+                view = view!.superview
             }
             return nil
         }

@@ -12,18 +12,45 @@
 		E91D7ECC1C6FB12A00AE329F /* JSONTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91D7ECB1C6FB12A00AE329F /* JSONTransport.swift */; };
 		E91D7ED31C6FB13400AE329F /* Cwd.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91D7ECE1C6FB13400AE329F /* Cwd.swift */; };
 		E91D7ED61C6FB13400AE329F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91D7ED11C6FB13400AE329F /* Task.swift */; };
+		E97A32C61CA0CD7E0084FBEC /* hoisinagent in Resources */ = {isa = PBXBuildFile; fileRef = E97A32C51CA0CD7E0084FBEC /* hoisinagent */; };
+		E97A32C91CA0CECD0084FBEC /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97A32C81CA0CECD0084FBEC /* Agent.swift */; };
+		E97A32D11CA0CF9D0084FBEC /* HoisinKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97A32D01CA0CF9D0084FBEC /* HoisinKitTests.swift */; };
+		E97A32D31CA0CF9D0084FBEC /* HoisinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91D7E9F1C6FA9D300AE329F /* HoisinKit.framework */; };
 		E9E834BC1C9A07F000991EC1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91D7ED01C6FB13400AE329F /* Session.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E97A32C31CA0CBBE0084FBEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E97A32BF1CA0CB7D0084FBEC /* hoisinagent.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E97A32B71CA0CB7C0084FBEC;
+			remoteInfo = hoisinagent;
+		};
+		E97A32D41CA0CF9D0084FBEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E91D7E961C6FA9D300AE329F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E91D7E9E1C6FA9D300AE329F;
+			remoteInfo = HoisinKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E91D7E9F1C6FA9D300AE329F /* HoisinKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HoisinKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E91D7EA41C6FA9D300AE329F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E91D7EA41C6FA9D300AE329F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HoisinKit/Info.plist; sourceTree = "<group>"; };
 		E91D7EC71C6FB11A00AE329F /* childCatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = childCatcher.swift; path = HoisinKit/childCatcher.swift; sourceTree = SOURCE_ROOT; };
 		E91D7EC81C6FB11A00AE329F /* withCStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = withCStrings.swift; path = HoisinKit/withCStrings.swift; sourceTree = SOURCE_ROOT; };
 		E91D7ECB1C6FB12A00AE329F /* JSONTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONTransport.swift; path = HoisinKit/JSONTransport.swift; sourceTree = SOURCE_ROOT; };
 		E91D7ECE1C6FB13400AE329F /* Cwd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cwd.swift; path = HoisinKit/Cwd.swift; sourceTree = SOURCE_ROOT; };
 		E91D7ED01C6FB13400AE329F /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = HoisinKit/Session.swift; sourceTree = SOURCE_ROOT; };
 		E91D7ED11C6FB13400AE329F /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Task.swift; path = HoisinKit/Task.swift; sourceTree = SOURCE_ROOT; };
+		E97A32BF1CA0CB7D0084FBEC /* hoisinagent.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = hoisinagent.xcodeproj; path = ../hoisinagent/hoisinagent.xcodeproj; sourceTree = "<group>"; };
+		E97A32C51CA0CD7E0084FBEC /* hoisinagent */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = hoisinagent; path = ../hoisinagent/hoisinagent; sourceTree = "<group>"; };
+		E97A32C81CA0CECD0084FBEC /* Agent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Agent.swift; path = HoisinKit/Agent.swift; sourceTree = "<group>"; };
+		E97A32CE1CA0CF9D0084FBEC /* HoisinKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoisinKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97A32D01CA0CF9D0084FBEC /* HoisinKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoisinKitTests.swift; sourceTree = "<group>"; };
+		E97A32D21CA0CF9D0084FBEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,13 +61,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E97A32CB1CA0CF9D0084FBEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E97A32D31CA0CF9D0084FBEC /* HoisinKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E9081A8F1C9FB41600AF5357 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E97A32C51CA0CD7E0084FBEC /* hoisinagent */,
+				E91D7EA41C6FA9D300AE329F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9081A901C9FB44800AF5357 /* HoisinKit */ = {
+			isa = PBXGroup;
+			children = (
+				E97A32C71CA0CE600084FBEC /* Agent */,
+				E91D7EB91C6FB09100AE329F /* Utility */,
+				E91D7EB51C6FB08700AE329F /* Protocol */,
+				E91D7EBF1C6FB09100AE329F /* OS */,
+			);
+			name = HoisinKit;
+			sourceTree = "<group>";
+		};
 		E91D7E951C6FA9D300AE329F = {
 			isa = PBXGroup;
 			children = (
-				E91D7EA11C6FA9D300AE329F /* HoisinKit */,
+				E97A32BF1CA0CB7D0084FBEC /* hoisinagent.xcodeproj */,
+				E9081A901C9FB44800AF5357 /* HoisinKit */,
+				E9081A8F1C9FB41600AF5357 /* Supporting Files */,
+				E97A32CF1CA0CF9D0084FBEC /* HoisinKitTests */,
 				E91D7EA01C6FA9D300AE329F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,49 +107,63 @@
 			isa = PBXGroup;
 			children = (
 				E91D7E9F1C6FA9D300AE329F /* HoisinKit.framework */,
+				E97A32CE1CA0CF9D0084FBEC /* HoisinKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E91D7EA11C6FA9D300AE329F /* HoisinKit */ = {
-			isa = PBXGroup;
-			children = (
-				E91D7EA41C6FA9D300AE329F /* Info.plist */,
-				E91D7EB91C6FB09100AE329F /* Utilities */,
-				E91D7EB51C6FB08700AE329F /* Guts */,
-				E91D7EBF1C6FB09100AE329F /* Shell */,
-			);
-			path = HoisinKit;
-			sourceTree = "<group>";
-		};
-		E91D7EB51C6FB08700AE329F /* Guts */ = {
+		E91D7EB51C6FB08700AE329F /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				E91D7ECB1C6FB12A00AE329F /* JSONTransport.swift */,
 			);
-			name = Guts;
-			path = ../../Hoisin;
+			name = Protocol;
+			path = ../Hoisin;
 			sourceTree = "<group>";
 		};
-		E91D7EB91C6FB09100AE329F /* Utilities */ = {
+		E91D7EB91C6FB09100AE329F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				E91D7EC71C6FB11A00AE329F /* childCatcher.swift */,
 				E91D7EC81C6FB11A00AE329F /* withCStrings.swift */,
 			);
-			name = Utilities;
-			path = ../../Hoisin;
+			name = Utility;
+			path = ../Hoisin;
 			sourceTree = "<group>";
 		};
-		E91D7EBF1C6FB09100AE329F /* Shell */ = {
+		E91D7EBF1C6FB09100AE329F /* OS */ = {
 			isa = PBXGroup;
 			children = (
 				E91D7ECE1C6FB13400AE329F /* Cwd.swift */,
 				E91D7ED01C6FB13400AE329F /* Session.swift */,
 				E91D7ED11C6FB13400AE329F /* Task.swift */,
 			);
-			name = Shell;
-			path = ../../Hoisin;
+			name = OS;
+			path = ../Hoisin;
+			sourceTree = "<group>";
+		};
+		E97A32C01CA0CB7D0084FBEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E97A32C71CA0CE600084FBEC /* Agent */ = {
+			isa = PBXGroup;
+			children = (
+				E97A32C81CA0CECD0084FBEC /* Agent.swift */,
+			);
+			name = Agent;
+			sourceTree = "<group>";
+		};
+		E97A32CF1CA0CF9D0084FBEC /* HoisinKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				E97A32D01CA0CF9D0084FBEC /* HoisinKitTests.swift */,
+				E97A32D21CA0CF9D0084FBEC /* Info.plist */,
+			);
+			path = HoisinKitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,11 +191,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				E97A32C41CA0CBBE0084FBEC /* PBXTargetDependency */,
 			);
 			name = HoisinKit;
 			productName = HoisinKit;
 			productReference = E91D7E9F1C6FA9D300AE329F /* HoisinKit.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		E97A32CD1CA0CF9D0084FBEC /* HoisinKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E97A32D61CA0CF9D0084FBEC /* Build configuration list for PBXNativeTarget "HoisinKitTests" */;
+			buildPhases = (
+				E97A32CA1CA0CF9D0084FBEC /* Sources */,
+				E97A32CB1CA0CF9D0084FBEC /* Frameworks */,
+				E97A32CC1CA0CF9D0084FBEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E97A32D51CA0CF9D0084FBEC /* PBXTargetDependency */,
+			);
+			name = HoisinKitTests;
+			productName = HoisinKitTests;
+			productReference = E97A32CE1CA0CF9D0084FBEC /* HoisinKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -131,11 +222,15 @@
 		E91D7E961C6FA9D300AE329F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Coordinated Hackers";
 				TargetAttributes = {
 					E91D7E9E1C6FA9D300AE329F = {
 						CreatedOnToolsVersion = 7.2.1;
+					};
+					E97A32CD1CA0CF9D0084FBEC = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -149,15 +244,30 @@
 			mainGroup = E91D7E951C6FA9D300AE329F;
 			productRefGroup = E91D7EA01C6FA9D300AE329F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E97A32C01CA0CB7D0084FBEC /* Products */;
+					ProjectRef = E97A32BF1CA0CB7D0084FBEC /* hoisinagent.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E91D7E9E1C6FA9D300AE329F /* HoisinKit */,
+				E97A32CD1CA0CF9D0084FBEC /* HoisinKitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E91D7E9D1C6FA9D300AE329F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E97A32C61CA0CD7E0084FBEC /* hoisinagent in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E97A32CC1CA0CF9D0084FBEC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -171,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97A32C91CA0CECD0084FBEC /* Agent.swift in Sources */,
 				E91D7ED61C6FB13400AE329F /* Task.swift in Sources */,
 				E91D7ECA1C6FB11A00AE329F /* withCStrings.swift in Sources */,
 				E9E834BC1C9A07F000991EC1 /* Session.swift in Sources */,
@@ -180,7 +291,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E97A32CA1CA0CF9D0084FBEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E97A32D11CA0CF9D0084FBEC /* HoisinKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E97A32C41CA0CBBE0084FBEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = hoisinagent;
+			targetProxy = E97A32C31CA0CBBE0084FBEC /* PBXContainerItemProxy */;
+		};
+		E97A32D51CA0CF9D0084FBEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E91D7E9E1C6FA9D300AE329F /* HoisinKit */;
+			targetProxy = E97A32D41CA0CF9D0084FBEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E91D7EA51C6FA9D300AE329F /* Debug */ = {
@@ -308,6 +440,30 @@
 			};
 			name = Release;
 		};
+		E97A32D71CA0CF9D0084FBEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = HoisinKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coordinatedhackers.HoisinKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E97A32D81CA0CF9D0084FBEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = HoisinKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coordinatedhackers.HoisinKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -328,6 +484,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E97A32D61CA0CF9D0084FBEC /* Build configuration list for PBXNativeTarget "HoisinKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E97A32D71CA0CF9D0084FBEC /* Debug */,
+				E97A32D81CA0CF9D0084FBEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

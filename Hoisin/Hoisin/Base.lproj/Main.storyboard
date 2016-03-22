@@ -726,8 +726,8 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xyv-bS-64R">
-                                                                    <rect key="frame" x="8" y="1" width="503" height="14"/>
-                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;Working Directory&gt;" id="bQJ-e5-Zxm">
+                                                                    <rect key="frame" x="8" y="1" width="493" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingMiddle" truncatesLastVisibleLine="YES" sendsActionOnEndEditing="YES" title="&lt;Working Directory&gt;" usesSingleLineMode="YES" id="bQJ-e5-Zxm">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -738,13 +738,13 @@
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="Xyv-bS-64R" secondAttribute="trailing" id="Mjc-TV-V97"/>
                                                                 <constraint firstItem="Xyv-bS-64R" firstAttribute="centerY" secondItem="sKg-Eh-GG4" secondAttribute="centerY" id="dW3-ED-g2d"/>
-                                                                <constraint firstItem="Xyv-bS-64R" firstAttribute="width" secondItem="sKg-Eh-GG4" secondAttribute="width" id="fQi-At-r7e"/>
                                                                 <constraint firstAttribute="height" secondItem="Xyv-bS-64R" secondAttribute="height" constant="1" id="rdd-y0-nS2"/>
                                                                 <constraint firstItem="Xyv-bS-64R" firstAttribute="leading" secondItem="sKg-Eh-GG4" secondAttribute="leading" constant="10" id="zFw-zf-n01"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="o3O-se-aBW"/>
+                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="clv-HV-aZE"/>
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="Task" id="sEJ-LS-Hwm" userLabel="Task" customClass="TaskCellView" customModule="Hoisin" customModuleProvider="target">
@@ -752,7 +752,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="q2U-Tg-CnF">
-                                                                    <rect key="frame" x="-2" y="0.0" width="503" height="34"/>
+                                                                    <rect key="frame" x="3" y="0.0" width="498" height="34"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="RLg-Ob-LA1">
                                                                         <font key="font" metaFont="system"/>
                                                                         <string key="title">&lt;Command output
@@ -764,12 +764,12 @@ Multiline&gt;</string>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="q2U-Tg-CnF" firstAttribute="height" secondItem="sEJ-LS-Hwm" secondAttribute="height" id="4lG-fI-X8C"/>
-                                                                <constraint firstItem="q2U-Tg-CnF" firstAttribute="leading" secondItem="sEJ-LS-Hwm" secondAttribute="leading" id="5Kc-6z-2p5"/>
-                                                                <constraint firstItem="q2U-Tg-CnF" firstAttribute="width" secondItem="sEJ-LS-Hwm" secondAttribute="width" id="8e4-vI-lm4"/>
+                                                                <constraint firstItem="q2U-Tg-CnF" firstAttribute="leading" secondItem="sEJ-LS-Hwm" secondAttribute="leading" constant="5" id="5Kc-6z-2p5"/>
+                                                                <constraint firstAttribute="trailing" secondItem="q2U-Tg-CnF" secondAttribute="trailing" id="OIu-dx-g2p"/>
                                                                 <constraint firstItem="q2U-Tg-CnF" firstAttribute="centerY" secondItem="sEJ-LS-Hwm" secondAttribute="centerY" id="pcm-kt-j4m"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="Pyg-em-DB5"/>
+                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="Y6W-dE-QMd"/>
                                                                 <outlet property="textField" destination="q2U-Tg-CnF" id="qvN-Z0-nHv"/>
                                                             </connections>
                                                         </tableCellView>
@@ -785,30 +785,30 @@ Multiline&gt;</string>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RK3-4T-cAV">
+                                                                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="RK3-4T-cAV">
                                                                     <rect key="frame" x="14" y="0.0" width="485" height="17"/>
                                                                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="CHr-WK-QT6">
                                                                         <rect key="frame" x="0.0" y="0.0" width="485" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
-                                                                            <textView focusRingType="none" drawsBackground="NO" importsGraphics="NO" richText="NO" findStyle="panel" allowsUndo="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="HZh-vJ-ghR" customClass="CommandLineTextView" customModule="Hoisin" customModuleProvider="target">
+                                                                            <textView focusRingType="none" drawsBackground="NO" importsGraphics="NO" richText="NO" horizontallyResizable="YES" allowsUndo="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="HZh-vJ-ghR" customClass="CommandLineTextView" customModule="Hoisin" customModuleProvider="target">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="485" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                 <size key="minSize" width="485" height="17"/>
-                                                                                <size key="maxSize" width="492" height="10000000"/>
+                                                                                <size key="maxSize" width="10000000" height="10000000"/>
                                                                                 <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <size key="minSize" width="485" height="17"/>
-                                                                                <size key="maxSize" width="492" height="10000000"/>
+                                                                                <size key="maxSize" width="10000000" height="10000000"/>
                                                                                 <connections>
-                                                                                    <binding destination="bXs-gu-v4J" name="editable" keyPath="objectValue.locked" id="NbK-1f-J7C">
-                                                                                        <dictionary key="options">
-                                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                                        </dictionary>
-                                                                                    </binding>
                                                                                     <binding destination="bXs-gu-v4J" name="value" keyPath="objectValue.command" id="YAU-bD-rtM">
                                                                                         <dictionary key="options">
                                                                                             <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                                                        </dictionary>
+                                                                                    </binding>
+                                                                                    <binding destination="bXs-gu-v4J" name="editable" keyPath="objectValue.locked" id="NbK-1f-J7C">
+                                                                                        <dictionary key="options">
+                                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                                         </dictionary>
                                                                                     </binding>
                                                                                     <outlet property="delegate" destination="bXs-gu-v4J" id="p3j-QH-r44"/>
@@ -818,7 +818,7 @@ Multiline&gt;</string>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </clipView>
                                                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="ZJE-Rc-pTY">
-                                                                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                        <rect key="frame" x="-100" y="-100" width="485" height="16"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                     </scroller>
                                                                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="otf-hb-Jk7">
@@ -838,7 +838,7 @@ Multiline&gt;</string>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="promptView" destination="38u-ab-ZiM" id="HPC-W4-GoD"/>
-                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="7DT-Ef-yLm"/>
+                                                                <outlet property="tableView" destination="3YP-iD-hLD" id="maI-jm-fuq"/>
                                                                 <outlet property="textView" destination="HZh-vJ-ghR" id="SFg-Bk-6m7"/>
                                                             </connections>
                                                         </tableCellView>

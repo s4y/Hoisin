@@ -1,0 +1,138 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		E97A32B91CA0CB7D0084FBEC /* hoisinagent */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hoisinagent; sourceTree = "<group>"; };
+		E97A32BA1CA0CB7D0084FBEC /* hoisinagent.go */ = {isa = PBXFileReference; lastKnownFileType = text; path = hoisinagent.go; sourceTree = "<group>"; };
+		E97A32BB1CA0CB7D0084FBEC /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		E97A32B21CA0CB7C0084FBEC = {
+			isa = PBXGroup;
+			children = (
+				E97A32B91CA0CB7D0084FBEC /* hoisinagent */,
+				E97A32BA1CA0CB7D0084FBEC /* hoisinagent.go */,
+				E97A32BB1CA0CB7D0084FBEC /* Makefile */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		E97A32B71CA0CB7C0084FBEC /* hoisinagent */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = E97A32BC1CA0CB7D0084FBEC /* Build configuration list for PBXLegacyTarget "hoisinagent" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/sidney/src/Hoisin-swift/hoisinagent";
+			dependencies = (
+			);
+			name = hoisinagent;
+			passBuildSettingsInEnvironment = 0;
+			productName = hoisinagent;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		E97A32B31CA0CB7C0084FBEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+			};
+			buildConfigurationList = E97A32B61CA0CB7C0084FBEC /* Build configuration list for PBXProject "hoisinagent" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E97A32B21CA0CB7C0084FBEC;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E97A32B71CA0CB7C0084FBEC /* hoisinagent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		E97A32B41CA0CB7C0084FBEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E97A32B51CA0CB7C0084FBEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E97A32BD1CA0CB7D0084FBEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = hoisinagent;
+			};
+			name = Debug;
+		};
+		E97A32BE1CA0CB7D0084FBEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = hoisinagent;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E97A32B61CA0CB7C0084FBEC /* Build configuration list for PBXProject "hoisinagent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E97A32B41CA0CB7C0084FBEC /* Debug */,
+				E97A32B51CA0CB7C0084FBEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E97A32BC1CA0CB7D0084FBEC /* Build configuration list for PBXLegacyTarget "hoisinagent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E97A32BD1CA0CB7D0084FBEC /* Debug */,
+				E97A32BE1CA0CB7D0084FBEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E97A32B31CA0CB7C0084FBEC /* Project object */;
+}

@@ -1,5 +1,5 @@
-//import Foundation
-//
+import Foundation
+
 //class Session {
 //    
 //    dynamic var runningTask: Task? = nil
