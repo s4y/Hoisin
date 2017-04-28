@@ -27,8 +27,8 @@ Hoisin’s pretty early in development.
 
 ### Hoisin running stock `ls`
 
-![](https://sidnicious.github.io/Hoisin/readme/ls.png)
+![](https://s4y.github.io/Hoisin/readme/ls.png)
 
 ### Hoisin running `psw`, a live-updating `ps`
 
-![](https://sidnicious.github.io/Hoisin/readme/ls-and-psw.png)
+![](https://s4y.github.io/Hoisin/readme/ls-and-psw.png)
