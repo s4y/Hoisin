@@ -2,10 +2,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
 @interface TerminalView: NSView
 @end
 
@@ -40,8 +36,5 @@ int main() {
 	auto appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
-	if (DEBUG && getenv("CRITTY_ACTIVATE_ON_LAUNCH")) {
-		[app activateIgnoringOtherApps:YES];
-	}
 	[app run];
 }
