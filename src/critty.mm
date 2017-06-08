@@ -14,6 +14,11 @@
 	}
 	return self;
 }
+
+- (void)drawRect:(NSRect)dirtyRect {
+	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
+	CTLineRef line = CTLineCreateWithAttributedString(string);
+}
 @end
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
