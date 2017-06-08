@@ -3,13 +3,14 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreText/CoreText.h>
 
+NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
+const CGFloat lineHeight = NSHeight(systemFont.boundingRectForFont);
+
 @interface TerminalContentView: NSView
 @end
 
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
-	NSFont* systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
-	const CGFloat lineHeight = NSHeight(systemFont.boundingRectForFont);
 	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
 		NSFontAttributeName: systemFont
 	}];
