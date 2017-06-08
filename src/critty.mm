@@ -9,6 +9,8 @@
 	return YES;
 }
 
+@end
+
 char tty[24][80] = {{0}};
 
 int main() {
