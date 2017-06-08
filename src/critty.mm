@@ -5,7 +5,12 @@
 @interface TerminalView: NSView
 @end
 
-@implementation TerminalView
+@implementation TerminalView {
+	NSScrollView* _scrollView;
+}
+
+- (instancetype)initWithFrame:(NSRect)frame {
+}
 @end
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
