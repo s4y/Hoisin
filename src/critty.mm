@@ -23,6 +23,7 @@
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
+		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 	}
 	return self;
 }
