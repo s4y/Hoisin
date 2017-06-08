@@ -6,6 +6,12 @@
 #define DEBUG 0
 #endif
 
+@interface TerminalView: NSView
+@end
+
+@implementation TerminalView
+@end
+
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 @end
 
