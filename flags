@@ -3,5 +3,5 @@
 -Wpedantic
 -Werror
 -Os
--framework foundation
+-framework Cocoa
 -x objective-c++
