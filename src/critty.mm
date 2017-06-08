@@ -9,7 +9,10 @@
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
 	NSLog(@"drawRect: %@", NSStringFromRect(dirtyRect));
-	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
+	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
+		NSFontAttributeName: 
+	}];
+	NSFont* systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
 
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
