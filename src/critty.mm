@@ -8,6 +8,7 @@
 
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
+	NSLog(@"drawRect: %@", NSStringFromRect(dirtyRect));
 	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
 	CTLineDraw(line, [NSGraphicsContext currentContext].CGContext);
