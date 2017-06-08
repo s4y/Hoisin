@@ -50,8 +50,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, 0, 1000 * systemFontHeight)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
-		//_scrollView.documentView = _contentView;
-		_scrollView.contentSize = _contentView.bounds.size;
+		_scrollView.documentView = _contentView;
 	}
 	return self;
 }
