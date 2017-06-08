@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #import <Cocoa/Cocoa.h>
+#import <CoreText/CoreText.h>
 
 @interface TerminalView: NSView
 @end
