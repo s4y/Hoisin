@@ -15,7 +15,7 @@
 	}];
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
 
-	for (CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect) % lineHeight); pos < NSMaxY(dirtyRect); pos += lineHeight) {
+	for (CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), lineHeight); pos < NSMaxY(dirtyRect); pos += lineHeight) {
 	}
 
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
