@@ -3,6 +3,17 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreText/CoreText.h>
 
+@interface TerminalContentView: NSView
+@end
+
+@implementation TerminalContentView
+- (void)drawRect:(NSRect)dirtyRect {
+	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
+	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
+	CTLineDraw(line, [NSGraphicsContext currentContext].CGContext);
+}
+@end
+
 @interface TerminalView: NSView
 @end
 
@@ -16,11 +27,6 @@
 	return self;
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
-	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
-	CTLineDraw(line, [NSGraphicsContext currentContext].CGContext);
-}
 @end
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
