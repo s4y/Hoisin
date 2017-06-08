@@ -8,5 +8,6 @@ int main() {
 	[win center];
 	[win makeKeyAndOrderFront:nil];
 
+	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
 	[app run];
 }
