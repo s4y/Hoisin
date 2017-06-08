@@ -4,7 +4,7 @@
 #import <CoreText/CoreText.h>
 
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
-const CGFloat lineHeight = NSHeight(systemFont.boundingRectForFont);
+const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @interface TerminalContentView: NSView
 @end
