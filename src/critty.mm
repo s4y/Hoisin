@@ -28,7 +28,7 @@
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[self addSubview:_scrollView];
 
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSRectMake(0, 0, self.bounds, 10000)];
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 10000)];
 	}
 	return self;
 }
