@@ -7,7 +7,8 @@
 
 @implementation TerminalView
 - (CALayer*)makeBackingLayer {
-
+	CALayer* layer = [super makeBackingLayer];
+	layer.backgroundColor = [NSColor colorWithCalibratedWhite:0.1].CGColor;
 }
 @end
 
