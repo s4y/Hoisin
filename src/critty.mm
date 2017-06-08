@@ -33,6 +33,7 @@ int main() {
 	[win.contentView addSubview:terminalView];
 
 	[win center];
+	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
 	auto app = [NSApplication sharedApplication];
