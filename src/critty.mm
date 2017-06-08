@@ -26,6 +26,7 @@ char tty[24][80] = {{0}};
 
 int main() {
 	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:NO];
+	win.contentView = [[TerminalView alloc] initWithFrame:NSZeroRect];
 	win.contentView.wantsLayer = YES;
 	[win center];
 	[win makeKeyAndOrderFront:nil];
