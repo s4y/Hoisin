@@ -20,7 +20,7 @@
 		pos < NSMaxY(dirtyRect);
 		pos += lineHeight
 	) {
-		CGContextSetTextPosition(context, pos, NSMinY(dirtyRect));
+		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
 		CTLineDraw(line, context);
 	}
 }
