@@ -29,6 +29,8 @@
 		[self addSubview:_scrollView];
 
 		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 10000)];
+		_contentView.autoresizingMask = NSViewWidthSizable;
+		_scrollView.documentView = _contentView;
 	}
 	return self;
 }
