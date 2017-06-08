@@ -1,4 +1,5 @@
 #!/bin/bash
 while :; do
 	git add . && git commit -m WIP
+	sleep 10
 done
