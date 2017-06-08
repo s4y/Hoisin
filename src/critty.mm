@@ -29,7 +29,7 @@ int main() {
 	win.contentView.wantsLayer = YES;
 
 	auto terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
-	terminalView.autoresizingMask = NSviewwidthsizable | NSViewHeightSizable;
+	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 
 	[win.contentView addSubview:[[TerminalView alloc] initWithFrame:NSZeroRect];
 	[win center];
