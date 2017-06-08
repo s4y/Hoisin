@@ -1,0 +1,4 @@
+#!/bin/bash
+while :; do
+	git add . && git commit -m WIP
+done

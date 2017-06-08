@@ -1,0 +1,7 @@
+-std=c++11
+-Wall
+-Wpedantic
+-Werror
+-Os
+-framework foundation
+-x objective-c++
