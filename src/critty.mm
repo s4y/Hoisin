@@ -42,7 +42,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.hasVerticalScroller = YES;
 		[self addSubview:_scrollView];
 
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 10000)];
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 1000 * systemFontHeight)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_scrollView.documentView = _contentView;
 	}
