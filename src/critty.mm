@@ -30,8 +30,8 @@ int main() {
 
 	auto terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+	[win.contentView addSubview:terminalView];
 
-	[win.contentView addSubview:[[TerminalView alloc] initWithFrame:NSZeroRect];
 	[win center];
 	[win makeKeyAndOrderFront:nil];
 
