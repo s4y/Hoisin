@@ -13,12 +13,14 @@
 char tty[24][80] = {{0}};
 
 int main() {
-	auto app = [NSApplication sharedApplication];
 	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 100, 100) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:NO];
 	win.contentView.wantsLayer = YES;
 	[win center];
 	[win makeKeyAndOrderFront:nil];
 
+	auto appDelegate = [AppDelegate new];
+	auto app = [NSApplication sharedApplication];
+	app.delegate
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
 	[app run];
 }
