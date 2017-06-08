@@ -18,9 +18,9 @@ int main() {
 	[win center];
 	[win makeKeyAndOrderFront:nil];
 
-	auto appDelegate = [AppDelegate new];
 	auto app = [NSApplication sharedApplication];
-	app.delegate
+	auto appDelegate = [AppDelegate new];
+	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
 	[app run];
 }
