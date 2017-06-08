@@ -8,7 +8,6 @@
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
 	return YES;
 }
-
 @end
 
 char tty[24][80] = {{0}};
