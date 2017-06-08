@@ -17,7 +17,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		pos < NSMaxY(dirtyRect);
 		pos += systemFontHeight
 	) {
-		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
+		NSString* string = [NSString stringWithFormat:@"%fx%f", NSMinX(dirtyRect), pos];
+		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:string attributes:@{
 			NSFontAttributeName: systemFont
 		}]));
 		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
