@@ -19,6 +19,7 @@
 
 @implementation TerminalView {
 	NSScrollView* _scrollView;
+	TerminalContentView* _contentView;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
