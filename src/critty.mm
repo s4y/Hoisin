@@ -24,6 +24,8 @@
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
+		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[self addSubview:_scrollView];
 	}
 	return self;
 }
