@@ -8,12 +8,15 @@
 
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
-	NSLog(@"drawRect: %@", NSStringFromRect(dirtyRect));
 	NSFont* systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
+	const CGFloat lineHeight = systemFont.xHeight;
 	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
 		NSFontAttributeName: systemFont
 	}];
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
+
+	for (CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect) % lineHeight); pos < NSMaxY(dirtyRect); pos += lineHeight) {
+	}
 
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	CGContextSetTextPosition(context, dirtyRect.origin.x, dirtyRect.origin.y);
