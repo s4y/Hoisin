@@ -2,6 +2,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 @end
 
