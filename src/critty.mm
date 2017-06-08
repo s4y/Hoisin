@@ -6,6 +6,9 @@
 @end
 
 @implementation TerminalView
+- (CALayer*)makeBackingLayer {
+
+}
 @end
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
