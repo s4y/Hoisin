@@ -17,9 +17,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
-		CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), lineHeight);
+		CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), systemFontHeight);
 		pos < NSMaxY(dirtyRect);
-		pos += lineHeight
+		pos += systemFontHeight
 	) {
 		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
 		CTLineDraw(line, context);
