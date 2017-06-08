@@ -11,6 +11,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
+	return;
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
 		CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), systemFontHeight);
