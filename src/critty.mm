@@ -19,7 +19,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
 	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø"];
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
-	CTLineDraw(line, [[NSGraphicsContext currentContext] graphicsPort]);
+	CTLineDraw(line, [NSGraphicsContext currentContext].CGContext);
 }
 @end
 
