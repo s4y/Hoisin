@@ -11,16 +11,15 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
-	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
-		NSFontAttributeName: systemFont
-	}];
-	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>(string));
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
 		CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), systemFontHeight);
 		pos < NSMaxY(dirtyRect);
 		pos += systemFontHeight
 	) {
+		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
+			NSFontAttributeName: systemFont
+		}]));
 		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
 		CTLineDraw(line, context);
 	}
