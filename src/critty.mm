@@ -26,6 +26,7 @@
 	if ((self = [super initWithFrame:frameRect])) {
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		_scrollView.hasVerticalScroller = YES;
 		[self addSubview:_scrollView];
 
 		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 10000)];
