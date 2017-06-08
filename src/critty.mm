@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #import <Cocoa/Cocoa.h>
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
@@ -22,5 +24,6 @@ int main() {
 	auto appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
+		
 	[app run];
 }
