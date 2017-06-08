@@ -4,5 +4,5 @@
 -Werror
 -Os
 -framework Cocoa
--DDEBUG=0
+-DDEBUG=1
 -x objective-c++
