@@ -25,7 +25,7 @@ int main() {
 	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
 	if (getenv("CRITTY_ACTIVATE_ON_LAUNCH")) {
-		[app activateIgnoringOtherApps:NO];
+		[app activateIgnoringOtherApps:YES];
 	}
 	[app run];
 }
