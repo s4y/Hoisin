@@ -10,6 +10,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalContentView
+- (BOOL)wantsUpdateLayer {
+	return YES;
+}
+
+#if 0
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
@@ -25,6 +30,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		CTLineDraw(line, context);
 	}
 }
+#endif
 @end
 
 @interface TerminalView: NSView
