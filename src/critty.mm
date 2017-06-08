@@ -9,7 +9,7 @@
 @implementation TerminalContentView
 - (void)drawRect:(NSRect)dirtyRect {
 	NSFont* systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
-	const CGFloat lineHeight = systemFont.capHeight;
+	const CGFloat lineHeight = NSHeight(systemFont.boundingRectForFont);
 	NSAttributedString* string = [[NSAttributedString alloc] initWithString:@"1234567890abcABCéø" attributes:@{
 		NSFontAttributeName: systemFont
 	}];
