@@ -9,6 +9,7 @@
 - (CALayer*)makeBackingLayer {
 	CALayer* layer = [super makeBackingLayer];
 	layer.backgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:1].CGColor;
+	return layer;
 }
 @end
 
