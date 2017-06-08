@@ -9,7 +9,7 @@
 	NSScrollView* _scrollView;
 }
 
-- (instancetype)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frameRect {
 }
 @end
 
