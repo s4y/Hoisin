@@ -66,7 +66,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 char tty[24][80] = {{0}};
 
 int main() {
-	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:NO];
+	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
 
 	auto terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
