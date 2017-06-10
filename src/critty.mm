@@ -20,13 +20,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		pos < NSMaxY(dirtyRect);
 		pos += systemFontHeight
 	) {
-		NSString* string = [NSString stringWithFormat:@"%fx%f (%d)", NSMinX(dirtyRect), pos, _drawCount++];
+		NSString* string = [NSString stringWithFormat:@"%fx%f (%d)", NSMinX(dirtyRect), pos, _drawCount];
 		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:string attributes:@{
 			NSFontAttributeName: systemFont
 		}]));
 		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
 		CTLineDraw(line, context);
 	}
+	_drawCount++;
 }
 @end
 
