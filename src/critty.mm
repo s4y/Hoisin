@@ -13,6 +13,13 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	unsigned int _drawCount;
 }
 
+- (instancetype)initWithFrame:(NSRect)frameRect {
+	if ((self = [super initWithFrame:frameRect])) {
+		self.canDrawConcurrently = YES;
+	}
+	return self;
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
