@@ -10,7 +10,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalContentView {
-	NSUInteger _drawCount;
+	unsigned int _drawCount;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
