@@ -18,7 +18,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		pos < NSMaxY(dirtyRect);
 		pos += systemFontHeight
 	) {
-		NSString* string = [NSString stringWithFormat:@"%fx%f", NSMinX(dirtyRect), pos];
+		NSString* string = [NSString stringWithFormat:@"%fx%f (%d)", NSMinX(dirtyRect), pos, _drawCount++];
 		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:string attributes:@{
 			NSFontAttributeName: systemFont
 		}]));
@@ -34,6 +34,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @implementation TerminalView {
 	NSScrollView* _scrollView;
 	TerminalContentView* _contentView;
+	NSUInteger _drawCount;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
