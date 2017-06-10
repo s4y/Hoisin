@@ -9,7 +9,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @interface TerminalContentView: NSView
 @end
 
-@implementation TerminalContentView
+@implementation TerminalContentView {
+	NSUInteger _drawCount;
+}
 
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
@@ -34,7 +36,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @implementation TerminalView {
 	NSScrollView* _scrollView;
 	TerminalContentView* _contentView;
-	NSUInteger _drawCount;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
