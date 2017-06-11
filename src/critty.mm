@@ -76,6 +76,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)updateLayer {
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
+	[self setNeedsDisplay:YES];
 }
 
 @end
