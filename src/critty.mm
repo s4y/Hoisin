@@ -83,7 +83,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	} break;
 	default:
 		NSLog(@"unknown stream event: %tu", eventCode);
-		abort();
 	}
 }
 
