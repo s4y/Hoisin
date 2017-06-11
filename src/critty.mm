@@ -54,6 +54,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_contentView.editable = NO;
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
+		NSLog(@"font: %@", _contentView.font);
 		_contentView.layoutManager.allowsNonContiguousLayout = YES;
 
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
@@ -79,6 +80,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSData* data = [NSData dataWithBytesNoCopy:buf length:len freeWhenDone:NO];
 		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
 		[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
+		NSLog(@"font: %@", _contentView.font);
 	} break;
 	default:
 		NSLog(@"unknown stream event: %tu", eventCode);
