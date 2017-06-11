@@ -78,9 +78,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		uint8_t buf[8192];
 		NSUInteger len = [_randle read:buf maxLength:sizeof(buf)/sizeof(buf[0])];
 		NSData* data = [NSData dataWithBytesNoCopy:buf length:len freeWhenDone:NO];
-		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] attributes:@{
-			NSFontAttributeName: _contentView.font
-		}]];
+		_contentView.string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		[_contentView scrollToEndOfDocument:nil];
 	} break;
 	default:
