@@ -3,6 +3,6 @@
 -Wpedantic
 -Werror
 -Os
--framework Cocoa
+-framework AppKit
 -fobjc-arc
 -x objective-c++

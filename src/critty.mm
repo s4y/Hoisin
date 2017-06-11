@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#import <Cocoa/Cocoa.h>
-#import <CoreText/CoreText.h>
+#import <AppKit/AppKit.h>
+#import <CoreVideo/CoreVideo.h>
 
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
@@ -45,6 +45,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSScrollView* _scrollView;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
+	CVDisplayLinkRef _displayLink;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -53,8 +54,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_contentView.editable = NO;
 
-		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
-
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
@@ -62,6 +61,21 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		[self addSubview:_scrollView];
 	}
 	return self;
+}
+
+#if 0
+- (void)updateDisplayLink {
+	CVReturn ret = CVDisplayLinkCreateWithCGDisplay(self.window.screen.deviceDescription[@"NSScreenNumber"], &_displayLink);
+	_displayLink = CVDisplayLinkCreateWithCGDisplay(0);
+}
+#endif
+
+- (BOOL)wantsUpdateLayer {
+	return YES;
+}
+
+- (void)updateLayer {
+	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
 }
 
 @end
