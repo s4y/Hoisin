@@ -87,7 +87,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)layout {
-	[_contentView scrollPoint:NSZeroPoint];
+	[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
 }
 
 @end
