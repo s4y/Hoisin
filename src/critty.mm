@@ -82,7 +82,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		//[_contentView scrollToEndOfDocument:nil];
 	} break;
 	case NSStreamEventEndEncountered:
-		[_randle close];
+		[_randle removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 		_randle = nil;
 		break;
 	default:
