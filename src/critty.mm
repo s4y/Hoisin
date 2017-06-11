@@ -80,7 +80,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSLog(@"read: %@", data);
 		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
 		[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
-	}
+	} break;
 	default: abort();
 	}
 }
