@@ -55,7 +55,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_contentView.editable = NO;
 		_contentView.richText = NO;
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
-		NSLog(@"font: %@", _contentView.font);
 		_contentView.layoutManager.allowsNonContiguousLayout = YES;
 
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
@@ -83,7 +82,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			NSFontAttributeName: _contentView.font
 		}]];
 		[_contentView scrollToEndOfDocument:nil];
-		NSLog(@"font: %@", _contentView.font);
 	} break;
 	default:
 		NSLog(@"unknown stream event: %tu", eventCode);
