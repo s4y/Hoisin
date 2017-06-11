@@ -45,6 +45,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSScrollView* _scrollView;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
+	NSFileHandle* _randle;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -60,9 +61,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
 
-		NSFileHandle* handle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/rand.txt"];
-		NSLog(@"handle: %@", handle);
-		handle.readabilityHandler = ^(NSFileHandle* handle) {
+		_randle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/rand.txt"];
+
+		__weak TerminalView* weakSelf = self;
+		_randle.readabilityHandler = ^(NSFileHandle* handle) {
+			TerminalView* self = weakSelf;
 			NSLog(@"read on handle: %@", handle);
 			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:handle.availableData encoding:NSUTF8StringEncoding]]];
 			[_contentView sizeToFit];
