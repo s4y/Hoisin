@@ -61,7 +61,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
 
-		_randle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/rand.txt"];
+		_randle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/manylines.txt"];
 
 		__weak TerminalView* weakSelf = self;
 		_randle.readabilityHandler = ^(NSFileHandle* handle) {
