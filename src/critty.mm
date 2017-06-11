@@ -76,7 +76,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)updateLayer {
 	static NSString* const stuff = @"12 34 56 78 90 ";
-	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 100 withString:stuff startingAtIndex:0];
+	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 10 withString:stuff startingAtIndex:0];
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:newStuff]];
 	//[_scrollView layoutSubtreeIfNeeded];
 	[_scrollView.documentView scrollPoint:NSMakePoint(0, NSMaxY(_scrollView.documentView.bounds))];
