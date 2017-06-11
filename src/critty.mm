@@ -63,6 +63,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
 		_randle.delegate = self;
+		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 	}
 	return self;
 }
@@ -75,14 +76,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSUInteger len;
 		if (![_randle getBuffer:&buf length:&len]) { abort(); }
 		NSData* data = [NSData dataWithBytesNoCopy:buf length:len];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			NSLog(@"read: %@", data);
-			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
-			[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
-		});
+		NSLog(@"read: %@", data);
+		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
+		[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
 	}
-		
-		
+	default: abort();
 	}
 }
 
