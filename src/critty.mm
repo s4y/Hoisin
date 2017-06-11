@@ -82,6 +82,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		//[_contentView scrollToEndOfDocument:nil];
 	} break;
 	case NSStreamEventEndEncountered:
+		[_randle close];
 		_randle = nil;
 	default:
 		NSLog(@"unknown stream event: %tu", eventCode);
