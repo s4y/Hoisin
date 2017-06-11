@@ -75,7 +75,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	case NSStreamEventHasBytesAvailable: {
 		uint8_t* buf;
 		NSUInteger len;
-		if (![_randle getBuffer:&buf length:&len]) { abort(); }
+		if (![_randle getBuffer:&buf length:&len]) {
+			NSLog(@"Couldn't get a buffer.");
+			abort();
+		}
 		NSData* data = [NSData dataWithBytesNoCopy:buf length:len];
 		NSLog(@"read: %@", data);
 		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
