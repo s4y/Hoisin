@@ -75,7 +75,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)updateLayer {
-	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"0123456789 123456789 23456789"]];
+	static NSString* const stuff = @"12 34 56 78 90 ";
+	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 100 withString:stuff startingAtIndex:0];
+	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:newStuff]];
 	[_scrollView layoutSubtreeIfNeeded];
 	[_scrollView.documentView scrollPoint:NSMakePoint(0, NSMaxY(_scrollView.documentView.bounds))];
 	[CATransaction setCompletionBlock:^{
