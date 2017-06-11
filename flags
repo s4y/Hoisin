@@ -4,5 +4,6 @@
 -Werror
 -Os
 -framework AppKit
+-framework QuartzCore
 -fobjc-arc
 -x objective-c++

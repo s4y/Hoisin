@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #import <AppKit/AppKit.h>
-#import <CoreVideo/CoreVideo.h>
+#import <QuartzCore/QuartzCore.h>
 
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
@@ -76,7 +76,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)updateLayer {
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
-	[self setNeedsDisplay:YES];
+	[CATransaction setCompletionBlock:^{
+		self.needsDisplay = YES;
+	}];
 }
 
 @end
