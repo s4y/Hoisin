@@ -43,7 +43,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalView {
 	NSScrollView* _scrollView;
-	TerminalContentView* _contentView;
+	//TerminalContentView* _contentView;
+	NSTextView* _contentView;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -53,9 +54,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.hasVerticalScroller = YES;
 		[self addSubview:_scrollView];
 
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 1000 * systemFontHeight)];
+		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_scrollView.documentView = _contentView;
+
+		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
 	}
 	return self;
 }
