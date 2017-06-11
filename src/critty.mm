@@ -77,7 +77,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (void)updateLayer {
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
 	[_scrollView layoutSubtreeIfNeeded];
-	[_scrollView.documentView scrollPoint:NSZeroPoint];
+	[_scrollView.documentView scrollPoint:NSMakePoint(0, NSMaxY(_scrollView.documentView.bounds))];
 	[CATransaction setCompletionBlock:^{
 		self.needsDisplay = YES;
 	}];
