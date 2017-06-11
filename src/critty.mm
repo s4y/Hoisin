@@ -79,7 +79,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSUInteger len = [_randle read:buf maxLength:sizeof(buf)/sizeof(buf[0])];
 		NSData* data = [NSData dataWithBytesNoCopy:buf length:len freeWhenDone:NO];
 		_contentView.string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		[_contentView scrollToEndOfDocument:nil];
+		//[_contentView scrollToEndOfDocument:nil];
 	} break;
 	default:
 		NSLog(@"unknown stream event: %tu", eventCode);
