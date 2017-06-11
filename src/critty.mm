@@ -49,16 +49,17 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
+		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
+		_contentView.autoresizingMask = NSViewWidthSizable;
+		_contentView.editable = NO;
+
+		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
+
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
-		[self addSubview:_scrollView];
-
-		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
-		_contentView.autoresizingMask = NSViewWidthSizable;
 		_scrollView.documentView = _contentView;
-
-		[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"Beep boop."]];
+		[self addSubview:_scrollView];
 	}
 	return self;
 }
