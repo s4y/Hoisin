@@ -45,7 +45,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSScrollView* _scrollView;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
-	CVDisplayLinkRef _displayLink;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -60,31 +59,31 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.hasVerticalScroller = YES;
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
+
+		NSFileHandle* handle = [NSFileHandle fileHandleForReadingAtPath:@"~/rand.txt"];
+		handle.readabilityHandler = ^(NSFileHandle* handle) {
+			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:handle.availableData encoding:NSUTF8StringEncoding]]];
+			[_contentView sizeToFit];
+			[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
+		};
 	}
 	return self;
 }
-
-#if 0
-- (void)updateDisplayLink {
-	CVReturn ret = CVDisplayLinkCreateWithCGDisplay(self.window.screen.deviceDescription[@"NSScreenNumber"], &_displayLink);
-	_displayLink = CVDisplayLinkCreateWithCGDisplay(0);
-}
-#endif
 
 - (BOOL)wantsUpdateLayer {
 	return YES;
 }
 
+#if 0
 - (void)updateLayer {
 	static NSString* const stuff = @"12 34 56 78 90 ";
 	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 100 withString:stuff startingAtIndex:0];
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:newStuff]];
-	[_contentView sizeToFit];
-	[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
 	[CATransaction setCompletionBlock:^{
 		self.needsDisplay = YES;
 	}];
 }
+#endif
 
 @end
 
