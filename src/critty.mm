@@ -52,8 +52,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	if ((self = [super initWithFrame:frameRect])) {
 		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
-		NSLog(@"verticallyResizable was: %d", _contentView.verticallyResizable);
-		_contentView.verticallyResizable = YES;
 		_contentView.editable = NO;
 
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
@@ -81,9 +79,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 10 withString:stuff startingAtIndex:0];
 	NSLog(@"before: %@", NSStringFromRect(_contentView.bounds));
 	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:newStuff]];
+	[_contentView sizeToFit];
 	NSLog(@"after: %@", NSStringFromRect(_contentView.bounds));
 	[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
-	//self.needsLayout = YES;
 	[CATransaction setCompletionBlock:^{
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
 			self.needsDisplay = YES;
