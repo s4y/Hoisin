@@ -70,11 +70,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	return self;
 }
 
+#if 0
 - (BOOL)wantsUpdateLayer {
 	return YES;
 }
 
-#if 0
 - (void)updateLayer {
 	static NSString* const stuff = @"12 34 56 78 90 ";
 	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 100 withString:stuff startingAtIndex:0];
