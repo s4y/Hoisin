@@ -38,14 +38,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
-@interface TerminalView: NSView
+@interface TerminalView: NSView<NSStreamDelegate>
 @end
 
 @implementation TerminalView {
 	NSScrollView* _scrollView;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
-	NSFileHandle* _randle;
+	NSInputStream* _randle;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -61,36 +61,30 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
 
-		_randle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/manylines.txt"];
-
-		__weak TerminalView* weakSelf = self;
-		_randle.readabilityHandler = ^(NSFileHandle* handle) {
-			TerminalView* self = weakSelf;
-			NSData* data = handle.availableData;
-			dispatch_async(dispatch_get_main_queue(), ^{
-				NSLog(@"read: %@", data);
-				[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
-				[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
-			});
-		};
+		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
+		_randle.delegate = self;
 	}
 	return self;
 }
 
-#if 0
-- (BOOL)wantsUpdateLayer {
-	return YES;
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+	if (aStream != _randle) { abort(); }
+	switch (eventCode) {
+	case NSStreamEventHasBytesAvailable: {
+		uint8_t* buf;
+		NSUInteger len;
+		if (![_randle getBuffer:&buf length:&len]) { abort(); }
+		NSData* data = [NSData dataWithBytesNoCopy:buf length:len];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"read: %@", data);
+			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
+			[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
+		});
+	}
+		
+		
+	}
 }
-
-- (void)updateLayer {
-	static NSString* const stuff = @"12 34 56 78 90 ";
-	NSString* newStuff = [@"" stringByPaddingToLength:stuff.length * 100 withString:stuff startingAtIndex:0];
-	[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:newStuff]];
-	[CATransaction setCompletionBlock:^{
-		self.needsDisplay = YES;
-	}];
-}
-#endif
 
 @end
 
