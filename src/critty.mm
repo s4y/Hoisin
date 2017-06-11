@@ -64,7 +64,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
 		_randle.delegate = self;
 		[_randle open];
-		//[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 	}
 	return self;
 }
