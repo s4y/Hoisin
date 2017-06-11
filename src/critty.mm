@@ -63,6 +63,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSFileHandle* handle = [NSFileHandle fileHandleForReadingAtPath:@"/Users/sidney/rand.txt"];
 		NSLog(@"handle: %@", handle);
 		handle.readabilityHandler = ^(NSFileHandle* handle) {
+			NSLog(@"read on handle: %@", handle);
 			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:handle.availableData encoding:NSUTF8StringEncoding]]];
 			[_contentView sizeToFit];
 			[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
