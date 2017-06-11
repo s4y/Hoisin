@@ -52,6 +52,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	if ((self = [super initWithFrame:frameRect])) {
 		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
+		NSLog(@"verticallyResizable was: %d", _contentView.verticallyResizable);
+		_contentView.verticallyResizable = YES;
 		_contentView.editable = NO;
 
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
