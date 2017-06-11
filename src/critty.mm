@@ -82,8 +82,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[_scrollView.documentView scrollPoint:NSMakePoint(0, NSMaxY(_scrollView.documentView.bounds))];
 	[CATransaction setCompletionBlock:^{
 		dispatch_after(DISPATCH_TIME_NOW + 1 * NSEC_PER_SEC, dispatch_get_main_queue(), ^{
+			self.needsDisplay = YES;
 		});
-		self.needsDisplay = YES;
 	}];
 }
 
