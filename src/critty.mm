@@ -66,9 +66,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		__weak TerminalView* weakSelf = self;
 		_randle.readabilityHandler = ^(NSFileHandle* handle) {
 			TerminalView* self = weakSelf;
-			NSLog(@"read on handle: %@", handle);
+			NSData* data = handle.availableData;
+			NSLog(@"read: %@", data);
 			dispatch_sync(dispatch_get_main_queue(), ^{
-				[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:handle.availableData encoding:NSUTF8StringEncoding]]];
+				[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]];
 				[_contentView sizeToFit];
 				[_contentView scrollPoint:NSMakePoint(0, NSMaxY(_contentView.bounds))];
 			});
