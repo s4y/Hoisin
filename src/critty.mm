@@ -61,6 +61,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		[self addSubview:_scrollView];
 
 		NSFileHandle* handle = [NSFileHandle fileHandleForReadingAtPath:@"~/rand.txt"];
+		NSLog(@"handle: %@", handle);
 		handle.readabilityHandler = ^(NSFileHandle* handle) {
 			[_contentView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString alloc] initWithData:handle.availableData encoding:NSUTF8StringEncoding]]];
 			[_contentView sizeToFit];
