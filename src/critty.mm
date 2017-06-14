@@ -25,6 +25,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSLog(@"updateLayer: %@", NSStringFromRect(self.visibleRect));
 }
 
+- (void)drawRect:(NSRect)rect {
+	NSLog(@"drawRect: %@", NSStringFromRect(rect));
+}
+
 #if 0
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
