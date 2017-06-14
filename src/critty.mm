@@ -17,11 +17,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalContentView
 
-#if 0
 - (BOOL)wantsUpdateLayer {
 	return YES;
 }
-#endif
 
 - (void)updateLayer {
 	NSLog(@"updateLayer: %@", NSStringFromRect(self.visibleRect));
