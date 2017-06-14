@@ -42,7 +42,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalView {
-	NSScrollView* _scrollView;
+	NSScroller* _scroller;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
 	NSInputStream* _randle;
@@ -57,6 +57,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
 		_contentView.layoutManager.allowsNonContiguousLayout = YES;
 
+		_scroller = [[NSScroller alloc] initWithFrame:self.bounds];
+		[self addSubview:_scroller];
+
+#if 0
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
@@ -67,10 +71,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_randle.delegate = self;
 		[_randle open];
 		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+#endif
 	}
 	return self;
 }
 
+#if 0
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
 	if (aStream != _randle) { abort(); }
 	switch (eventCode) {
@@ -86,9 +92,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_randle = nil;
 		break;
 	default:
-		NSLog(@"unknosdlkjaslkasjdalskjwn stream event: %tu", eventCode);
+		NSLog(@"unknown stream event: %tu", eventCode);
 	}
 }
+#endif
 
 @end
 
