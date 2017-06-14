@@ -42,7 +42,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalView {
-	NSScroller* _scroller;
+	NSScrollView* _scrollView;
 	//TerminalContentView* _contentView;
 	NSTextView* _contentView;
 	NSInputStream* _randle;
@@ -57,10 +57,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
 		_contentView.layoutManager.allowsNonContiguousLayout = YES;
 
-		_scroller = [[NSScroller alloc] initWithFrame:self.bounds];
-		[self addSubview:_scroller];
-
-#if 0
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
@@ -71,7 +67,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_randle.delegate = self;
 		[_randle open];
 		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-#endif
 	}
 	return self;
 }
