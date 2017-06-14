@@ -6,20 +6,17 @@
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
+@interface TerminalLineView: NSView
+@end
+
+@implementation TerminalLineView: NSView
+@end
+
 @interface TerminalContentView: NSView
 @end
 
-@implementation TerminalContentView {
-	unsigned int _drawCount;
-}
-
-- (instancetype)initWithFrame:(NSRect)frameRect {
-	if ((self = [super initWithFrame:frameRect])) {
-		self.canDrawConcurrently = YES;
-	}
-	return self;
-}
-
+@implementation TerminalContentView
+#if 0
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	for (
@@ -36,6 +33,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	}
 	_drawCount++;
 }
+#endif
 @end
 
 @interface TerminalView: NSView<NSStreamDelegate>
@@ -43,19 +41,22 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalView {
 	NSScrollView* _scrollView;
-	//TerminalContentView* _contentView;
-	NSTextView* _contentView;
+	TerminalContentView* _contentView;
+	//NSTextView* _contentView;
 	NSInputStream* _randle;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
+#if 0
 		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_contentView.editable = NO;
 		_contentView.richText = NO;
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
 		_contentView.layoutManager.allowsNonContiguousLayout = YES;
+#endif
 
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
