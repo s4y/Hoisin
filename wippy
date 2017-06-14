@@ -1,5 +1,12 @@
 #!/bin/bash
-while :; do
-	git add . && git commit -m WIP
-	sleep 10
-done
+
+while make && (
+	git add . &&
+	git commit -m WIP
+	./critty
+); do :; done
+
+#while :; do
+#	git add . && git commit -m WIP
+#	sleep 10
+#done
