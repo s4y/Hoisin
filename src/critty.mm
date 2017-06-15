@@ -7,12 +7,15 @@
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
-@interface TerminalLineView: NSView
-@property(nonatomic) NSString* string;
+@interface TerminalLineView: NSTextView
+#if 0
+//@property(nonatomic) NSString* string;
+#endif
 @end
 
-@implementation TerminalLineView: NSView
+@implementation TerminalLineView
 
+#if 0
 - (void)setString:(NSString*)string {
 	_string = string;
 	self.needsDisplay = YES;
@@ -26,6 +29,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
 	CTLineDraw(line, context);
 }
+#endif
 @end
 
 @interface TerminalContentView: NSView {
