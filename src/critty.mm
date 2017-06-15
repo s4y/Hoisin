@@ -95,10 +95,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
 
+#if 0
 		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
 		_randle.delegate = self;
 		[_randle open];
 		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+#endif
 	}
 	return self;
 }
