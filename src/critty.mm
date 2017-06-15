@@ -63,7 +63,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 #endif
 
 - (void)prepareContentInRect:(NSRect)rect {
-	NSLog(@"in: %@", NSStringFromRect(rect));
+	NSLog(@"in: (%f) %@", systemFontHeight, NSStringFromRect(rect));
 	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / systemFontHeight)];
 	rect.origin.y -= fmod(NSMinY(rect), systemFontHeight);
