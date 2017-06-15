@@ -29,7 +29,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @interface TerminalContentView: NSView {
-	NSArray<TerminalLineView*>* _lineViews;
+	NSMutableArray<TerminalLineView*>* _lineViews;
 }
 @end
 
@@ -67,11 +67,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / systemFontHeight)];
 	for (
-		CGFloat pos = NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight);
-		pos < NSMaxY(rect);
-		pos += systemFontHeight
+		NSRect lineRect = NSMakeRect(0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight), NSWidth(self.bounds), systemFontHeight);
+		NSMinY(lineRect) < NSMaxY(rect);
+		lineRect.origin.y += systemFontHeight
 	) {
-		
+		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineRect)];
+		[_lineViews addObject:lineView];
+		[self addSubview:lineView];
 	}
 }
 
