@@ -70,9 +70,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
-	NSLog(@"in: %@", NSStringFromRect(rect));
+	//NSLog(@"in: %@", NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
-	NSLog(@"out: %@", NSStringFromRect(outRect));
+	//NSLog(@"out: %@", NSStringFromRect(outRect));
 
 	for (size_t i = 0;;) {
 		//NSLog(@"lineRect: %@", NSStringFromRect(lineRect));
@@ -83,7 +83,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 				i++;
 				continue;
 			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
-				NSLog(@"prune: %@", NSStringFromRect(lineView.frame));
+				//NSLog(@"prune: %@", NSStringFromRect(lineView.frame));
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				continue;
@@ -93,7 +93,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			break;
 		}
 		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
-		NSLog(@"add: %@", NSStringFromRect(lineView.frame));
+		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
 		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
