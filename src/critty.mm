@@ -18,7 +18,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @implementation TerminalContentView
 
 - (BOOL)wantsUpdateLayer {
-	return NO;
+	return YES;
 }
 
 - (void)updateLayer {
@@ -37,6 +37,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)prepareContentInRect:(NSRect)rect {
 	NSLog(@"prepareContentInRect: %@", NSStringFromRect(rect));
+	NSTextView* rectView = [[NSTextView alloc] initWithFrame:rect];
+	rectView.editable = NO;
+	rectView.string = @"A";
+	rectView.wantsLayer = YES;
+	rectView.layer.borderWidth = 10;
+	[self addSubview:rectView];
 }
 
 #if 0
