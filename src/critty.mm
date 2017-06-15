@@ -74,8 +74,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 	NSLog(@"out: %@", NSStringFromRect(outRect));
 
-	size_t i = 0;	
-	for (;;) {
+	for (size_t i = 0;;) {
 		if (i < _lineViews.count) {
 			NSView* lineView = [_lineViews objectAtIndex:i];
 			if (lineView && NSMinY(lineView.frame) != NSMinY(lineRect)) {
