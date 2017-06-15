@@ -78,9 +78,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
 		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 10000)];
+		_contentView.autoresizingMask = NSViewWidthSizable;
 #if 0
 		_contentView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
-		_contentView.autoresizingMask = NSViewWidthSizable;
 		_contentView.editable = NO;
 		_contentView.richText = NO;
 		_contentView.font = [NSFont userFixedPitchFontOfSize:0];
