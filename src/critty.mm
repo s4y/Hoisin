@@ -23,7 +23,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:self.string attributes:@{
 		NSFontAttributeName: systemFont
 	}]));
-	CGContextSetTextPosition(context, 0, systemFont.descender);
+	CGContextSetTextPosition(context, 0, -systemFont.descender);
 	CTLineDraw(line, context);
 }
 @end
