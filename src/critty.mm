@@ -78,6 +78,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		if (i < _lineViews.count) {
 			NSView* lineView = [_lineViews objectAtIndex:i];
 			if (lineView && NSMinY(lineView.frame) != NSMinY(lineRect)) {
+				NSLog(@"prune: %@", lineView);
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				continue;
@@ -87,6 +88,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			break;
 		}
 		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+		NSLog(@"add: %@", lineView);
 		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
