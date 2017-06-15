@@ -63,24 +63,26 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 #endif
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	const NSRect lineRect = [self backingAlignedRect:NSMakeRect(
-		0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
-		NSWidth(self.bounds), systemFontHeight
+	NSRect lineRect = [self backingAlignedRect:NSMakeRect(
+		//0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
+		0, 0, NSWidth(self.bounds), systemFontHeight
 	)options:NSAlignAllEdgesOutward];
 	const size_t visibleLines = ceil(NSHeight(rect) / NSHeight(lineRect));
+	lineRect.origin.y = NSMinY(rect) - fmod(NSMinY(rect), NSHeight(lineRect));
 	NSLog(@"in: %@", NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 	NSLog(@"out: %@", NSStringFromRect(outRect));
-	[super prepareContentInRect:outRect];
 
 	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / NSHeight(lineRect))];
-	for (size_t i = 0; i < visibleLines; i++) {
-		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:NSMakeRect(NSMinX(lineRect), NSMinY(lineRect) + NSHeight(lineRect) * i, NSWidth(lineRect), NSHeight(lineRect))];
+	while (NSMinY(lineRect) < NSMaxY(outRect)) {
+		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews addObject:lineView];
 		[self addSubview:lineView];
+		lineRect.origin.y += NSHeight(lineRect);
 	}
+	[super prepareContentInRect:outRect];
 }
 
 @end
