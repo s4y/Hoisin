@@ -67,8 +67,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		//0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
 		0, 0, NSWidth(self.bounds), systemFontHeight
 	)options:NSAlignAllEdgesOutward];
-	const size_t visibleLines = ceil(NSHeight(rect) / NSHeight(lineRect));
-	lineRect.origin.y = NSMinY(rect) - fmod(NSMinY(rect), NSHeight(lineRect));
+	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
+	lineRect.origin.y = NSMinY(rect) - yOffset;
+	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
 	NSLog(@"in: %@", NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 	NSLog(@"out: %@", NSStringFromRect(outRect));
