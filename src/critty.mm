@@ -53,6 +53,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 #endif
 
 - (void)prepareContentInRect:(NSRect)rect {
+	NSLog(@"%@", NSStringFromRect(rect));
+	// for (size_t i = 0; i < 10; i++) {
+	// 	
+	// }
 }
 
 @end
