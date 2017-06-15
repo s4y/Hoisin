@@ -97,6 +97,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			break;
 		}
 		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+		lineView.bezeled = NO;
 		lineView.editable = NO;
 		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
 		lineView.stringValue = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
