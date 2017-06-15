@@ -7,7 +7,7 @@
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
-@interface TerminalLineView: NSTextView
+@interface TerminalLineView: NSTextField
 #if 0
 //@property(nonatomic) NSString* string;
 #endif
@@ -99,7 +99,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 		lineView.editable = NO;
 		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
-		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
+		lineView.stringValue = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
