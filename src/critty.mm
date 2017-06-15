@@ -29,11 +29,13 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSLog(@"drawRect: %@", NSStringFromRect(rect));
 }
 
+#if 0
 - (NSRect)preparedContentRect {
 	NSRect rect = [super preparedContentRect];
 	NSLog(@"preparedContentRect %@", NSStringFromRect(rect));
 	return rect;
 }
+#endif
 
 - (void)prepareContentInRect:(NSRect)rect {
 	NSLog(@"prepareContentInRect: %@", NSStringFromRect(rect));
