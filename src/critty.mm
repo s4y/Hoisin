@@ -7,9 +7,24 @@ NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @interface TerminalLineView: NSView
+@property(nonatomic) NSString* string;
 @end
 
 @implementation TerminalLineView: NSView
+
+- (void)setString:(NSString*)string {
+	_string = string;
+	self.needsDisplay = YES;
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:self.string attributes:@{
+		NSFontAttributeName: systemFont
+	}]));
+	//CGContextSetTextPosition(context, NSMinX(dirtyRect), );
+	CTLineDraw(line, context);
+}
 @end
 
 @interface TerminalContentView: NSView
@@ -48,22 +63,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 #if 0
-- (void)drawRect:(NSRect)dirtyRect {
-	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
-	for (
-		CGFloat pos = NSMinY(dirtyRect) - fmod(NSMinY(dirtyRect), systemFontHeight);
-		pos < NSMaxY(dirtyRect);
-		pos += systemFontHeight
-	) {
-		NSString* string = [NSString stringWithFormat:@"%fx%f (%d)", NSMinX(dirtyRect), pos, _drawCount];
-		CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:string attributes:@{
-			NSFontAttributeName: systemFont
-		}]));
-		CGContextSetTextPosition(context, NSMinX(dirtyRect), pos);
-		CTLineDraw(line, context);
-	}
-	_drawCount++;
-}
 #endif
 @end
 
