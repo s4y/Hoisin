@@ -62,24 +62,25 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 #endif
 
-- (void)prepareContentInRect:(NSRect)rect {
-	NSLog(@"in: (%f) %@", systemFontHeight, NSStringFromRect(rect));
-	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / systemFontHeight)];
-	rect.origin.y -= fmod(NSMinY(rect), systemFontHeight);
-	rect.size.height += systemFontHeight - fmod(NSHeight(rect), systemFontHeight);
+- (void)prepareContentInRect:(const NSRect)rect {
+	const NSRect lineRect = [self backingAlignedRect:NSMakeRect(
+		0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
+		NSWidth(self.bounds), systemFontHeight
+	)options:NSAlignAllEdgesOutward];
+	const size_t visibleLines = ceil(NSHeight(rect) / NSHeight(lineRect));
+	NSLog(@"in: %@", NSStringFromRect(rect));
+	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 	NSLog(@"out: %@", NSStringFromRect(rect));
-	for (
-		NSRect lineRect = NSMakeRect(0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight), NSWidth(self.bounds), systemFontHeight);
-		NSMinY(lineRect) < NSMaxY(rect);
-		lineRect.origin.y += systemFontHeight
-	) {
-		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
-		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineRect)];
+	[super prepareContentInRect:outRect];
+
+	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / NSHeight(lineRect))];
+	for (size_t i = 0; i < visibleLines; i++) {
+		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:NSMakeRect(NSMinX(lineRect), NSMinY(lineRect) + NSHeight(lineRect) * i, NSWidth(lineRect), NSHeight(lineRect))];
+		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews addObject:lineView];
 		[self addSubview:lineView];
 	}
-	[super prepareContentInRect:rect];
 }
 
 @end
