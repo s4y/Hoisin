@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 
 #import <AppKit/AppKit.h>
@@ -27,12 +28,21 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
-@interface TerminalContentView: NSView
+@interface TerminalContentView: NSView {
+	NSArray<TerminalLineView*>* _lineViews;
+}
 @end
 
 @implementation TerminalContentView
 
 #if 0
+- (instancetype)initWithFrame:(NSRect)frameRect {
+	if ((self = [super initWithFrame:frameRect])) {
+		_lineViews = [NSMutableArray array];
+	}
+	return self;
+}
+
 - (BOOL)wantsUpdateLayer {
 	return YES;
 }
@@ -54,9 +64,15 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)prepareContentInRect:(NSRect)rect {
 	NSLog(@"%@", NSStringFromRect(rect));
-	// for (size_t i = 0; i < 10; i++) {
-	// 	
-	// }
+	[_lineViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	_lineViews = [NSMutableArray arrayWithCapacity:ceil(NSHeight(rect) / systemFontHeight)];
+	for (
+		CGFloat pos = NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight);
+		pos < NSMaxY(rect);
+		pos += systemFontHeight
+	) {
+		
+	}
 }
 
 @end
