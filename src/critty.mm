@@ -57,6 +57,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSView* rectView = [[NSView alloc] initWithFrame:rect];
 	// rectView.editable = NO;
 	rectView.wantsLayer = YES;
+	rectView.layer.borderColor = NSColor.greenColor.CGColor;
 	rectView.layer.borderColor = NSColor.blackColor.CGColor;
 	rectView.layer.borderWidth = 10;
 	[self addSubview:rectView];
