@@ -39,7 +39,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
 		_lineViews = [NSMutableArray array];
-		self.preparedContentRect = NSZeroRect;
+		self.preparedContentRect = frameRect;
 	}
 	return self;
 }
