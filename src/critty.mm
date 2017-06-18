@@ -87,6 +87,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 				i++;
 				continue;
 			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
+				i++;
 				//NSLog(@"prune: %@", NSStringFromRect(lineView.frame));
 				// [lineView removeFromSuperview];
 				// [_lineViews removeObjectAtIndex:i];
