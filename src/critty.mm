@@ -98,6 +98,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			break;
 		}
 		TerminalLineView* lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+		lineView.wantsLayer = YES;
+		lineView.layer.backgroundColor = NSColor.whiteColor.CGColor;
 		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
 		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
