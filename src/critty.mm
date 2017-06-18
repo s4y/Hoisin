@@ -186,8 +186,8 @@ int main() {
 	[win.contentView addSubview:terminalView];
 
 	[win center];
-	[win makeKeyAndOrderFront:nil];
 	win.frameAutosaveName = @"Window";
+	[win makeKeyAndOrderFront:nil];
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
