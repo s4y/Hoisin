@@ -43,9 +43,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	return self;
 }
 
-- (void)viewDidMoveToSuperview {
-	self.preparedContentRect = self.visibleRect;
-}
+// - (void)viewDidMoveToSuperview {
+// 	self.preparedContentRect = self.visibleRect;
+// }
 
 #if 0
 - (BOOL)wantsUpdateLayer {
