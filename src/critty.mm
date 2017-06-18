@@ -49,6 +49,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSLog(@"a pcr: %@", NSStringFromRect(self.preparedContentRect));
 }
 
+
+- (void)setFrameSize:(NSSize)newSize {
+	[super setFrameSize:newSize];
+	[self prepareContentInRect:self.visibleRect];
+}
+
 #if 0
 - (BOOL)wantsUpdateLayer {
 	return YES;
