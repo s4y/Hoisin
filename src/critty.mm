@@ -43,13 +43,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	return self;
 }
 
-- (void)viewDidMoveToSuperview {
-	NSLog(@"b pcr: %@", NSStringFromRect(self.preparedContentRect));
-	[self prepareContentInRect:self.visibleRect];
-	NSLog(@"a pcr: %@", NSStringFromRect(self.preparedContentRect));
-}
-
-
 - (void)setFrameSize:(NSSize)newSize {
 	[super setFrameSize:newSize];
 	[self prepareContentInRect:self.visibleRect];
