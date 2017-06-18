@@ -70,6 +70,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 #endif
 
 - (void)prepareContentInRect:(const NSRect)rect {
+	NSLog(@"want: %@", NSStringFromRect(rect));
 	NSRect lineRect = [self backingAlignedRect:NSMakeRect(
 		//0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
 		0, 0, NSWidth(self.bounds), systemFontHeight
