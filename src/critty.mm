@@ -48,28 +48,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[self prepareContentInRect:self.visibleRect];
 }
 
-#if 0
-- (BOOL)wantsUpdateLayer {
-	return YES;
-}
-
-- (void)updateLayer {
-	NSLog(@"updateLayer: %@", NSStringFromRect(self.visibleRect));
-}
-
-- (void)drawRect:(NSRect)rect {
-	NSLog(@"drawRect: %@", NSStringFromRect(rect));
-}
-
-- (NSRect)preparedContentRect {
-	NSRect rect = [super preparedContentRect];
-	NSLog(@"preparedContentRect %@", NSStringFromRect(rect));
-	return rect;
-}
-#endif
-
 - (void)prepareContentInRect:(const NSRect)rect {
-	NSLog(@"want: %@", NSStringFromRect(rect));
 	NSRect lineRect = [self backingAlignedRect:NSMakeRect(
 		//0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
 		0, 0, NSWidth(self.bounds), systemFontHeight
