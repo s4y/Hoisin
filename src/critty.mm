@@ -25,13 +25,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (id)getObject {
 	id ret = [_freeObjects lastObject];
 	if (ret) { [_freeObjects removeLastObject]; }
+	NSLog(@"-pool: %zd", _freeObjects.count);
 	return ret;
 }
 
 - (void)returnObject:(id)object {
 	[object prepareForReuse];
 	[_freeObjects addObject:object];
-	NSLog(@"pool: %zd", _freeObjects.count);
+	NSLog(@"+pool: %zd", _freeObjects.count);
 }
 @end
 
