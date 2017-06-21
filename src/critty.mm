@@ -7,6 +7,10 @@
 NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
+@interface ReusePool<ObjectType>: NSObject
+@property(nonatomic,retain) NSArray<ObjectType>* freeObjects;
+@end
+
 @interface TerminalLineView: NSView
 @property(nonatomic) NSString* string;
 @end
