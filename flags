@@ -6,4 +6,5 @@
 -framework AppKit
 -framework QuartzCore
 -fobjc-arc
+-g
 -x objective-c++

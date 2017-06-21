@@ -95,7 +95,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
 			if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
 				lineRect.origin.y += NSHeight(lineRect);
-				i++;
+				i += 1;
 				continue;
 			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
 				[lineView removeFromSuperview];
