@@ -90,17 +90,22 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSLog(@"Want %ld lines, have %zd", visibleLines, _lineViews.count);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
+	NSLog(@"Cleanup phase");
 	for (size_t i = 0;;) {
+		NSLog(@"i: %ld", i);
 		if (i < _lineViews.count) {
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
+			NSLog(@"lineRect: %@, lineView.frame: %@", NSStringFromRect(lineRect), NSStringFromRect(lineView.frame));
 			if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
 				lineRect.origin.y += NSHeight(lineRect);
 				i += 1;
+				NSLog(@"KEEP");
 				continue;
 			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
+				NSLog(@"DITCH");
 				continue;
 			}
 		}
