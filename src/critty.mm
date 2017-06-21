@@ -87,7 +87,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
-	NSLog(@"Want %ld lines, have %zd", visibleLines, _lineViews.count);
+	NSLog(@"Want %ld lines, have %zd, rect: %@", visibleLines, _lineViews.count, NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
 	NSLog(@"Cleanup phase");
