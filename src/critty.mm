@@ -90,9 +90,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 	NSLog(@"Want %ld lines, have %zd, rect: %@, outRect: %@", visibleLines, _lineViews.count, NSStringFromRect(rect), NSStringFromRect(outRect));
 
-	NSLog(@"Cleanup phase");
+	//NSLog(@"Cleanup phase");
 	for (size_t i = 0;;) {
-		NSLog(@"i: %ld", i);
+		//NSLog(@"i: %ld", i);
 		if (i < _lineViews.count) {
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
 			NSLog(@"lineRect: %@, lineView.frame: %@", NSStringFromRect(lineRect), NSStringFromRect(lineView.frame));
@@ -100,7 +100,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
-				NSLog(@"DITCH");
+				//NSLog(@"DITCH");
 				continue;
 			} else if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
 				lineRect.origin.y += NSHeight(lineRect);
