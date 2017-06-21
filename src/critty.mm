@@ -30,7 +30,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)returnObject:(id)object {
 	[object prepareForReuse];
-	[self.freeObjects addObject:object];
+	[_freeObjects addObject:object];
+	NSLog(@"pool: %zd", _freeObjects.count);
 }
 @end
 
@@ -38,20 +39,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @property(nonatomic,strong) NSString* string;
 @end
 
-@implementation TerminalLineView {
-	int _id;
-}
-
-- (instancetype)initWithFrame:(NSRect)frameRect {
-	static int lineId = 0;
-	if ((self = [super initWithFrame:frameRect])) {
-		_id = lineId++;
-	}
-	return self;
-}
+@implementation TerminalLineView
 
 - (void)setString:(NSString*)string {
-	_string = [NSString stringWithFormat:@"%@ (%d)", string, _id];
+	_string = string;
 	self.needsDisplay = YES;
 }
 
@@ -89,20 +80,15 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	NSLog(@"prepareContentInRect: %@", NSStringFromRect(rect));
 	NSRect lineRect = [self backingAlignedRect:NSMakeRect(
-		//0, NSMinY(rect) - fmod(NSMinY(rect), systemFontHeight),
 		0, 0, NSWidth(self.bounds), systemFontHeight
-	)options:NSAlignAllEdgesOutward];
+	) options:NSAlignAllEdgesOutward];
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
-	//NSLog(@"in: %@", NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
-	//NSLog(@"out: %@", NSStringFromRect(outRect));
 
 	for (size_t i = 0;;) {
-		//NSLog(@"lineRect: %@", NSStringFromRect(lineRect));
 		if (i < _lineViews.count) {
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
 			if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
@@ -110,7 +96,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 				i++;
 				continue;
 			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
-				//NSLog(@"prune: %@", NSStringFromRect(lineView.frame));
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
@@ -126,7 +111,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 		}
-		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
 		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
