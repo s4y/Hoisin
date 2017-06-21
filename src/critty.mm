@@ -102,14 +102,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 				//NSLog(@"prune: %@", NSStringFromRect(lineView.frame));
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
-				//[_lineViewReusePool returnObject:lineView];
+				[_lineViewReusePool returnObject:lineView];
 				continue;
 			}
 		}
 		if (NSMinY(lineRect) > NSMaxY(outRect)) {
 			break;
 		}
-		TerminalLineView* lineView = nil;//[_lineViewReusePool getObject];
+		TerminalLineView* lineView = [_lineViewReusePool getObject];
 		if (lineView) {
 			lineView.frame = lineRect;
 		} else {
