@@ -87,8 +87,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
-	NSLog(@"Want %ld lines, have %zd, rect: %@", visibleLines, _lineViews.count, NSStringFromRect(rect));
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
+	NSLog(@"Want %ld lines, have %zd, rect: %@, outRect: %@", visibleLines, _lineViews.count, NSStringFromRect(rect), NSStringFromRect(outRect));
 
 	NSLog(@"Cleanup phase");
 	for (size_t i = 0;;) {
@@ -96,16 +96,15 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		if (i < _lineViews.count) {
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
 			NSLog(@"lineRect: %@, lineView.frame: %@", NSStringFromRect(lineRect), NSStringFromRect(lineView.frame));
-			if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
-				lineRect.origin.y += NSHeight(lineRect);
-				i += 1;
-				NSLog(@"KEEP");
-				continue;
-			} else if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
+			if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
 				NSLog(@"DITCH");
+				continue;
+			} else if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
+				lineRect.origin.y += NSHeight(lineRect);
+				i += 1;
 				continue;
 			}
 		}
