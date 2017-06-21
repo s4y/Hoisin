@@ -38,10 +38,20 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @property(nonatomic,strong) NSString* string;
 @end
 
-@implementation TerminalLineView
+@implementation TerminalLineView {
+	int _id;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect {
+	static int lineId = 0;
+	if ((self = [super initWithFrame:frameRect])) {
+		_id = lineId++;
+	}
+	return self;
+}
 
 - (void)setString:(NSString*)string {
-	_string = string;
+	_string = [NSString stringWithFormat:@"%@ (%d)", string, _id];
 	self.needsDisplay = YES;
 }
 
