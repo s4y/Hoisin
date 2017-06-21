@@ -110,7 +110,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			break;
 		}
 		TerminalLineView* lineView = [_lineViewReusePool getObject];
-		if (!lineView) {
+		if (lineView) {
+			lineView.frame = lineRect;
+		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 		}
 		//NSLog(@"add: %@", NSStringFromRect(lineView.frame));
