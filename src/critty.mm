@@ -40,6 +40,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalLineView
 
+- (CALayer*)makeBackingLayer {
+	CALayer* layer = [super makeBackingLayer];
+	layer.backgroundColor = NSColor.greenColor.CGColor;
+	return layer;
+}
+
 - (void)setString:(NSString*)string {
 	_string = string;
 	self.needsDisplay = YES;
@@ -139,9 +145,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
-		NSLog(@"BBB %u %u", _contentView.autoresizesSubviews, (unsigned int)_contentView.autoresizingMask);
 		_scrollView.documentView = _contentView;
-		NSLog(@"AAA %u %u", _contentView.autoresizesSubviews, (unsigned int)_contentView.autoresizingMask);
 		[self addSubview:_scrollView];
 
 #if 0
