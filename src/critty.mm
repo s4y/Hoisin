@@ -57,8 +57,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSFontAttributeName: systemFont,
 		NSBackgroundColorAttributeName: NSColor.greenColor,
 	}]));
-	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
-	CGContextFillRect(context, self.bounds);
 	CGContextSetAllowsAntialiasing(context, YES);
 	CGContextSetAllowsFontSmoothing(context, YES);
 	CGContextSetAllowsFontSubpixelPositioning(context, YES);
