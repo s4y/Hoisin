@@ -42,7 +42,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (CALayer*)makeBackingLayer {
 	CALayer* layer = [super makeBackingLayer];
-	layer.backgroundColor = NSColor.greenColor.CGColor;
+	//layer.backgroundColor = NSColor.greenColor.CGColor;
 	return layer;
 }
 
