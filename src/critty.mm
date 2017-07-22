@@ -74,7 +74,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGContextSetShouldSmoothFonts(context, false);
 
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
-	CTLineDraw(line, context);
+	//CTLineDraw(line, context);
 	CFRelease(line);
 }
 
