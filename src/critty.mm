@@ -4,7 +4,7 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-NSFont* const systemFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
+NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @interface ViewReusePool<__covariant ViewType:NSView*>: NSObject
