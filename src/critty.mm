@@ -45,16 +45,18 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalLineView
 
+#if 0
 - (CALayer*)makeBackingLayer {
 	CALayer* layer = [super makeBackingLayer];
 	layer.backgroundColor = NSColor.whiteColor.CGColor;
 	layer.opaque = YES;
 	return layer;
 }
+#endif
 
-// - (BOOL)isOpaque {
-// 	return YES;
-// }
+- (BOOL)isOpaque {
+	return YES;
+}
 
 - (void)setString:(NSString*)string {
 	_string = string;
