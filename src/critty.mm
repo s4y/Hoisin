@@ -110,6 +110,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView.frame = lineRect;
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+			lineView.autoresizingMask = NSViewWidthSizable;
 		}
 		lineView.string = [NSString stringWithFormat:@"%zu %@", firstLine + i, NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
