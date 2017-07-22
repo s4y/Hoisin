@@ -6,6 +6,7 @@
 
 extern "C" {
 void CGContextSetFontSmoothingStyle(CGContextRef, int);
+CGBlendMode CGContextGetBlendMode(CGContextRef);
 }
 
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
@@ -65,6 +66,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
 	}]));
+	NSLog(@"%d", CGContextGetBlendMode(context));
 	CGContextSetFontSmoothingStyle(context, 8);
 	CGContextSetAllowsAntialiasing(context, YES);
 	CGContextSetAllowsFontSmoothing(context, YES);
