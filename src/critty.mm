@@ -64,7 +64,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
-		NSBackgroundColorAttributeName: NSColor.greenColor,
 	}]));
 	CGContextSetFontSmoothingStyle(context, 32);
 	CGContextSetAllowsAntialiasing(context, YES);
