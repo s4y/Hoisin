@@ -56,6 +56,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont
 	}]));
+	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+	CGContextFillRect(context, self.bounds);
+	CGContextSetShouldSmoothFonts(context, true);
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
