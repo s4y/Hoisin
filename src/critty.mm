@@ -139,7 +139,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
+		NSLog(@"BBB %d", _contentView.autoresizesSubviews);
 		_scrollView.documentView = _contentView;
+		NSLog(@"AAA %d", _contentView.autoresizesSubviews);
 		[self addSubview:_scrollView];
 
 #if 0
