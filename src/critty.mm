@@ -70,6 +70,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[NSColor.whiteColor setFill];
 	CGContextFillRect(context, dirtyRect);
 	CGContextSetFontSmoothingStyle(context, 48);
+	CGContextSetAllowsAntialiasing(context, YES);
+	CGContextSetAllowsFontSmoothing(context, YES);
+	CGContextSetAllowsFontSubpixelPositioning(context, YES);
+	CGContextSetAllowsFontSubpixelQuantization(context, YES);
 
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
 	CTLineDraw(line, context);
