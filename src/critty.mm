@@ -53,7 +53,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
-	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:self.string attributes:@{
+	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont
 	}]));
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
@@ -118,7 +118,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
-		lineView.string = [NSString stringWithFormat:@"%zu %@", firstLine + i, NSStringFromRect(lineView.frame)];
+		lineView.string = [NSString stringWithFormat:@"%zu", firstLine + i];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
