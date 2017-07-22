@@ -85,6 +85,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
+	const size_t firstLine = NSMinY(lineRect) / NSHeight(lineRect);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
 	for (size_t i = 0;;) {
@@ -110,7 +111,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 		}
-		lineView.string = [NSString stringWithFormat:@"%@", NSStringFromRect(lineView.frame)];
+		lineView.string = [NSString stringWithFormat:@"%zu %@", firstLine + i, NSStringFromRect(lineView.frame)];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
