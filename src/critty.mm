@@ -47,12 +47,13 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (CALayer*)makeBackingLayer {
 	CALayer* layer = [super makeBackingLayer];
 	layer.backgroundColor = NSColor.whiteColor.CGColor;
+	layer.opaque = YES;
 	return layer;
 }
 
-- (BOOL)isOpaque {
-	return YES;
-}
+// - (BOOL)isOpaque {
+// 	return YES;
+// }
 
 - (void)setString:(NSString*)string {
 	_string = string;
