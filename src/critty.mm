@@ -54,7 +54,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
-		NSFontAttributeName: systemFont
+		NSFontAttributeName: systemFont,
+		NSBackgroundColorAttributeName: NSColor.greenColor,
 	}]));
 	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
 	CGContextFillRect(context, self.bounds);
