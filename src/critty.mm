@@ -67,6 +67,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSFontAttributeName: systemFont,
 	}]));
 	NSLog(@"%d", CGContextGetBlendMode(context));
+	CGContextFillRect(context, dirtyRect);
 	CGContextSetFontSmoothingStyle(context, 8);
 	CGContextSetAllowsAntialiasing(context, YES);
 	CGContextSetAllowsFontSmoothing(context, YES);
