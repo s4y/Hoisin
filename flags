@@ -4,6 +4,7 @@
 -Werror
 -Os
 -framework AppKit
+-framework CoreGraphics
 -framework QuartzCore
 -fobjc-arc
 -g

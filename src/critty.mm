@@ -4,6 +4,8 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+void CGContextSetFontSmoothingStyle(CGContextRef, int);
+
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
@@ -46,6 +48,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	return layer;
 }
 
+- (BOOL)isOpaque {
+	return YES;
+}
+
 - (void)setString:(NSString*)string {
 	_string = string;
 	self.needsDisplay = YES;
@@ -57,6 +63,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSFontAttributeName: systemFont,
 		NSBackgroundColorAttributeName: NSColor.greenColor,
 	}]));
+	//CGContextSetFontSmoothingStyle(context, 16);
 	CGContextSetAllowsAntialiasing(context, YES);
 	CGContextSetAllowsFontSmoothing(context, YES);
 	CGContextSetAllowsFontSubpixelPositioning(context, YES);
