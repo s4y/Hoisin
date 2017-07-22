@@ -116,6 +116,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView.frame = lineRect;
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+			lineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
 			lineView.layerContentsPlacement = NSViewLayerContentsPlacementBottomLeft;
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
