@@ -47,12 +47,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalLineView
 
-- (CALayer*)makeBackingLayer {
-	CALayer* layer = [super makeBackingLayer];
-	layer.backgroundColor = NSColor.whiteColor.CGColor;
-	return layer;
-}
-
 - (BOOL)isOpaque {
 	return YES;
 }
@@ -67,6 +61,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
 	}]));
+	[NSColor.whiteColor setFill];
+	CGContextFillRect(context, dirtyRect);
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
