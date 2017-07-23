@@ -4,10 +4,12 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#if 0
 extern "C" {
 void CGContextSetFontSmoothingStyle(CGContextRef, int);
 CGBlendMode CGContextGetBlendMode(CGContextRef);
 }
+#endif
 
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
@@ -45,14 +47,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalLineView
 
-#if 0
 - (CALayer*)makeBackingLayer {
 	CALayer* layer = [super makeBackingLayer];
 	layer.backgroundColor = NSColor.whiteColor.CGColor;
-	layer.opaque = YES;
 	return layer;
 }
-#endif
 
 - (BOOL)isOpaque {
 	return YES;
@@ -68,16 +67,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
 	}]));
-	NSLog(@"%d", CGContextGetBlendMode(context));
-	[NSColor.whiteColor setFill];
-	CGContextFillRect(context, dirtyRect);
-	CGContextSetFontSmoothingStyle(context, 16);
-	CGContextSetAllowsFontSmoothing(context, true);
-	CGContextSetShouldSmoothFonts(context, true);
-	//CGContextSetAllowsAntialiasing(context, false);
-	CGContextSetShouldSubpixelQuantizeFonts(context, true);
-	CGContextSetAllowsFontSubpixelQuantization(context, true);
-
 	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
