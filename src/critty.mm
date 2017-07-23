@@ -158,6 +158,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds))];
 		NSLog(@"BBB %@", NSStringFromRect(_scrollView.contentView.bounds));
+		NSLog(@"BBB %@", NSStringFromRect(_contentView.bounds));
 		[self addSubview:_scrollView];
 
 #if 0
