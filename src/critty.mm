@@ -36,9 +36,19 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @interface TerminalLineView: NSView
 @property(nonatomic,strong) NSString* string;
+- (instancetype)initWithFrame:(NSRect)frameRect NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_UNAVAILABLE;
 @end
 
 @implementation TerminalLineView
+
+- (instancetype)initWithFrame:(NSRect)frameRect {
+	if ((self = [super initWithFrame:frameRect])) {
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+		self.layerContentsPlacement = NSViewLayerContentsPlacementBottomLeft;
+	}
+	return self;
+}
 
 - (BOOL)isOpaque {
 	return YES;
@@ -116,8 +126,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView.frame = lineRect;
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
-			lineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-			lineView.layerContentsPlacement = NSViewLayerContentsPlacementBottomRight;
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
 		lineView.string = [NSString stringWithFormat:@"%zu", firstLine + i];
