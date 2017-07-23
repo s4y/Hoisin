@@ -4,13 +4,6 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-#if 0
-extern "C" {
-void CGContextSetFontSmoothingStyle(CGContextRef, int);
-CGBlendMode CGContextGetBlendMode(CGContextRef);
-}
-#endif
-
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
@@ -124,7 +117,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 			lineView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-			lineView.layerContentsPlacement = NSViewLayerContentsPlacementBottomLeft;
+			lineView.layerContentsPlacement = NSViewLayerContentsPlacementBottomRight;
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
 		lineView.string = [NSString stringWithFormat:@"%zu", firstLine + i];
