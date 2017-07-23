@@ -156,7 +156,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
 		_scrollView.documentView = _contentView;
-		[_contentView scrollToBeginningOfDocument:nil];
+		[_scrollView scrollToBeginningOfDocument:nil];
 		NSLog(@"BBB %@", NSStringFromRect(_scrollView.contentView.bounds));
 		[self addSubview:_scrollView];
 
