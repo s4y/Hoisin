@@ -1,8 +1,16 @@
+#include "utf8/utf8.hpp"
+
 #include <math.h>
 #include <stdlib.h>
 
+#include <vector>
+
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
+
+class TerminalStorage {
+	std::vector<unsigned char> buf;
+};
 
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);

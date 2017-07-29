@@ -3,6 +3,7 @@
 -Wpedantic
 -Werror
 -Os
+-flto
 -framework AppKit
 -framework CoreGraphics
 -framework QuartzCore
