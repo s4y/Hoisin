@@ -3,7 +3,7 @@
 while make && (
 	git add . &&
 	git commit -m WIP
-	./critty
+	./critty "$@"
 ); do :; done
 
 #while :; do
