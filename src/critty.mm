@@ -256,7 +256,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	__weak id wq, wc;
+	__weak dispatch_queue_t wq;
+	__weak dispatch_io_t wc;
 
 	{
 		dispatch_queue_t queue =
@@ -280,6 +281,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	NSLog(@"!! %@ %@", wq, wc);
+	return 0;
 	sleep(5);
 	NSLog(@"%@ %@", wq, wc);
 
