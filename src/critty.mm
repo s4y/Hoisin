@@ -256,6 +256,9 @@ int main(int argc, char* argv[]) {
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
+				if (done || error) {
+					dispatch_io_close(channel, 0);
+				}
 				if (data) {
 					NSLog(@"%zu", dispatch_data_get_size(data));
 				}
