@@ -262,7 +262,7 @@ int main(int argc, char* argv[]) {
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
 			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){
-				NSLog(@"closed");
+				NSLog(@"closed %@", canary);
 			}
 		);
 		NSLog(@"Made: %@ and %@", queue, channel);
