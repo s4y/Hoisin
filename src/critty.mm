@@ -256,6 +256,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+	__weak id wq, wc;
+
 	{
 		Canary* canary = [Canary new];
 		dispatch_queue_t queue =
@@ -265,6 +267,8 @@ int main(int argc, char* argv[]) {
 				NSLog(@"closed %@", canary);
 			}
 		);
+		wq = queue;
+		wc = channel;
 		NSLog(@"Made: %@ and %@", queue, channel);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
@@ -278,6 +282,9 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
+
+	sleep(5);
+	NSLog(@"%@ %@", wq, wc);
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
