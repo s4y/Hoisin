@@ -255,6 +255,7 @@ int main(int argc, char* argv[]) {
 		dispatch_io_t channel = dispatch_io_create_with_path(
 			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){}
 		);
+		sleep(5);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
