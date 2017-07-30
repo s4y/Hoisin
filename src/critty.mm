@@ -209,43 +209,31 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
-class TerminalStorage {
-	std::vector<unsigned char> buf;
-};
+@interface TerminalStorage: NSObject
+@end
 
-class FileReader {
-	dispatch_queue_t queue =
-		dispatch_queue_create(nullptr, DISPATCH_QUEUE_SERIAL);
-	dispatch_io_t channel;
+@implementation TerminalStorage {
+	dispatch_queue_t queue_;
+	unsigned char* buf_;
+	size_t cap_;
+	size_t len_;
+}
 
-public:
-	FileReader(NSString* path, void (^cleanup_handler)(int error)) :
-		channel(dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM,
-			path.fileSystemRepresentation,
-			O_RDONLY,
-			0,
-			queue,
-			cleanup_handler
-		))
-	{
-		dispatch_io_read(channel, 0, SIZE_MAX, queue, ^(
-			bool done, dispatch_data_t data, int error
-		){
-			if (error) {
-				NSLog(@"error: %d", error);
-				return;
-			}
-			NSLog(@"Read %zu bytes on %@", dispatch_data_get_size(data), this->channel);
-		});
+- (instancetype)init {
+	if ((self = [super init])) {
+		queue_ = dispatch_queue_create(
+			[self class].description.UTF8String,
+			DISPATCH_QUEUE_SERIAL
+		);
+		cap_ = 1024*1024;
+		buf_ = static_cast<unsigned char*>(malloc(cap_));
 	}
-	FileReader(FileReader&&) = default;
-	FileReader(FileReader&) = delete;
-	~FileReader() {
-		dispatch_io_close(channel, DISPATCH_IO_STOP);
-		NSLog(@"Ded.");
-	}
-};
+	return self;
+}
+- (void)dealloc {
+	free(buf_);
+}
+@end
 
 int main(int argc, char* argv[]) {
 	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
@@ -259,9 +247,10 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	FileReader reader(@(argv[1]), ^(int error){
-		NSLog(@"No good: %d", error);
-	});
+	NSFileHandle* reader = [NSFileHandle fileHandleForReadingAtPath:@(argv[1])];
+	reader.readabilityHandler = ^(NSFileHandle* handle) {
+		NSLog(@"Got some data: %@", handle.availableData);
+	};
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
