@@ -257,7 +257,7 @@ int main(int argc, char* argv[]) {
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
 				if (data) {
-					NSLog(@"%@", data);
+					NSLog(@"%zu", dispatch_data_get_size(data));
 				}
 			}
 		);
