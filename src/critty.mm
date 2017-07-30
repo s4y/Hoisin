@@ -251,6 +251,7 @@ int main(int argc, char* argv[]) {
 	reader.readabilityHandler = ^(NSFileHandle* handle) {
 		NSLog(@"Got some data: %@", handle.availableData);
 	};
+	[reader readToEndOfFileInBackgroundAndNotify];
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
