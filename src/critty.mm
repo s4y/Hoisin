@@ -279,7 +279,7 @@ int main(int argc, char* argv[]) {
 		);
 	}
 
-	NSLog(@"%@ %@", wq, wc);
+	NSLog(@"!! %@ %@", wq, wc);
 	sleep(5);
 	NSLog(@"%@ %@", wq, wc);
 
