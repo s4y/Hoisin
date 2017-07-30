@@ -281,9 +281,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	NSLog(@"!! %@ %@", wq, wc);
-	return 0;
 	sleep(5);
 	NSLog(@"%@ %@", wq, wc);
+	return 0;
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
