@@ -8,10 +8,6 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-class TerminalStorage {
-	std::vector<unsigned char> buf;
-};
-
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
@@ -213,9 +209,45 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
-char tty[24][80] = {{0}};
+class TerminalStorage {
+	std::vector<unsigned char> buf;
+};
 
-int main() {
+class FileReader {
+	dispatch_queue_t queue =
+		dispatch_queue_create(nullptr, DISPATCH_QUEUE_SERIAL);
+	dispatch_io_t channel;
+
+public:
+	FileReader(NSString* path, void (^cleanup_handler)(int error)) :
+		channel(dispatch_io_create_with_path(
+			DISPATCH_IO_STREAM,
+			path.fileSystemRepresentation,
+			O_RDONLY,
+			0,
+			queue,
+			cleanup_handler
+		))
+	{
+		dispatch_io_read(channel, 0, SIZE_MAX, queue, ^(
+			bool done, dispatch_data_t data, int error
+		){
+			if (error) {
+				NSLog(@"error: %d", error);
+				return;
+			}
+			NSLog(@"Read %zu bytes on %@", dispatch_data_get_size(data), this->channel);
+		});
+	}
+	FileReader(FileReader&&) = default;
+	FileReader(FileReader&) = delete;
+	~FileReader() {
+		dispatch_io_close(channel, DISPATCH_IO_STOP);
+		NSLog(@"Ded.");
+	}
+};
+
+int main(int argc, char* argv[]) {
 	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
 
@@ -226,6 +258,10 @@ int main() {
 	[win center];
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
+
+	FileReader reader(@(argv[1]), ^(int error){
+		NSLog(@"No good: %d", error);
+	});
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
