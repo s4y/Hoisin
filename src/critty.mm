@@ -235,6 +235,15 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
+@interface Canary: NSObject
+@end
+
+@implementation Canary
+- (void)dealloc {
+	NSLog(@"%@ dead", self);
+}
+@end
+
 int main(int argc, char* argv[]) {
 	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
@@ -247,9 +256,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	sleep(5);
-	
 	{
+		Canary* canary = [Canary new];
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
@@ -258,7 +266,6 @@ int main(int argc, char* argv[]) {
 			}
 		);
 		NSLog(@"Made: %@ and %@", queue, channel);
-		sleep(5);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
@@ -266,7 +273,7 @@ int main(int argc, char* argv[]) {
 					dispatch_io_close(channel, 0);
 				}
 				if (data) {
-					NSLog(@"%zu", dispatch_data_get_size(data));
+					NSLog(@"%zu %@", dispatch_data_get_size(data), canary);
 				}
 			}
 		);
