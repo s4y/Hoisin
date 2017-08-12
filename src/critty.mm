@@ -147,6 +147,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalView {
+	id scrollObserver_;
 	NSScrollView* _scrollView;
 	TerminalContentView* _contentView;
 }
@@ -165,6 +166,17 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSLog(@"BBB %@", NSStringFromRect(_contentView.bounds));
 		NSLog(@"%@ %@", _contentView, _scrollView.contentView);;
 		[self addSubview:_scrollView];
+
+		CGFloat lineHeight = [self backingAlignedRect:NSMakeRect(
+			0, 0, 0, systemFontHeight
+		) options:NSAlignAllEdgesOutward].size.height;
+
+		NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+		[center addObserverForName:NSScrollViewDidEndLiveScrollNotification object:_scrollView queue:nil usingBlock:^(NSNotification* notification) {
+			CGFloat originY = _scrollView.contentView.bounds.origin.y;
+			originY = round(originY / lineHeight) * lineHeight;
+			[_scrollView.contentView.animator setBoundsOrigin:NSMakePoint(0, originY)];
+		}];
 
 #if 0
 		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
@@ -256,19 +268,12 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	__weak dispatch_queue_t wq;
-	__weak dispatch_io_t wc;
-
-	{
+	if (argc > 1) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){
-				NSLog(@"closed %@", queue);
-			}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){}
 		);
-		wq = queue;
-		wc = channel;
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
@@ -278,11 +283,6 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
-
-	NSLog(@"!! %@ %@", wq, wc);
-	sleep(5);
-	NSLog(@"%@ %@", wq, wc);
-	return 0;
 
 	auto app = [NSApplication sharedApplication];
 	auto appDelegate = [AppDelegate new];
