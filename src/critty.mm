@@ -217,6 +217,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 @end
 
+#define BUFGROW (1024 * 1024)
+
 @interface TerminalStorage: NSObject
 @end
 
@@ -233,22 +235,26 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			[self class].description.UTF8String,
 			DISPATCH_QUEUE_SERIAL
 		);
-		cap_ = 1024*1024;
-		buf_ = static_cast<unsigned char*>(malloc(cap_));
 	}
 	return self;
 }
 - (void)dealloc {
-	free(buf_);
+	dispatch_sync(queue_, ^{
+		free(buf_);
+	});
 }
-@end
 
-@interface Canary: NSObject
-@end
-
-@implementation Canary
-- (void)dealloc {
-	NSLog(@"%@ dead", self);
+- (void)appendData:(const void*)buf length:(size_t)len {
+	dispatch_sync(queue_, ^{
+		const size_t nlen = len_ + len;
+		if (nlen > cap_) {
+			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
+			NSLog(@"Realloc: %zu", cap_);
+			buf_ = (unsigned char*)realloc(buf_, cap_);
+		}
+		memcpy(buf_ + len_, buf, len);
+		len_ += len;
+	});
 }
 @end
 
@@ -264,6 +270,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+	TerminalStorage* storage = [[TerminalStorage alloc] init];
+
 	if (argc > 1) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
@@ -273,9 +281,17 @@ int main(int argc, char* argv[]) {
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
-				if (data) {
-					NSLog(@"%zu", dispatch_data_get_size(data));
-				}
+				if (!data)
+					return;
+				dispatch_data_apply(data, ^(
+					dispatch_data_t region,
+					size_t offset,
+					const void *buffer,
+					size_t size
+				){
+					[storage appendData:buffer length:size];
+					return true;
+				});
 			}
 		);
 	}
