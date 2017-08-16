@@ -111,6 +111,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)setString:(NSString*)string {
 	_string = string;
+	NSLog(@"set string: %@", _string);
 	self.needsDisplay = YES;
 }
 
