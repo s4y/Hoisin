@@ -201,7 +201,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSLog(@"GOGO %c %zu", buf[0], len);
 		// Ew, plz no change own frame.
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 10 * NSHeight([self lineRect]))];
+			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 100 * NSHeight([self lineRect]))];
 		});
 	}];
 }
@@ -219,7 +219,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), systemFontHeight * 1000000)];
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
