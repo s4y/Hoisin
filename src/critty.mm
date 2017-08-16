@@ -43,7 +43,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)readSync:(void(^)(unsigned char*, size_t))block {
-	dispatch_async(queue_, ^{
+	dispatch_sync(queue_, ^{
 		block(buf_, len_);
 	});
 }
