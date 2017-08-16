@@ -201,7 +201,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		NSLog(@"GOGO %c %zu", buf[0], len);
 		// Ew, plz no change own frame.
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 1000 * NSHeight([self lineRect]))];
+			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 100000 * NSHeight([self lineRect]))];
 		});
 	}];
 }
