@@ -11,8 +11,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 #define BUFGROW (1024 * 1024)
 
+@class TerminalStorage;
 @protocol TerminalStorageObserver
-- (void)terminalStorageBufferChanged:(unsigned char*)buf length:(size_t)length;
+- (void)terminalStorageChanged:(TerminalStorage*)storage;
 @end
 
 @interface TerminalStorage: NSObject
@@ -41,6 +42,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	});
 }
 
+- (void)read:(void(^)(unsigned char*, size_t))block {
+	dispatch_async(queue_, ^{
+		block(buf_, len_);
+	});
+}
+
 - (void)appendData:(const void*)buf length:(size_t)len {
 	dispatch_barrier_sync(queue_, ^{
 		const size_t nlen = len_ + len;
@@ -50,11 +57,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		}
 		memcpy(buf_ + len_, buf, len);
 		len_ += len;
-		id<TerminalStorageObserver> observer = self.observer;
-		if (observer) dispatch_async(queue_, ^{
-			[observer terminalStorageBufferChanged:buf_ length:len_];
-		});
 	});
+	[_observer terminalStorageChanged:self];
 }
 @end
 
@@ -145,10 +149,14 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[self prepareContentInRect:self.visibleRect];
 }
 
-- (void)prepareContentInRect:(const NSRect)rect {
-	NSRect lineRect = [self backingAlignedRect:NSMakeRect(
+- (NSRect)lineRect {
+	return [self backingAlignedRect:NSMakeRect(
 		0, 0, NSWidth(self.bounds), systemFontHeight
 	) options:NSAlignAllEdgesOutward];
+}
+
+- (void)prepareContentInRect:(const NSRect)rect {
+	NSRect lineRect = [self lineRect];
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
@@ -188,8 +196,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalStorageBufferChanged:(unsigned char*)buf length:(size_t)length {
-	NSLog(@"GOGO %c %zu", buf[0], length);
+- (void)terminalStorageChanged:(TerminalStorage*)storage {
+	[storage read:^(unsigned char* buf, size_t len) {
+		NSLog(@"GOGO %c %zu", buf[0], len);
+		// Ew, plz no change own frame.
+		[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 10 * NSHeight([self lineRect]))];
+	}];
 }
 
 @end
