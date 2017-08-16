@@ -46,7 +46,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		const size_t nlen = len_ + len;
 		if (nlen > cap_) {
 			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
-			NSLog(@"Realloc: %zu", cap_);
 			buf_ = (unsigned char*)realloc(buf_, cap_);
 		}
 		memcpy(buf_ + len_, buf, len);
