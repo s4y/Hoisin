@@ -249,9 +249,7 @@ int main(int argc, char* argv[]) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){
-				NSLog(@"storage: %@", storage);
-			}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){}
 		);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
