@@ -208,7 +208,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		// Ew, plz no change own frame.
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_storage = storage; // Ew.
-			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 100 * NSHeight([self lineRect]))];
+			[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(len / 100) * NSHeight([self lineRect]))];
 		});
 	}];
 }
