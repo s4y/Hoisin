@@ -191,7 +191,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		// Ew ew ew ew
 		[_storage readSync:^(unsigned char* buf, size_t len) {
 			(void)firstLine;
-			lineView.string = [[NSString alloc] initWithBytes:buf length:10 encoding:NSUTF8StringEncoding];
+			NSString* str = [[NSString alloc] initWithBytes:buf length:10 encoding:NSUTF8StringEncoding];
+			lineView.string = str ? str : @"<err>";
 		}];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
