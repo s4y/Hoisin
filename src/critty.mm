@@ -3,13 +3,61 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include <vector>
-
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
 NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
+
+#define BUFGROW (1024 * 1024)
+
+@protocol TerminalStorageObserver
+- (void)terminalStorageBufferChanged:(unsigned char*)buf length:(size_t)length;
+@end
+
+@interface TerminalStorage: NSObject
+@property (nonatomic,assign) id<TerminalStorageObserver> observer;
+@end
+
+@implementation TerminalStorage {
+	dispatch_queue_t queue_;
+	unsigned char* buf_;
+	size_t cap_;
+	size_t len_;
+}
+
+- (instancetype)init {
+	if ((self = [super init])) {
+		queue_ = dispatch_queue_create(
+			[self class].description.UTF8String,
+			DISPATCH_QUEUE_SERIAL
+		);
+	}
+	return self;
+}
+- (void)dealloc {
+	dispatch_sync(queue_, ^{
+		free(buf_);
+	});
+}
+
+- (void)appendData:(const void*)buf length:(size_t)len {
+	dispatch_barrier_sync(queue_, ^{
+		const size_t nlen = len_ + len;
+		if (nlen > cap_) {
+			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
+			NSLog(@"Realloc: %zu", cap_);
+			buf_ = (unsigned char*)realloc(buf_, cap_);
+		}
+		memcpy(buf_ + len_, buf, len);
+		len_ += len;
+		id<TerminalStorageObserver> observer = self.observer;
+		if (observer) dispatch_async(queue_, ^{
+			[observer terminalStorageBufferChanged:buf_ length:len_];
+		});
+	});
+}
+@end
 
 @interface ViewReusePool<__covariant ViewType:NSView*>: NSObject
 @property(nonatomic,strong) NSMutableArray<ViewType>* freeObjects;
@@ -77,13 +125,13 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @end
 
-@interface TerminalContentView: NSView {
+@interface TerminalContentView: NSView<TerminalStorageObserver>
+@end
+
+@implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
 }
-@end
-
-@implementation TerminalContentView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
@@ -141,15 +189,19 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[super prepareContentInRect:outRect];
 }
 
+- (void)terminalStorageBufferChanged:(unsigned char*)buf length:(size_t)length {
+	NSLog(@"GOGO %c %zu", buf[0], length);
+}
+
 @end
 
 @interface TerminalView: NSView<NSStreamDelegate>
+@property(readonly,nonatomic) TerminalContentView* contentView;
 @end
 
 @implementation TerminalView {
 	id scrollObserver_;
 	NSScrollView* _scrollView;
-	TerminalContentView* _contentView;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -162,48 +214,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		_scrollView.documentView = _contentView;
 		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		[self addSubview:_scrollView];
-
-		CGFloat lineHeight = [self backingAlignedRect:NSMakeRect(
-			0, 0, 0, systemFontHeight
-		) options:NSAlignAllEdgesOutward].size.height;
-
-		NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-		[center addObserverForName:NSScrollViewDidEndLiveScrollNotification object:_scrollView queue:nil usingBlock:^(NSNotification* notification) {
-			CGFloat originY = _scrollView.contentView.bounds.origin.y;
-			originY = round(originY / lineHeight) * lineHeight;
-			[_scrollView.contentView.animator setBoundsOrigin:NSMakePoint(0, originY)];
-		}];
-
-#if 0
-		_randle = [NSInputStream inputStreamWithFileAtPath:@"/Users/sidney/manylines.txt"];
-		_randle.delegate = self;
-		[_randle open];
-		[_randle scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-#endif
 	}
 	return self;
 }
-
-#if 0
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-	if (aStream != _randle) { abort(); }
-	switch (eventCode) {
-	case NSStreamEventHasBytesAvailable: {
-		uint8_t buf[8192];
-		NSUInteger len = [_randle read:buf maxLength:sizeof(buf)/sizeof(buf[0])];
-		NSData* data = [NSData dataWithBytesNoCopy:buf length:len freeWhenDone:NO];
-		_contentView.string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		//[_contentView scrollToEndOfDocument:nil];
-	} break;
-	case NSStreamEventEndEncountered:
-		[_randle close];
-		_randle = nil;
-		break;
-	default:
-		NSLog(@"unknown stream event: %tu", eventCode);
-	}
-}
-#endif
 
 @end
 
@@ -214,50 +227,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
 	return YES;
-}
-@end
-
-#define BUFGROW (1024 * 1024)
-
-@interface TerminalStorage: NSObject
-@property (copy, nonatomic) void (^onData)(const unsigned char*, size_t);
-@end
-
-@implementation TerminalStorage {
-	dispatch_queue_t queue_;
-	unsigned char* buf_;
-	size_t cap_;
-	size_t len_;
-}
-
-- (instancetype)init {
-	if ((self = [super init])) {
-		queue_ = dispatch_queue_create(
-			[self class].description.UTF8String,
-			DISPATCH_QUEUE_SERIAL
-		);
-	}
-	return self;
-}
-- (void)dealloc {
-	dispatch_sync(queue_, ^{
-		free(buf_);
-	});
-}
-
-- (void)appendData:(const void*)buf length:(size_t)len {
-	dispatch_barrier_sync(queue_, ^{
-		const size_t nlen = len_ + len;
-		if (nlen > cap_) {
-			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
-			NSLog(@"Realloc: %zu", cap_);
-			buf_ = (unsigned char*)realloc(buf_, cap_);
-		}
-		memcpy(buf_ + len_, buf, len);
-		len_ += len;
-		void (^onData)(const unsigned char*, size_t) = self.onData;
-		if (onData) dispatch_async(queue_, ^{ onData(buf_, len_); });
-	});
 }
 @end
 
@@ -274,9 +243,7 @@ int main(int argc, char* argv[]) {
 	[win makeKeyAndOrderFront:nil];
 
 	TerminalStorage* storage = [[TerminalStorage alloc] init];
-	storage.onData = ^(const unsigned char* buf, size_t len){
-		NSLog(@"Got data: %c", buf[0]);
-	};
+	storage.observer = terminalView.contentView;
 
 	if (argc > 1) {
 		dispatch_queue_t queue =
