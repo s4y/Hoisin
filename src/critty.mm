@@ -191,7 +191,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		// Ew ew ew ew
 		[_storage readSync:^(unsigned char* buf, size_t len) {
 			(void)firstLine;
-			NSString* str = [[NSString alloc] initWithBytes:buf + (10 * (firstLine + i)) length:10 encoding:NSUTF8StringEncoding];
+			NSString* str = [[NSString alloc] initWithBytes:buf + (100 * (firstLine + i)) length:100 encoding:NSUTF8StringEncoding];
 			lineView.string = str ? str : @"<err>";
 		}];
 		[_lineViews insertObject:lineView atIndex:i];
@@ -208,7 +208,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		// Ew, plz no change own frame.
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_storage = storage; // Ew.
-			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 10 * NSHeight([self lineRect]))];
+			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 100 * NSHeight([self lineRect]))];
 		});
 	}];
 }
