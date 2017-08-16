@@ -64,7 +64,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	NSLog(@"draw");
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
@@ -96,9 +95,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)setFrameSize:(NSSize)newSize {
 	[super setFrameSize:newSize];
-	NSLog(@"begin pcir");
 	[self prepareContentInRect:self.visibleRect];
-	NSLog(@"end pcir");
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
