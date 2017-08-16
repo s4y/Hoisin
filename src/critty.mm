@@ -64,6 +64,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+	NSLog(@"draw");
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.string, NSStringFromRect(self.frame)] attributes:@{
 		NSFontAttributeName: systemFont,
@@ -95,7 +96,9 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)setFrameSize:(NSSize)newSize {
 	[super setFrameSize:newSize];
+	NSLog(@"begin pcir");
 	[self prepareContentInRect:self.visibleRect];
+	NSLog(@"end pcir");
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
@@ -220,6 +223,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 #define BUFGROW (1024 * 1024)
 
 @interface TerminalStorage: NSObject
+@property (copy, nonatomic) void (^onData)(const unsigned char*, size_t);
 @end
 
 @implementation TerminalStorage {
@@ -245,7 +249,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)appendData:(const void*)buf length:(size_t)len {
-	dispatch_sync(queue_, ^{
+	dispatch_barrier_sync(queue_, ^{
 		const size_t nlen = len_ + len;
 		if (nlen > cap_) {
 			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
@@ -254,6 +258,8 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		}
 		memcpy(buf_ + len_, buf, len);
 		len_ += len;
+		void (^onData)(const unsigned char*, size_t) = self.onData;
+		if (onData) dispatch_async(queue_, ^{ onData(buf_, len_); });
 	});
 }
 @end
@@ -271,12 +277,17 @@ int main(int argc, char* argv[]) {
 	[win makeKeyAndOrderFront:nil];
 
 	TerminalStorage* storage = [[TerminalStorage alloc] init];
+	storage.onData = ^(const unsigned char* buf, size_t len){
+		NSLog(@"Got data: %c", buf[0]);
+	};
 
 	if (argc > 1) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){
+				NSLog(@"storage: %@", storage);
+			}
 		);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
