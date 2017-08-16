@@ -42,7 +42,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	});
 }
 
-- (void)read:(void(^)(unsigned char*, size_t))block {
+- (void)readSync:(void(^)(unsigned char*, size_t))block {
 	dispatch_async(queue_, ^{
 		block(buf_, len_);
 	});
@@ -134,6 +134,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
+	TerminalStorage* _storage;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -187,7 +188,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
-		lineView.string = [NSString stringWithFormat:@"%zu", firstLine + i];
+		// Ew ew ew ew
+		[_storage readSync:^(unsigned char* buf, size_t len) {
+			(void)firstLine;
+			lineView.string = [[NSString alloc] initWithBytes:buf length:10 encoding:NSUTF8StringEncoding];
+		}];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
@@ -197,10 +202,11 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 }
 
 - (void)terminalStorageChanged:(TerminalStorage*)storage {
-	[storage read:^(unsigned char* buf, size_t len) {
+	[storage readSync:^(unsigned char* buf, size_t len) {
 		NSLog(@"GOGO %c %zu", buf[0], len);
 		// Ew, plz no change own frame.
 		dispatch_async(dispatch_get_main_queue(), ^{
+			_storage = storage; // Ew.
 			[self setFrameSize:NSMakeSize(NSWidth(self.frame), len / 10 * NSHeight([self lineRect]))];
 		});
 	}];
