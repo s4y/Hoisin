@@ -13,7 +13,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @class TerminalStorage;
 @protocol TerminalStorageObserver
-- (void)terminalStorageChanged:(TerminalStorage*)storage;
+- (void)terminalStorageChanged:(TerminalStorage*)storage bytesAdded:(size_t)len;
 @end
 
 @interface TerminalStorage: NSObject
@@ -22,6 +22,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 @implementation TerminalStorage {
 	dispatch_queue_t queue_;
+	NSMutableData* _data;
 	unsigned char* buf_;
 	size_t cap_;
 	size_t len_;
@@ -58,8 +59,16 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 		memcpy(buf_ + len_, buf, len);
 		len_ += len;
 	});
-	[_observer terminalStorageChanged:self];
+	[_observer terminalStorageChanged:self bytesAdded:len];
 }
+@end
+
+@interface TerminalLineFilter: NSObject
+@end
+
+@implementation TerminalLineFilter {
+}
+
 @end
 
 @interface ViewReusePool<__covariant ViewType:NSView*>: NSObject
@@ -111,7 +120,6 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)setString:(NSString*)string {
 	_string = string;
-	NSLog(@"set string: %@", _string);
 	self.needsDisplay = YES;
 }
 
@@ -148,7 +156,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)setFrameSize:(NSSize)newSize {
 	[super setFrameSize:newSize];
-	[self prepareContentInRect:self.visibleRect];
+	[self prepareContentInRect:NSZeroRect];
 }
 
 - (NSRect)lineRect {
@@ -203,7 +211,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalStorageChanged:(TerminalStorage*)storage {
+- (void)terminalStorageChanged:(TerminalStorage*)storage bytesAdded:(size_t)len {
 	[storage readSync:^(unsigned char* buf, size_t len) {
 		NSLog(@"GOGO %c %zu", buf[0], len);
 		// Ew, plz no change own frame.
