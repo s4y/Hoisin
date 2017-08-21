@@ -1,8 +1,8 @@
-CXX = c++
-CXXFLAGS += $(shell cat flags)
+CC = cc
+CFLAGS += $(shell cat flags)
 
-SOURCES = $(wildcard src/**.mm)
+SOURCES = $(wildcard src/**.m)
 DEPS = $(wildcard src/**.h)
 
 critty: $(SOURCES) $(DEPS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES)
+	$(CC) $(CFLAGS) -o $@ $(SOURCES)

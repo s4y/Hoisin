@@ -1,4 +1,3 @@
--std=c++11
 -Wall
 -Wpedantic
 -Werror
@@ -9,4 +8,4 @@
 -framework QuartzCore
 -fobjc-arc
 -g
--x objective-c++
+-x objective-c

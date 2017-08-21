@@ -1,4 +1,4 @@
-#include "utf8/utf8.hpp"
+#include "utf8/utf8.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -6,14 +6,15 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-NSFont* const systemFont = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
-const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
+@interface TerminalStorageLine: NSObject
+@end
 
-#define BUFGROW (1024 * 1024)
+@implementation TerminalStorageLine
+@end
 
 @class TerminalStorage;
 @protocol TerminalStorageObserver
-- (void)terminalStorageChanged:(TerminalStorage*)storage bytesAdded:(size_t)len;
+- (void)terminalStorage:(TerminalStorage*)storage addedLines:(NSArray<TerminalStorageLine*>*)lines;
 @end
 
 @interface TerminalStorage: NSObject
@@ -21,54 +22,22 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @implementation TerminalStorage {
-	dispatch_queue_t queue_;
-	NSMutableData* _data;
-	unsigned char* buf_;
-	size_t cap_;
-	size_t len_;
+	// Consider saving the original data.
+	// NSMutableArray<dispatch_data_t>* _originalData;
+	NSMutableArray<TerminalStorageLine*>* _lines;
+	utf8_decode_context_t _utf8_decode_context;
 }
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		queue_ = dispatch_queue_create(
-			[self class].description.UTF8String,
-			DISPATCH_QUEUE_SERIAL
-		);
+		_lines = [NSMutableArray array];
 	}
 	return self;
 }
-- (void)dealloc {
-	dispatch_sync(queue_, ^{
-		free(buf_);
-	});
+
+- (void)append:(dispatch_data_t)data {
+	[_observer terminalStorage:self addedLines:@[]];
 }
-
-- (void)readSync:(void(^)(unsigned char*, size_t))block {
-	dispatch_sync(queue_, ^{
-		block(buf_, len_);
-	});
-}
-
-- (void)appendData:(const void*)buf length:(size_t)len {
-	dispatch_barrier_sync(queue_, ^{
-		const size_t nlen = len_ + len;
-		if (nlen > cap_) {
-			cap_ = nlen + BUFGROW - (nlen % BUFGROW);
-			buf_ = (unsigned char*)realloc(buf_, cap_);
-		}
-		memcpy(buf_ + len_, buf, len);
-		len_ += len;
-	});
-	[_observer terminalStorageChanged:self bytesAdded:len];
-}
-@end
-
-@interface TerminalLineFilter: NSObject
-@end
-
-@implementation TerminalLineFilter {
-}
-
 @end
 
 @interface ViewReusePool<__covariant ViewType:NSView*>: NSObject
@@ -99,6 +68,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 @interface TerminalLineView: NSView
+@property(nonatomic,strong) NSFont* font;
 @property(nonatomic,strong) NSString* string;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)aDecoder NS_UNAVAILABLE;
@@ -125,12 +95,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
-	CTLineRef line = CTLineCreateWithAttributedString(static_cast<CFAttributedStringRef>([[NSAttributedString alloc] initWithString:self.string ? self.string : @"<nil>" attributes:@{
-		NSFontAttributeName: systemFont,
+	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:self.string ? self.string : @"<nil>" attributes:@{
+		NSFontAttributeName: _font,
 	}]));
 	[NSColor.whiteColor setFill];
 	CGContextFillRect(context, dirtyRect);
-	CGContextSetTextPosition(context, 0, ceil(-systemFont.descender));
+	CGContextSetTextPosition(context, 0, ceil(-_font.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
 }
@@ -144,10 +114,12 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
 	TerminalStorage* _storage;
+	NSFont* _font;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
+		_font = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 		_lineViews = [NSMutableArray array];
 		_lineViewReusePool = [[ViewReusePool alloc] init];
 	}
@@ -161,7 +133,7 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 
 - (NSRect)lineRect {
 	return [self backingAlignedRect:NSMakeRect(
-		0, 0, NSWidth(self.bounds), systemFontHeight
+		0, 0, NSWidth(self.bounds), NSHeight(_font.boundingRectForFont)
 	) options:NSAlignAllEdgesOutward];
 }
 
@@ -197,12 +169,16 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 			lineView.autoresizingMask = NSViewWidthSizable;
 		}
+		lineView.font = _font;
+		(void)firstLine;
+#if 0
 		// Ew ew ew ew
 		[_storage readSync:^(unsigned char* buf, size_t len) {
 			(void)firstLine;
 			NSString* str = [NSString stringWithFormat:@"#%zu %@", firstLine + i, [[NSString alloc] initWithBytes:buf + (100 * (firstLine + i)) length:100 encoding:NSUTF8StringEncoding]];
 			lineView.string = str ? str : @"<err>";
 		}];
+#endif
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
@@ -211,15 +187,13 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalStorageChanged:(TerminalStorage*)storage bytesAdded:(size_t)len {
-	[storage readSync:^(unsigned char* buf, size_t len) {
-		NSLog(@"GOGO %c %zu", buf[0], len);
+- (void)terminalStorage:(TerminalStorage*)storage addedLines:(NSArray<TerminalStorageLine*>*)lines {
 		// Ew, plz no change own frame.
-		dispatch_async(dispatch_get_main_queue(), ^{
-			_storage = storage; // Ew.
-			[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(len / 100) * NSHeight([self lineRect]))];
-		});
-	}];
+		// dispatch_async(dispatch_get_main_queue(), ^{
+		// 	_storage = storage; // Ew.
+		// 	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(len / 100) * NSHeight([self lineRect]))];
+		// });
+	//}];
 }
 
 @end
@@ -260,10 +234,10 @@ const CGFloat systemFontHeight = NSHeight(systemFont.boundingRectForFont);
 @end
 
 int main(int argc, char* argv[]) {
-	auto win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
+	NSWindow* win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
 
-	auto terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
+	TerminalView* terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	[win.contentView addSubview:terminalView];
 
@@ -278,28 +252,20 @@ int main(int argc, char* argv[]) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int){}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
 		);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
 				if (!data)
 					return;
-				dispatch_data_apply(data, ^(
-					dispatch_data_t region,
-					size_t offset,
-					const void *buffer,
-					size_t size
-				){
-					[storage appendData:buffer length:size];
-					return true;
-				});
+				[storage append:data];
 			}
 		);
 	}
 
-	auto app = [NSApplication sharedApplication];
-	auto appDelegate = [AppDelegate new];
+	NSApplication* app = [NSApplication sharedApplication];
+	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
 	[app run];
