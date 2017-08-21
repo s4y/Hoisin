@@ -14,7 +14,7 @@
 
 @class TerminalStorage;
 @protocol TerminalStorageObserver
-- (void)terminalStorage:(TerminalStorage*)storage addedLines:(NSArray<TerminalStorageLine*>*)lines;
+- (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines;
 @end
 
 @interface TerminalStorage: NSObject
@@ -36,7 +36,7 @@
 }
 
 - (void)append:(dispatch_data_t)data {
-	[_observer terminalStorage:self addedLines:@[]];
+	[_observer terminalStorage:self changedLines:@[]];
 }
 @end
 
@@ -187,13 +187,11 @@
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalStorage:(TerminalStorage*)storage addedLines:(NSArray<TerminalStorageLine*>*)lines {
-		// Ew, plz no change own frame.
-		// dispatch_async(dispatch_get_main_queue(), ^{
-		// 	_storage = storage; // Ew.
-		// 	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(len / 100) * NSHeight([self lineRect]))];
-		// });
-	//}];
+- (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines {
+	// Ew, plz no change own frame.
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(lines.count) * NSHeight([self lineRect]))];
+	});
 }
 
 @end
