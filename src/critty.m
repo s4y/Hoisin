@@ -188,6 +188,7 @@
 }
 
 - (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines {
+	NSLog(@"Changed %zu lines.", lines.count);
 	// Ew, plz no change own frame.
 	dispatch_sync(dispatch_get_main_queue(), ^{
 		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(lines.count) * NSHeight([self lineRect]))];
