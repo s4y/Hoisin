@@ -36,6 +36,7 @@
 }
 
 - (void)append:(dispatch_data_t)data {
+	NSLog(@"Got some dataz: %@", data);
 	[_observer terminalStorage:self changedLines:@[]];
 }
 @end
