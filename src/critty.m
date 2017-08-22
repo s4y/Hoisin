@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -36,7 +37,7 @@
 }
 
 - (void)append:(dispatch_data_t)data {
-	dispatch_data_apply(data, ^bool (dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
+	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
 		return true;
 	});
 	[_observer terminalStorage:self changedLines:@[]];
