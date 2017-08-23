@@ -65,6 +65,7 @@
 		}
 		return true;
 	});
+	return;
 	NSLog(@"len: %zu good_length: %zu", _buf.len, good_length);
 	if (!good_length) {
 		// No whole codepoints, nothing to do.
