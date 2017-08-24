@@ -36,6 +36,7 @@
 	if ((self = [super init])) {
 		_lines = [NSMutableArray array];
 		_currentLine = -1;
+		tinybuf_init(&_buf);
 	}
 	return self;
 }
