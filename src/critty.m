@@ -10,7 +10,7 @@
 
 static const CGFloat kLineXMargin = 4;
 
-@interface TerminalStorageLine: NSObject
+@interface TerminalDocumentLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
 @property(readonly,nonatomic) size_t index;
 
@@ -18,7 +18,7 @@ static const CGFloat kLineXMargin = 4;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-@implementation TerminalStorageLine
+@implementation TerminalDocumentLine
 - (instancetype)initWithString:(NSString*)string index:(size_t)i {
 	if ((self = [super init])) {
 		if (!string) {
@@ -30,17 +30,19 @@ static const CGFloat kLineXMargin = 4;
 }
 @end
 
-@class TerminalStorage;
-@protocol TerminalStorageObserver
-- (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines;
+@class TerminalDocument;
+@protocol TerminalDocumentObserver
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines;
 @end
 
-@interface TerminalStorage: NSObject
-@property (nonatomic,assign) id<TerminalStorageObserver> observer;
-@property (readonly,nonatomic) NSMutableArray<TerminalStorageLine*>* lines;
+@interface TerminalDocument: NSObject
+@property (nonatomic,assign) id<TerminalDocumentObserver> observer;
+@property (nonatomic) size_t softWrapColumn;
+@property (readonly,nonatomic) NSMutableArray<TerminalDocumentLine*>* lines;
+@property (readonly,nonatomic) NSMutableArray<TerminalDocumentLine*>* softLines;
 @end
 
-@implementation TerminalStorage {
+@implementation TerminalDocument {
 	// Consider saving the original data.
 	// NSMutableArray<dispatch_data_t>* _originalData;
 	size_t _currentLine;
@@ -61,8 +63,24 @@ static const CGFloat kLineXMargin = 4;
 	tinybuf_free(&_buf);
 }
 
+#if 0
+- (NSArray<TerminalDocumentLine*>*)softWrapLine:(TerminalDocumentLine*)line
+									 startIndex:(size_t)i {
+	NSMutableArray* arr = [NSMutableArray array];
+	for (NSString* hunk in line) {
+	}
+}
+#endif
+
+- (void)setSoftWrapColumn:(size_t)softWrapColumn {
+	if (_softWrapColumn == softWrapColumn)
+		return;
+	_softWrapColumn = softWrapColumn;
+}
+
 - (void)append:(dispatch_data_t)data {
 	__block size_t good_length = 0;
+	// TODO: Use a queue to make safe, plz.
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
 		for (size_t i = 0; i < size; i++) {
 			utf8_decode(&_utf8_decode_context, ((unsigned char*)buffer)[i]);
@@ -86,7 +104,7 @@ static const CGFloat kLineXMargin = 4;
 	for (size_t i = 0, start = 0; i < good_length; i++) {
 		// TODO: Save in-progress line to an ivar.
 		if (i == good_length - 1 || _buf.buf[i] == '\n') {
-			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
+			[_lines addObject:[[TerminalDocumentLine alloc] initWithString:
 				[[NSString alloc] initWithBytes:_buf.buf + start
 										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32LittleEndianStringEncoding]
@@ -96,7 +114,7 @@ static const CGFloat kLineXMargin = 4;
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	[_observer terminalStorage:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
+	[_observer terminalDocument:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
 }
 @end
 
@@ -167,13 +185,13 @@ static const CGFloat kLineXMargin = 4;
 
 @end
 
-@interface TerminalContentView: NSView<TerminalStorageObserver>
+@interface TerminalContentView: NSView<TerminalDocumentObserver>
 @end
 
 @implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
-	TerminalStorage* _storage;
+	TerminalDocument* _document;
 	NSFont* _font;
 }
 
@@ -184,6 +202,11 @@ static const CGFloat kLineXMargin = 4;
 		_lineViewReusePool = [[ViewReusePool alloc] init];
 	}
 	return self;
+}
+
+- (void)viewWillDraw {
+	//[self prepareContentInRect:NSZeroRect];
+	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(_document.lines.count) * NSHeight([self lineRect]))];
 }
 
 - (void)setFrameSize:(NSSize)newSize {
@@ -230,10 +253,10 @@ static const CGFloat kLineXMargin = 4;
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
-		lineView.string = _storage.lines[_storage.lines.count - 1 - firstLine - i].string;
+		lineView.string = _document.lines[_document.lines.count - 1 - firstLine - i].string;
 #if 0
 		// Ew ew ew ew
-		[_storage readSync:^(unsigned char* buf, size_t len) {
+		[_document readSync:^(unsigned char* buf, size_t len) {
 			(void)firstLine;
 			NSString* str = [NSString stringWithFormat:@"#%zu %@", firstLine + i, [[NSString alloc] initWithBytes:buf + (100 * (firstLine + i)) length:100 encoding:NSUTF8StringEncoding]];
 			lineView.string = str ? str : @"<err>";
@@ -247,14 +270,15 @@ static const CGFloat kLineXMargin = 4;
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines {
-	// :(
-	_storage = storage;
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
+	_document = document; // :(
+	self.needsDisplay = YES;
 
+	return;
 	// Ew, plz no change own frame. Also plz no sync
 	dispatch_sync(dispatch_get_main_queue(), ^{
 		[self prepareContentInRect:NSZeroRect];
-		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(storage.lines.count) * NSHeight([self lineRect]))];
+		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(document.lines.count) * NSHeight([self lineRect]))];
 	});
 }
 
@@ -307,8 +331,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	TerminalStorage* storage = [[TerminalStorage alloc] init];
-	storage.observer = terminalView.contentView;
+	TerminalDocument* document = [[TerminalDocument alloc] init];
+	document.observer = terminalView.contentView;
 
 	if (argc > 1) {
 		dispatch_queue_t queue =
@@ -321,7 +345,7 @@ int main(int argc, char* argv[]) {
 			^(bool done, dispatch_data_t data, int error){
 				if (!data)
 					return;
-				[storage append:data];
+				[document append:data];
 			}
 		);
 	}
