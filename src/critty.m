@@ -269,7 +269,7 @@
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(4, 0, NSWidth(self.bounds) - 8, 0)];
 		_contentView.autoresizingMask = NSViewWidthSizable;
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
