@@ -89,6 +89,7 @@
 										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32LittleEndianStringEncoding]
 			index:_lines.count]];
+			i++; // Skip the \n
 			start = i;
 		}
 	}
