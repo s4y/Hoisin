@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string.h>
 
 #define TINYBUF_GROW 1024
 
@@ -26,4 +27,15 @@ static inline void tinybuf_append(tinybuf_t* tbuf, uint32_t val) {
 		tbuf->buf = realloc(tbuf->buf, tbuf->cap * sizeof(uint32_t));
 	}
 	tbuf->buf[tbuf->len++] = val;
+}
+
+static inline void tinybuf_delete_front(tinybuf_t* tbuf, size_t count) {
+	const size_t delbytes = count * sizeof(uint32_t);
+	memmove(tbuf->buf, tbuf->buf + delbytes, delbytes);
+	tbuf->len -= count;
+	size_t newcap = tbuf->len + (TINYBUF_GROW - tbuf->len % TINYBUF_GROW);
+	if (newcap != tbuf->cap) {
+		tbuf->cap = newcap;
+		tbuf->buf = realloc(tbuf->buf, tbuf->cap * sizeof(uint32_t));
+	}
 }

@@ -87,7 +87,8 @@
 			start = i;
 		}
 	}
-	NSLog(@"last line: %@ (len: %zu)", _lines.lastObject, _lines.count);
+	tinybuf_delete_front(&_buf, good_length);
+	NSLog(@"last line: %@ (len: %zu), buf left: %zu", _lines.lastObject, _lines.count, _buf.len);
 	[_observer terminalStorage:self changedLines:@[]];
 }
 @end
