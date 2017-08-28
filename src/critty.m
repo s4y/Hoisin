@@ -218,7 +218,7 @@
 				continue;
 			}
 		}
-		if (NSMinY(lineRect) > NSMaxY(outRect)) {
+		if (NSMinY(lineRect) >= NSMaxY(outRect)) {
 			break;
 		}
 		TerminalLineView* lineView = [_lineViewReusePool getObject];
