@@ -19,6 +19,9 @@
 @implementation TerminalStorageLine
 - (instancetype)initWithString:(NSString*)string index:(size_t)i {
 	if ((self = [super init])) {
+		if (!_string) {
+			abort();
+		}
 		_string = string;
 	}
 	return self;
