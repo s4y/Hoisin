@@ -229,7 +229,7 @@
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
-		lineView.string = _storage.lines[firstLine + i].string;
+		lineView.string = _storage.lines[_storage.lines.count - firstLine - i].string;
 #if 0
 		// Ew ew ew ew
 		[_storage readSync:^(unsigned char* buf, size_t len) {
