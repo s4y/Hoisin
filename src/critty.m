@@ -272,7 +272,9 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	_document = document; // :(
-	self.needsDisplay = YES;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.needsDisplay = YES;
+	});
 
 	return;
 	// Ew, plz no change own frame. Also plz no sync
