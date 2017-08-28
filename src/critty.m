@@ -80,7 +80,6 @@
 		}
 		return true;
 	});
-	NSLog(@"len: %zu good_length: %zu", _buf.len, good_length);
 	size_t oldcount = _lines.count;
 	for (size_t i = 0, start = 0; i < good_length; i++) {
 		// TODO: Save in-progress line to an ivar.
@@ -94,7 +93,6 @@
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	NSLog(@"last line: %@ (len: %zu), buf left: %zu", _lines.lastObject, _lines.count, _buf.len);
 	[_observer terminalStorage:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
 }
 @end
