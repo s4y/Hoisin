@@ -250,7 +250,7 @@
 	_storage = storage;
 
 	// Ew, plz no change own frame.
-	dispatch_sync(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_main_queue(), ^{
 		[self prepareContentInRect:NSZeroRect];
 		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(storage.lines.count) * NSHeight([self lineRect]))];
 	});
