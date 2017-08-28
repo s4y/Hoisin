@@ -9,9 +9,19 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface TerminalStorageLine: NSObject
+@property(nonatomic,strong,readonly) NSString* string;
+
+- (instancetype)initWithString:(NSString*)string NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 @end
 
 @implementation TerminalStorageLine
+- (instancetype)initWithString:(NSString*)string {
+	if ((self = [super init])) {
+		_string = string;
+	}
+	return self;
+}
 @end
 
 @class TerminalStorage;
@@ -67,15 +77,17 @@
 		return true;
 	});
 	NSLog(@"len: %zu good_length: %zu", _buf.len, good_length);
-	return;
-	if (!good_length) {
-		// No whole codepoints, nothing to do.
-		return;
+	for (size_t i = 0, start = 0; i < good_length; i++) {
+		// TODO: Save in-progress line to an ivar.
+		if (i == good_length - 1 || _buf.buf[i] == '\n') {
+			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
+				[[NSString alloc] initWithBytes:_buf.buf + i - 1
+										 length:i - start
+									   encoding:NSUTF32StringEncoding]]];
+			start = i;
+		}
 	}
-	for (size_t i = 0; i < good_length; i++) {
-	}
-
-
+	NSLog(@"linez: %@", _lines);
 	[_observer terminalStorage:self changedLines:@[]];
 }
 @end
