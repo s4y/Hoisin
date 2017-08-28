@@ -87,7 +87,7 @@
 			start = i;
 		}
 	}
-	NSLog(@"linez: %@", _lines);
+	NSLog(@"last line: %@ (len: %zu)", _lines.lastObject, _lines.count);
 	[_observer terminalStorage:self changedLines:@[]];
 }
 @end
