@@ -32,12 +32,12 @@
 
 @interface TerminalStorage: NSObject
 @property (nonatomic,assign) id<TerminalStorageObserver> observer;
+@property (readonly,nonatomic) NSMutableArray<TerminalStorageLine*>* lines;
 @end
 
 @implementation TerminalStorage {
 	// Consider saving the original data.
 	// NSMutableArray<dispatch_data_t>* _originalData;
-	NSMutableArray<TerminalStorageLine*>* _lines;
 	size_t _currentLine;
 	tinybuf_t _buf;
 	utf8_decode_context_t _utf8_decode_context;
@@ -244,10 +244,9 @@
 }
 
 - (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines {
-	NSLog(@"Changed %zu lines.", lines.count);
 	// Ew, plz no change own frame.
 	dispatch_sync(dispatch_get_main_queue(), ^{
-		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(lines.count) * NSHeight([self lineRect]))];
+		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(storage.lines.count) * NSHeight([self lineRect]))];
 	});
 }
 
