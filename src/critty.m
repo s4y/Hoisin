@@ -87,7 +87,7 @@
 		if (i == good_length - 1 || _buf.buf[i] == '\n') {
 			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
 				[[NSString alloc] initWithBytes:_buf.buf + i - 1
-										 length:i - start
+										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32StringEncoding]
 			index:_lines.count]];
 			start = i;
