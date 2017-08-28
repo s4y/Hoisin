@@ -244,6 +244,9 @@
 }
 
 - (void)terminalStorage:(TerminalStorage*)storage changedLines:(NSArray<TerminalStorageLine*>*)lines {
+	// :(
+	_storage = storage;
+
 	// Ew, plz no change own frame.
 	dispatch_sync(dispatch_get_main_queue(), ^{
 		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(storage.lines.count) * NSHeight([self lineRect]))];
