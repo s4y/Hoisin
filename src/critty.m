@@ -224,8 +224,8 @@
 		} else {
 			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 			lineView.autoresizingMask = NSViewWidthSizable;
+			lineView.font = _font;
 		}
-		lineView.font = _font;
 		lineView.string = _storage.lines[firstLine + i].string;
 #if 0
 		// Ew ew ew ew
