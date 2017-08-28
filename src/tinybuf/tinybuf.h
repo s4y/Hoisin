@@ -31,7 +31,7 @@ static inline void tinybuf_append(tinybuf_t* tbuf, uint32_t val) {
 
 static inline void tinybuf_delete_front(tinybuf_t* tbuf, size_t count) {
 	const size_t delbytes = count * sizeof(uint32_t);
-	memmove(tbuf->buf, tbuf->buf + delbytes, delbytes);
+	memmove(tbuf->buf, tbuf->buf + count, delbytes);
 	tbuf->len -= count;
 	size_t newcap = tbuf->len + (TINYBUF_GROW - tbuf->len % TINYBUF_GROW);
 	if (newcap != tbuf->cap) {
