@@ -92,7 +92,7 @@
 	}
 	tinybuf_delete_front(&_buf, good_length);
 	NSLog(@"last line: %@ (len: %zu), buf left: %zu", _lines.lastObject, _lines.count, _buf.len);
-	[_observer terminalStorage:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-1)]];
+	[_observer terminalStorage:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-2)]];
 }
 @end
 
