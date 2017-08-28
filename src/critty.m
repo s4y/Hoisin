@@ -187,7 +187,7 @@
 
 - (void)setFrameSize:(NSSize)newSize {
 	[super setFrameSize:newSize];
-	[self prepareContentInRect:NSZeroRect];
+	[self prepareContentInRect:self.bounds];
 }
 
 - (NSRect)lineRect {
