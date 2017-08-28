@@ -273,6 +273,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	_document = document; // :(
+	NSLog(@"gogogo");
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.needsDisplay = YES;
 	});
