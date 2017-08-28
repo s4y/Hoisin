@@ -49,8 +49,8 @@
 	__block size_t good_length = 0;
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
 		for (size_t i = 0; i < size; i++) {
-			return true;
 			utf8_decode(&_utf8_decode_context, ((unsigned char*)buffer)[i]);
+			return true;
 			switch (_utf8_decode_context.state) {
 				case UTF8_OK:
 					tinybuf_append(&_buf, _utf8_decode_context.codepoint);
