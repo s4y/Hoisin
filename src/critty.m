@@ -206,6 +206,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)viewWillDraw {
 	//[self prepareContentInRect:NSZeroRect];
+	NSLog(@"viewWillDraw");
 	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(_document.lines.count) * NSHeight([self lineRect]))];
 }
 
