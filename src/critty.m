@@ -9,14 +9,15 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface TerminalStorageLine: NSObject
-@property(nonatomic,strong,readonly) NSString* string;
+@property(readonly,nonatomic,strong) NSString* string;
+@property(readonly,nonatomic) size_t index;
 
-- (instancetype)initWithString:(NSString*)string NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString*)string index:(size_t)i NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
 @implementation TerminalStorageLine
-- (instancetype)initWithString:(NSString*)string {
+- (instancetype)initWithString:(NSString*)string index:(size_t)i {
 	if ((self = [super init])) {
 		_string = string;
 	}
@@ -83,7 +84,8 @@
 			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
 				[[NSString alloc] initWithBytes:_buf.buf + i - 1
 										 length:i - start
-									   encoding:NSUTF32StringEncoding]]];
+									   encoding:NSUTF32StringEncoding]
+			index:_lines.count]];
 			start = i;
 		}
 	}
