@@ -210,6 +210,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)setFrameSize:(NSSize)newSize {
+	NSLog(@"setFrameSize: %@", NSStringFromSize(newSize));
 	[super setFrameSize:newSize];
 	[self prepareContentInRect:self.visibleRect];
 }
