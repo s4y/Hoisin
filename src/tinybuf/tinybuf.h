@@ -23,8 +23,7 @@ static inline void tinybuf_free(tinybuf_t* tbuf) {
 static inline void tinybuf_append(tinybuf_t* tbuf, uint32_t val) {
 	if (tbuf->len == tbuf->cap) {
 		tbuf->cap += TINYBUF_GROW;
-		tbuf->buf = realloc(tbuf->buf, tbuf->cap);
+		tbuf->buf = realloc(tbuf->buf, tbuf->cap * sizeof(uint32_t));
 	}
 	tbuf->buf[tbuf->len] = val;
-	tbuf->len += sizeof(uint32_t);
 }
