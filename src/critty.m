@@ -210,6 +210,10 @@ static const CGFloat kLineXMargin = 4;
 	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(_document.lines.count) * NSHeight([self lineRect]))];
 }
 
+- (void)drawRect:(NSRect)rect {
+	NSLog(@"drawRect");
+}
+
 - (void)setFrameSize:(NSSize)newSize {
 	NSLog(@"setFrameSize: %@", NSStringFromSize(newSize));
 	[super setFrameSize:newSize];
