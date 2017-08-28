@@ -8,6 +8,8 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+static const CGFloat kLineXMargin = 4;
+
 @interface TerminalStorageLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
 @property(readonly,nonatomic) size_t index;
@@ -190,9 +192,9 @@
 }
 
 - (NSRect)lineRect {
-	return [self backingAlignedRect:NSMakeRect(
-		4, 0, NSWidth(self.bounds) - 8, NSHeight(_font.boundingRectForFont)
-	) options:NSAlignAllEdgesOutward];
+	return [self backingAlignedRect:NSInsetRect(NSMakeRect(
+		0, 0, NSWidth(self.bounds) - 8, NSHeight(_font.boundingRectForFont)
+	), kLineXMargin, 0) options:NSAlignAllEdgesOutward];
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
