@@ -88,7 +88,7 @@
 			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
 				[[NSString alloc] initWithBytes:_buf.buf + start
 										 length:(i - start) * sizeof(_buf.buf[0])
-									   encoding:NSUTF32StringEncoding]
+									   encoding:NSUTF32LittleEndianStringEncoding]
 			index:_lines.count]];
 			start = i;
 		}
