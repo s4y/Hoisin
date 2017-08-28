@@ -86,7 +86,7 @@
 		// TODO: Save in-progress line to an ivar.
 		if (i == good_length - 1 || _buf.buf[i] == '\n') {
 			[_lines addObject:[[TerminalStorageLine alloc] initWithString:
-				[[NSString alloc] initWithBytes:_buf.buf + i
+				[[NSString alloc] initWithBytes:_buf.buf + start
 										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32LittleEndianStringEncoding]
 			index:_lines.count]];
