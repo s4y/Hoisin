@@ -298,7 +298,7 @@ static const CGFloat kLineXMargin = 4;
 		_scrollView.hasVerticalScroller = YES;
 		_scrollView.documentView = _contentView;
 		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
-		//[self addSubview:_scrollView];
+		[self addSubview:_scrollView];
 	}
 	return self;
 }
