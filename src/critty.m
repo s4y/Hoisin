@@ -311,6 +311,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)setNeedsDisplay:(BOOL)display {
+	NSLog(@"needsdisplay: %d", display);
 	super.needsDisplay = display;
 }
 
