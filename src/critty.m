@@ -324,8 +324,8 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"the lines done changed");
 	dispatch_async(dispatch_get_main_queue(), ^{
+		NSLog(@"the lines done changed");
 		// TODO: Only redraw what needs to be redrawn.
 		self.needsDisplay = YES;
 	});
