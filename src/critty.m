@@ -36,15 +36,16 @@ static const CGFloat kLineXMargin = 4;
 @end
 
 @interface TerminalDocument: NSObject
-@property (nonatomic,assign) id<TerminalDocumentObserver> observer;
+@property (nonatomic,weak) id<TerminalDocumentObserver> observer;
 @property (nonatomic) size_t softWrapColumn;
-@property (readonly,nonatomic) NSMutableArray<TerminalDocumentLine*>* lines;
-@property (readonly,nonatomic) NSMutableArray<TerminalDocumentLine*>* softLines;
 @end
 
 @implementation TerminalDocument {
 	// Consider saving the original data.
 	// NSMutableArray<dispatch_data_t>* _originalData;
+	NSMutableArray<TerminalDocumentLine*>* _lines;
+	NSMutableArray<TerminalDocumentLine*>* _softLines;
+	dispatch_queue_t _queue;
 	size_t _currentLine;
 	tinybuf_t _buf;
 	utf8_decode_context_t _utf8_decode_context;
@@ -52,6 +53,10 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)init {
 	if ((self = [super init])) {
+		_queue = dispatch_queue_create(
+			self.class.className.UTF8String,
+			DISPATCH_QUEUE_CONCURRENT
+		);
 		_lines = [NSMutableArray array];
 		_currentLine = -1;
 		tinybuf_init(&_buf);
@@ -61,6 +66,10 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)dealloc {
 	tinybuf_free(&_buf);
+}
+
+- (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
+	dispatch_sync(_queue, ^{ block(_lines); });
 }
 
 #if 0
@@ -79,6 +88,10 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)append:(dispatch_data_t)data {
+	dispatch_barrier_async(_queue, ^{ [self _append:data]; });
+}
+
+- (void)_append:(dispatch_data_t)data {
 	__block size_t good_length = 0;
 	// TODO: Use a queue to make safe, plz.
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
@@ -109,7 +122,7 @@ static const CGFloat kLineXMargin = 4;
 										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32LittleEndianStringEncoding]
 			index:_lines.count]];
-			i++; // Skip the \n
+			i++; // Skip the '\n'
 			start = i;
 		}
 	}
@@ -185,13 +198,17 @@ static const CGFloat kLineXMargin = 4;
 
 @end
 
-@interface TerminalContentView: NSView<TerminalDocumentObserver>
+@protocol TerminalContentViewDataSource
+- (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block;
+@end
+
+@interface TerminalContentView: NSView
+@property(nonatomic) id<TerminalContentViewDataSource> dataSource;
 @end
 
 @implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
-	TerminalDocument* _document;
 	NSFont* _font;
 }
 
@@ -204,22 +221,6 @@ static const CGFloat kLineXMargin = 4;
 	return self;
 }
 
-- (void)viewWillDraw {
-	//[self prepareContentInRect:NSZeroRect];
-	NSLog(@"viewWillDraw");
-	[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(_document.lines.count) * NSHeight([self lineRect]))];
-}
-
-- (void)drawRect:(NSRect)rect {
-	NSLog(@"drawRect");
-}
-
-- (void)setFrameSize:(NSSize)newSize {
-	NSLog(@"setFrameSize: %@", NSStringFromSize(newSize));
-	[super setFrameSize:newSize];
-	[self prepareContentInRect:self.visibleRect];
-}
-
 - (NSRect)lineRect {
 	return [self backingAlignedRect:NSInsetRect(NSMakeRect(
 		0, 0, NSWidth(self.bounds) - 8, NSHeight(_font.boundingRectForFont)
@@ -227,6 +228,12 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
+	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
+		 [self _prepareContentInRect:rect withLines:lines];
+	}];
+}
+
+- (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
 	NSRect lineRect = [self lineRect];
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
@@ -259,15 +266,7 @@ static const CGFloat kLineXMargin = 4;
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
-		lineView.string = _document.lines[_document.lines.count - 1 - firstLine - i].string;
-#if 0
-		// Ew ew ew ew
-		[_document readSync:^(unsigned char* buf, size_t len) {
-			(void)firstLine;
-			NSString* str = [NSString stringWithFormat:@"#%zu %@", firstLine + i, [[NSString alloc] initWithBytes:buf + (100 * (firstLine + i)) length:100 encoding:NSUTF8StringEncoding]];
-			lineView.string = str ? str : @"<err>";
-		}];
-#endif
+		lineView.string = lines[lines.count - 1 - firstLine - i].string;
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
@@ -276,29 +275,17 @@ static const CGFloat kLineXMargin = 4;
 	[super prepareContentInRect:outRect];
 }
 
-- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	_document = document; // :(
-	NSLog(@"gogogo");
-	dispatch_async(dispatch_get_main_queue(), ^{
-		self.needsDisplay = YES;
-	});
-
-	return;
-	// Ew, plz no change own frame. Also plz no sync
-	dispatch_sync(dispatch_get_main_queue(), ^{
-		[self prepareContentInRect:NSZeroRect];
-		[self setFrameSize:NSMakeSize(NSWidth(self.frame), ceil(document.lines.count) * NSHeight([self lineRect]))];
-	});
-}
-
 @end
 
-@interface TerminalView: NSView<NSStreamDelegate>
+@interface TerminalDocument(TerminalContentViewDataSource) <TerminalContentViewDataSource>
+@end
+
+@interface TerminalView: NSView<NSStreamDelegate, TerminalDocumentObserver>
 @property(readonly,nonatomic) TerminalContentView* contentView;
+@property(nonatomic,strong) TerminalDocument* document;
 @end
 
 @implementation TerminalView {
-	id scrollObserver_;
 	NSScrollView* _scrollView;
 }
 
@@ -314,6 +301,32 @@ static const CGFloat kLineXMargin = 4;
 		[self addSubview:_scrollView];
 	}
 	return self;
+}
+
+- (void)setDocument:(TerminalDocument*)document {
+	_document.observer = nil;
+	document.observer = self;
+	_document = document;
+	_contentView.dataSource = document;
+}
+
+- (void)viewWillDraw {
+	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
+		[_contentView setFrameSize:NSMakeSize(
+			NSWidth(self.frame),
+			// TODO: Thread safety
+			lines.count * NSHeight(_contentView.lineRect)
+		)];
+	}];
+	[_contentView prepareContentInRect:NSZeroRect];
+	[super viewWillDraw];
+}
+
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		// TODO: Only redraw what needs to be redrawn.
+		self.needsDisplay = YES;
+	});
 }
 
 @end
@@ -341,13 +354,15 @@ int main(int argc, char* argv[]) {
 	[win makeKeyAndOrderFront:nil];
 
 	TerminalDocument* document = [[TerminalDocument alloc] init];
-	document.observer = terminalView.contentView;
+	terminalView.document = document;
 
 	if (argc > 1) {
 		dispatch_queue_t queue =
 			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){
+				exit(0);
+			}
 		);
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
