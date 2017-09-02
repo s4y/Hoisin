@@ -330,7 +330,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	NSLog(@"drawRect %@", [self performSelector:@selector(_needsViewWillDraw)]);
+	NSLog(@"drawRect %d", (BOOL)[self performSelector:@selector(_needsViewWillDraw)]);
 	[super drawRect:dirtyRect];
 }
 
