@@ -180,7 +180,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)setLine:(TerminalDocumentLine*)line {
-	if (_line != line)
+	if (_line == line)
 		return;
 	_line = line;
 	self.needsDisplay = YES;
@@ -320,7 +320,6 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)viewWillDraw {
-	NSLog(@"go go gadget draw something plz");
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
