@@ -334,6 +334,10 @@ static const CGFloat kLineXMargin = 4;
 	[super viewWillDraw];
 }
 
+- (void)drawRect:(NSRect)dirtyRect {
+	NSLog(@"drawRect");
+}
+
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@"the lines done changed");
