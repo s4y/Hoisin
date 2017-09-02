@@ -176,7 +176,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (BOOL)isOpaque {
-	return NO;
+	return YES;
 }
 
 - (void)setString:(NSString*)string {
@@ -313,6 +313,10 @@ static const CGFloat kLineXMargin = 4;
 - (void)setNeedsDisplay:(BOOL)display {
 	NSLog(@"needsdisplay: %d", display);
 	super.needsDisplay = display;
+}
+
+- (void)displayIfNeeded {
+	NSLog(@"DiN");
 }
 
 - (void)viewWillDraw {
