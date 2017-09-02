@@ -312,11 +312,6 @@ static const CGFloat kLineXMargin = 4;
 	_contentView.dataSource = document;
 }
 
-- (void)setNeedsDisplay:(BOOL)display {
-	NSLog(@"needsdisplay: %d", display);
-	super.needsDisplay = display;
-}
-
 - (void)displayIfNeeded {
 	NSLog(@"DiN");
 }
