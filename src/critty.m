@@ -356,7 +356,7 @@ static const CGFloat kLineXMargin = 4;
 
 int main(int argc, char* argv[]) {
 	NSWindow* win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
-	//win.contentView.wantsLayer = YES;
+	win.contentView.wantsLayer = YES;
 
 	TerminalView* terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
