@@ -160,7 +160,7 @@ static const CGFloat kLineXMargin = 4;
 
 @interface TerminalLineView: NSView
 @property(nonatomic,strong) NSFont* font;
-@property(nonatomic,strong) NSString* string;
+@property(nonatomic,strong) TerminalDocumentLine* line;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)aDecoder NS_UNAVAILABLE;
 @end
@@ -179,14 +179,17 @@ static const CGFloat kLineXMargin = 4;
 	return YES;
 }
 
-- (void)setString:(NSString*)string {
-	_string = string;
+- (void)setLine:(TerminalDocumentLine*)line {
+	if (_line != line)
+		return;
+	_line = line;
 	self.needsDisplay = YES;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
-	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:self.string ? self.string : @"<nil>" attributes:@{
+	NSString* string = _line.string;
+	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:string ? string : @"<nil>" attributes:@{
 		NSFontAttributeName: _font,
 	}]));
 	[NSColor.whiteColor setFill];
@@ -266,13 +269,19 @@ static const CGFloat kLineXMargin = 4;
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
-		lineView.string = lines[lines.count - 1 - firstLine - i].string;
+		lineView.line = lines[lines.count - 1 - firstLine - i];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
 		i += 1;
 	}
 	[super prepareContentInRect:outRect];
+}
+
+- (void)invalidateChangedLines:(NSArray<TerminalDocumentLine*>*)lines {
+	for (TerminalLineView* lineView in _lineViews) {
+		lineView.line = lines[lineView.line.index];
+	}
 }
 
 @end
@@ -318,6 +327,7 @@ static const CGFloat kLineXMargin = 4;
 			// TODO: Thread safety
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
+		[_contentView invalidateChangedLines:lines];
 	}];
 	[super viewWillDraw];
 }
