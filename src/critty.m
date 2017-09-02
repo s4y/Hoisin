@@ -271,9 +271,6 @@ static const CGFloat kLineXMargin = 4;
 			lineView.font = _font;
 		}
 		lineView.line = lines[lines.count - 1 - firstLine - i];
-		if (lineView.line.index != firstLine + i) {
-			NSLog(@"!! MISMATCH: Assigning line at index %zu, line %@, index %zu", firstLine + i, lineView.line, lineView.line.index);
-		}
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
