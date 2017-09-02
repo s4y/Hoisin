@@ -291,16 +291,14 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		//_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
-		//_contentView.autoresizingMask = NSViewWidthSizable;
-		//_scrollView = [[NSScrollView alloc] initWithFrame:NSInsetRect(self.bounds, 1, 1)];
-		//_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		//_scrollView.hasVerticalScroller = YES;
-		//_scrollView.documentView = _contentView;
-		//[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
-		////[self addSubview:_scrollView];
-		self.wantsLayer = YES;
-		self.layer.backgroundColor = NSColor.greenColor.CGColor;
+		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
+		_contentView.autoresizingMask = NSViewWidthSizable;
+		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
+		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		_scrollView.hasVerticalScroller = YES;
+		_scrollView.documentView = _contentView;
+		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
+		[self addSubview:_scrollView];
 	}
 	return self;
 }
@@ -312,13 +310,13 @@ static const CGFloat kLineXMargin = 4;
 	_contentView.dataSource = document;
 }
 
-- (void)displayIfNeeded {
-	NSLog(@"DiN");
+- (void)setNeedsDisplay:(BOOL)display {
+	NSLog(@"needsdisplay: %d", display);
+	super.needsDisplay = display;
 }
 
 - (void)viewWillDraw {
 	NSLog(@"go go gadget draw something plz");
-	return;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
@@ -363,7 +361,6 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-#if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.document = document;
 
@@ -382,7 +379,6 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
-#endif
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
