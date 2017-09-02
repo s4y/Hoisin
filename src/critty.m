@@ -371,6 +371,7 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+#if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.document = document;
 
@@ -389,6 +390,7 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
+#endif
 
 	NSApplication* app = [NSApplication sharedApplication];
 	AppDelegate* appDelegate = [AppDelegate new];
