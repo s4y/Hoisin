@@ -310,11 +310,6 @@ static const CGFloat kLineXMargin = 4;
 	_contentView.dataSource = document;
 }
 
-- (void)setNeedsDisplay:(BOOL)display {
-	NSLog(@"needsdisplay: %d", display);
-	super.needsDisplay = display;
-}
-
 - (void)viewWillDraw {
 	NSLog(@"go go gadget draw something plz");
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
@@ -324,7 +319,6 @@ static const CGFloat kLineXMargin = 4;
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
 	}];
-	[_contentView prepareContentInRect:NSZeroRect];
 	[super viewWillDraw];
 }
 
