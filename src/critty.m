@@ -333,11 +333,11 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	//NSLog(@"Lines changed nao");
-	//dispatch_async(dispatch_get_main_queue(), ^{
-		//NSLog(@"Needs display nao");
+	NSLog(@"Lines changed nao");
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		NSLog(@"Needs display nao");
 		self.needsDisplay = YES;
-	//});
+	});
 }
 
 @end
