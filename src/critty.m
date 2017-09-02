@@ -291,16 +291,16 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
-		_contentView.autoresizingMask = NSViewWidthSizable;
-		_scrollView = [[NSScrollView alloc] initWithFrame:NSInsetRect(self.bounds, 1, 1)];
-		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		_scrollView.hasVerticalScroller = YES;
-		_scrollView.documentView = _contentView;
-		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
-		//[self addSubview:_scrollView];
-		self.wantsLayer = YES;
-		self.layer.backgroundColor = NSColor.greenColor.CGColor;
+		//_contentView = [[TerminalContentView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(self.bounds), 0)];
+		//_contentView.autoresizingMask = NSViewWidthSizable;
+		//_scrollView = [[NSScrollView alloc] initWithFrame:NSInsetRect(self.bounds, 1, 1)];
+		//_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		//_scrollView.hasVerticalScroller = YES;
+		//_scrollView.documentView = _contentView;
+		//[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
+		////[self addSubview:_scrollView];
+		//self.wantsLayer = YES;
+		//self.layer.backgroundColor = NSColor.greenColor.CGColor;
 	}
 	return self;
 }
