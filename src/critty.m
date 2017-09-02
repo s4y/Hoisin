@@ -14,17 +14,18 @@ static const CGFloat kLineXMargin = 4;
 @property(readonly,nonatomic,strong) NSString* string;
 @property(readonly,nonatomic) size_t index;
 
-- (instancetype)initWithString:(NSString*)string index:(size_t)i NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString*)string index:(size_t)index NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
 @implementation TerminalDocumentLine
-- (instancetype)initWithString:(NSString*)string index:(size_t)i {
+- (instancetype)initWithString:(NSString*)string index:(size_t)index {
 	if ((self = [super init])) {
 		if (!string) {
 			abort();
 		}
 		_string = string;
+		_index = index;
 	}
 	return self;
 }
