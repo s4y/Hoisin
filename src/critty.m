@@ -169,8 +169,8 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		//self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-		//self.layerContentsPlacement = NSViewLayerContentsPlacementBottomLeft;
+		self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
+		self.layerContentsPlacement = NSViewLayerContentsPlacementBottomLeft;
 	}
 	return self;
 }
