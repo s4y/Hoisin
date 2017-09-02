@@ -299,8 +299,8 @@ static const CGFloat kLineXMargin = 4;
 		//_scrollView.documentView = _contentView;
 		//[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		////[self addSubview:_scrollView];
-		//self.wantsLayer = YES;
-		//self.layer.backgroundColor = NSColor.greenColor.CGColor;
+		self.wantsLayer = YES;
+		self.layer.backgroundColor = NSColor.greenColor.CGColor;
 	}
 	return self;
 }
@@ -330,11 +330,6 @@ static const CGFloat kLineXMargin = 4;
 	[super viewWillDraw];
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-	NSLog(@"drawRect %d", (BOOL)[self performSelector:@selector(_needsViewWillDraw)]);
-	[super drawRect:dirtyRect];
-}
-
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@"the lines done changed");
@@ -356,6 +351,7 @@ static const CGFloat kLineXMargin = 4;
 @end
 
 int main(int argc, char* argv[]) {
+	NSApplication* app = [NSApplication sharedApplication];
 	NSWindow* win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
 
@@ -388,7 +384,6 @@ int main(int argc, char* argv[]) {
 	}
 #endif
 
-	NSApplication* app = [NSApplication sharedApplication];
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
 	[app setActivationPolicy:NSApplicationActivationPolicyRegular];
