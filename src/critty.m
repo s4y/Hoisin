@@ -269,6 +269,7 @@ static const CGFloat kLineXMargin = 4;
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
+		NSLog(@"Assigning line at index %zu", firstLine + i);
 		lineView.line = lines[lines.count - 1 - firstLine - i];
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
