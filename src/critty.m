@@ -270,7 +270,9 @@ static const CGFloat kLineXMargin = 4;
 			lineView.font = _font;
 		}
 		lineView.line = lines[lines.count - 1 - firstLine - i];
-		NSLog(@"Assigning line at index %zu, line %@, index %zu", firstLine + i, lineView.line, lineView.line.index);
+		if (lineView.line.index != firstLine + i) {
+			NSLog(@"!! MISMATCH: Assigning line at index %zu, line %@, index %zu", firstLine + i, lineView.line, lineView.line.index);
+		}
 		[_lineViews insertObject:lineView atIndex:i];
 		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
@@ -334,8 +336,6 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSLog(@"the lines done changed");
-		// TODO: Only redraw what needs to be redrawn.
 		self.needsDisplay = YES;
 	});
 }
