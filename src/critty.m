@@ -176,7 +176,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (BOOL)isOpaque {
-	return YES;
+	return NO;
 }
 
 - (void)setString:(NSString*)string {
