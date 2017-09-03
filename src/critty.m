@@ -91,10 +91,13 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)append:(dispatch_data_t)data {
+	NSLog(@"enter append");
 	dispatch_barrier_async(_queue, ^{ [self _append:data]; });
+	NSLog(@"exit append");
 }
 
 - (void)_append:(dispatch_data_t)data {
+	NSLog(@"enter _append");
 	__block size_t good_length = 0;
 	// TODO: Use a queue to make safe, plz.
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
@@ -116,6 +119,7 @@ static const CGFloat kLineXMargin = 4;
 		}
 		return true;
 	});
+	NSLog(@"did apply");
 	size_t oldcount = _lines.count;
 	for (size_t i = 0, start = 0; i < good_length; i++) {
 		// TODO: Save in-progress line to an ivar.
@@ -130,7 +134,9 @@ static const CGFloat kLineXMargin = 4;
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
+	NSLog(@"did make lines");
 	[_observer terminalDocument:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
+	NSLog(@"did notify, exiting _append");
 }
 @end
 
