@@ -239,18 +239,6 @@ static const CGFloat kLineXMargin = 4;
 	), kLineXMargin, 0) options:NSAlignAllEdgesOutward];
 }
 
-- (void)updatePreparedContentRect {
-	const NSRect preparedRect = self.preparedContentRect;
-	const NSRect visibleRect = self.visibleRect;
-	NSLog(@"uPCIR p: %@, v: %@", NSStringFromRect(preparedRect), NSStringFromRect(visibleRect));
-	if (NSIntersectsRect(preparedRect, visibleRect)) {
-		const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
-		[self prepareContentInRect:unionRect];
-	} else {
-		[self prepareContentInRect:visibleRect];
-	}
-}
-
 - (void)prepareContentInRect:(const NSRect)rect {
 	NSLog(@"PCIR outer %@", NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
@@ -305,6 +293,15 @@ static const CGFloat kLineXMargin = 4;
 	for (TerminalLineView* lineView in _lineViews) {
 		lineView.line = lines[lineView.line.index];
 	}
+	const NSRect preparedRect = self.preparedContentRect;
+	const NSRect visibleRect = self.visibleRect;
+	NSLog(@"uPCIR p: %@, v: %@", NSStringFromRect(preparedRect), NSStringFromRect(visibleRect));
+	if (NSIntersectsRect(preparedRect, visibleRect)) {
+		const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
+		[self _prepareContentInRect:unionRect withLines:lines];
+	} else {
+		[self _prepareContentInRect:visibleRect withLines:lines];
+	}
 }
 
 @end
@@ -352,7 +349,6 @@ static const CGFloat kLineXMargin = 4;
 		)];
 		[_contentView invalidateChangedLines:lines];
 	}];
-	[_contentView updatePreparedContentRect];
 	[super viewWillDraw];
 }
 
