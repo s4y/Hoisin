@@ -92,7 +92,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)append:(dispatch_data_t)data {
 	NSLog(@"enter append");
-	dispatch_barrier_async(_queue, ^{ [self _append:data]; });
+	dispatch_barrier_sync(_queue, ^{ [self _append:data]; });
 	NSLog(@"exit append");
 }
 
