@@ -8,7 +8,7 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-static const CGFloat kLineLeadingMargin = 4;
+static const CGFloat kLineXMargin = 4;
 
 @interface TerminalDocumentLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
@@ -234,10 +234,9 @@ static const CGFloat kLineLeadingMargin = 4;
 }
 
 - (NSRect)lineRect {
-	return [self backingAlignedRect:NSMakeRect(
-		kLineLeadingMargin, 0,
-		NSWidth(self.bounds) - kLineLeadingMargin, NSHeight(_font.boundingRectForFont)
-	) options:NSAlignAllEdgesOutward];
+	return [self backingAlignedRect:NSInsetRect(NSMakeRect(
+		0, 0, NSWidth(self.bounds), NSHeight(_font.boundingRectForFont)
+	), kLineXMargin, 0) options:NSAlignAllEdgesOutward];
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
