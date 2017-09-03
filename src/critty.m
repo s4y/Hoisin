@@ -70,7 +70,9 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
+	NSLog(@"enter performWithLines");
 	dispatch_sync(_queue, ^{ block(_lines); });
+	NSLog(@"exit performWithLines");
 }
 
 #if 0
