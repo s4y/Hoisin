@@ -240,6 +240,8 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
+	if (NSContainsRect(self.preparedContentRect, rect))
+		return;
 	NSLog(@"PCIR outer %@", NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
