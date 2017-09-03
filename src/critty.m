@@ -254,6 +254,7 @@ static const CGFloat kLineXMargin = 4;
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
 	NSLog(@"PCIR inner %@", NSStringFromRect(rect));
 	NSRect lineRect = NSInsetRect(NSMakeRect(0, 0, NSWidth(rect), _lineHeight), kLineXMargin, 0);
+	NSLog(@"lineRect %@", NSStringFromRect(lineRect));
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
