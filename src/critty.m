@@ -329,7 +329,9 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)viewWillDraw {
+	NSLog(@"willdraw outer");
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
+		NSLog(@"willdraw inner");
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
 			// TODO: Thread safety
