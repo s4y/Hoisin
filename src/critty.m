@@ -191,6 +191,7 @@ static const CGFloat kLineXMargin = 4;
 - (void)setLine:(TerminalDocumentLine*)line {
 	if (_line == line)
 		return;
+	NSLog(@"!! %@ line updated %@ -> %@", self, _line, line);
 	_line = line;
 	self.needsDisplay = YES;
 }
