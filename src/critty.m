@@ -285,6 +285,7 @@ size_t lineId = 0;
 		lineRect.origin.y += NSHeight(lineRect);
 		i += 1;
 	}
+	NSLog(@"PCIR, left with %zu lines", _lineViews.count);
 	[super prepareContentInRect:outRect];
 }
 
