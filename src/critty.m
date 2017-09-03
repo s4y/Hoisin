@@ -265,23 +265,21 @@ static const CGFloat kLineXMargin = 4;
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
 	for (size_t i = 0; NSMinY(lineRect) < NSMaxY(outRect);) {
+		TerminalLineView* lineView = nil;
 		if (i < _lineViews.count) {
-			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
+			lineView = [_lineViews objectAtIndex:i];
 			if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
-				continue;
 			} else if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
 				lineRect.origin.y += NSHeight(lineRect);
 				i += 1;
-				continue;
 			}
 		}
-		TerminalLineView* lineView = [_lineViewReusePool getObject];
-		if (lineView) {
-			lineView.frame = lineRect;
-		} else {
+		if (!lineView)
+			lineView = [_lineViewReusePool getObject];
+		if (!lineView) {
 			lineView = [[TerminalLineView alloc] initWithFrame:NSInsetRect(lineRect, kLineXMargin, 0)];
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
