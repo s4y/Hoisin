@@ -299,9 +299,9 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)invalidateChangedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	for (TerminalLineView* lineView in _lineViews) {
-		lineView.line = lines[lineView.line.index];
-	}
+	// for (TerminalLineView* lineView in _lineViews) {
+	// 	lineView.line = lines[lineView.line.index];
+	// }
 	const NSRect preparedRect = self.preparedContentRect;
 	const NSRect visibleRect = self.visibleRect;
 	NSLog(@"uPCIR p: %@, v: %@", NSStringFromRect(preparedRect), NSStringFromRect(visibleRect));
