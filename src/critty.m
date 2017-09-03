@@ -70,9 +70,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
-	NSLog(@"enter performWithLines");
 	dispatch_sync(_queue, ^{ block(_lines); });
-	NSLog(@"exit performWithLines");
 }
 
 #if 0
@@ -91,13 +89,10 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)append:(dispatch_data_t)data {
-	NSLog(@"enter append");
 	dispatch_barrier_sync(_queue, ^{ [self _append:data]; });
-	NSLog(@"exit append");
 }
 
 - (void)_append:(dispatch_data_t)data {
-	NSLog(@"enter _append with %p", (__bridge void*)data);
 	__block size_t good_length = 0;
 	// TODO: Use a queue to make safe, plz.
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
@@ -119,7 +114,6 @@ static const CGFloat kLineXMargin = 4;
 		}
 		return true;
 	});
-	NSLog(@"did apply");
 	size_t oldcount = _lines.count;
 	for (size_t i = 0, start = 0; i < good_length; i++) {
 		// TODO: Save in-progress line to an ivar.
@@ -134,9 +128,7 @@ static const CGFloat kLineXMargin = 4;
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	NSLog(@"did make lines");
 	[_observer terminalDocument:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
-	NSLog(@"did notify, exiting _append");
 }
 @end
 
@@ -191,7 +183,6 @@ static const CGFloat kLineXMargin = 4;
 - (void)setLine:(TerminalDocumentLine*)line {
 	if (_line == line)
 		return;
-	NSLog(@"!! %@ line updated %@ -> %@", self, _line, line);
 	_line = line;
 	self.needsDisplay = YES;
 }
@@ -247,7 +238,6 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	NSLog(@"PCIR outer %@ %@", NSStringFromRect(self.preparedContentRect), NSStringFromRect(rect));
 
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
@@ -255,9 +245,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"PCIR inner %@", NSStringFromRect(rect));
 	NSRect lineRect = NSMakeRect(0, 0, NSWidth(rect), _lineHeight);
-	NSLog(@"lineRect %@", NSStringFromRect(lineRect));
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
@@ -299,7 +287,6 @@ static const CGFloat kLineXMargin = 4;
 	// }
 	const NSRect preparedRect = self.preparedContentRect;
 	const NSRect visibleRect = self.visibleRect;
-	NSLog(@"uPCIR p: %@, v: %@", NSStringFromRect(preparedRect), NSStringFromRect(visibleRect));
 	if (NSIntersectsRect(preparedRect, visibleRect)) {
 		const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
 		[self _prepareContentInRect:unionRect withLines:lines];
@@ -344,9 +331,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)viewWillDraw {
-	NSLog(@"willdraw outer");
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
-		NSLog(@"willdraw inner");
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
 			[_contentView heightForLineCount:lines.count]
@@ -357,9 +342,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"Lines changed nao");
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSLog(@"Needs display nao");
 		self.needsDisplay = YES;
 	});
 }
