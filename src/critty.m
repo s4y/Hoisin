@@ -272,9 +272,6 @@ static const CGFloat kLineXMargin = 4;
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
-			} else if (NSMinY(lineView.frame) == NSMinY(lineRect)) {
-				lineRect.origin.y += NSHeight(lineRect);
-				i += 1;
 			}
 		}
 		if (!lineView)
