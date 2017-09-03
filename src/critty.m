@@ -350,9 +350,9 @@ static const CGFloat kLineXMargin = 4;
 			NSWidth(self.frame),
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
-		[_contentView updatePreparedContentRect];
 		[_contentView invalidateChangedLines:lines];
 	}];
+	[_contentView updatePreparedContentRect];
 	[super viewWillDraw];
 }
 
