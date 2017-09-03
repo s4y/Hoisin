@@ -338,6 +338,7 @@ static const CGFloat kLineXMargin = 4;
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
 		[_contentView invalidateChangedLines:lines];
+		_scrollView.needsDisplay = YES;
 	}];
 	[super viewWillDraw];
 }
