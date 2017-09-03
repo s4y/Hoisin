@@ -264,7 +264,7 @@ static const CGFloat kLineXMargin = 4;
 	const size_t firstLine = NSMinY(lineRect) / NSHeight(lineRect);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
-	for (size_t i = 0;;) {
+	for (size_t i = 0; NSMinY(lineRect) < NSMaxY(outRect);) {
 		if (i < _lineViews.count) {
 			TerminalLineView* lineView = [_lineViews objectAtIndex:i];
 			if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
@@ -277,9 +277,6 @@ static const CGFloat kLineXMargin = 4;
 				i += 1;
 				continue;
 			}
-		}
-		if (NSMinY(lineRect) >= NSMaxY(outRect)) {
-			break;
 		}
 		TerminalLineView* lineView = [_lineViewReusePool getObject];
 		if (lineView) {
