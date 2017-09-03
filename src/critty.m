@@ -258,7 +258,7 @@ size_t lineId = 0;
 	const size_t firstLine = NSMinY(lineRect) / NSHeight(lineRect);
 	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
 
-	for (size_t i = 0; NSMinY(lineRect) < NSMaxY(outRect);) {
+	for (size_t i = 0; i >= _lineViews.count || NSMinY(lineRect) < NSMaxY(outRect);) {
 		TerminalLineView* lineView = nil;
 		if (i < _lineViews.count) {
 			lineView = [_lineViews objectAtIndex:i];
