@@ -236,6 +236,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)setFont:(NSFont*)font {
+	_font = font;
 	_lineHeight = NSHeight([self backingAlignedRect:_font.boundingRectForFont
 											options:NSAlignAllEdgesOutward]);
 }
