@@ -245,8 +245,7 @@ static const CGFloat kLineXMargin = 4;
 	NSLog(@"uPCIR p: %@, v: %@", NSStringFromRect(preparedRect), NSStringFromRect(visibleRect));
 	if (NSIntersectsRect(preparedRect, visibleRect)) {
 		const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
-		if (!NSEqualRects(preparedRect, unionRect))
-			[self prepareContentInRect:unionRect];
+		[self prepareContentInRect:unionRect];
 	} else {
 		[self prepareContentInRect:visibleRect];
 	}
