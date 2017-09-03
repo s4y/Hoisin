@@ -246,6 +246,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)prepareContentInRect:(const NSRect)rect {
 	NSLog(@"PCIR outer %@ %@", NSStringFromRect(self.preparedContentRect), NSStringFromRect(rect));
+
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
 	}];
@@ -253,7 +254,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
 	NSLog(@"PCIR inner %@", NSStringFromRect(rect));
-	NSRect lineRect = NSInsetRect(NSMakeRect(0, 0, NSWidth(rect), _lineHeight), kLineXMargin, 0);
+	NSRect lineRect = NSMakeRect(0, 0, NSWidth(rect), _lineHeight);
 	NSLog(@"lineRect %@", NSStringFromRect(lineRect));
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
@@ -282,7 +283,7 @@ static const CGFloat kLineXMargin = 4;
 		if (lineView) {
 			lineView.frame = lineRect;
 		} else {
-			lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
+			lineView = [[TerminalLineView alloc] initWithFrame:NSInsetRect(lineRect, kLineXMargin, 0)];
 			lineView.autoresizingMask = NSViewWidthSizable;
 			lineView.font = _font;
 		}
