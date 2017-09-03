@@ -334,11 +334,18 @@ static const CGFloat kLineXMargin = 4;
 		NSLog(@"willdraw inner");
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
-			// TODO: Thread safety
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
 		[_contentView invalidateChangedLines:lines];
-		_scrollView.needsDisplay = YES;
+		const NSRect preparedRect = _contentView.preparedContentRect;
+		const NSRect visibleRect = _contentView.visibleRect;
+		if (NSIntersectsRect(preparedRect, visibleRect)) {
+			const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
+			if (!NSEqualRects(preparedRect, unionRect))
+				[self prepareContentInRect:unionRect];
+		} else {
+			[self prepareContentInRect:visibleRect];
+		}
 	}];
 	[super viewWillDraw];
 }
