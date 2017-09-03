@@ -252,12 +252,14 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
+	NSLog(@"PCIR outer %@", NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
 	}];
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
+	NSLog(@"PCIR inner %@", NSStringFromRect(rect));
 	NSRect lineRect = [self lineRect];
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
