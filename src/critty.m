@@ -239,6 +239,18 @@ static const CGFloat kLineXMargin = 4;
 	), kLineXMargin, 0) options:NSAlignAllEdgesOutward];
 }
 
+- (void)updatePreparedContentRect {
+	const NSRect preparedRect = self.preparedContentRect;
+	const NSRect visibleRect = self.visibleRect;
+	if (NSIntersectsRect(preparedRect, visibleRect)) {
+		const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
+		if (!NSEqualRects(preparedRect, unionRect))
+			[self prepareContentInRect:unionRect];
+	} else {
+		[self prepareContentInRect:visibleRect];
+	}
+}
+
 - (void)prepareContentInRect:(const NSRect)rect {
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
@@ -336,16 +348,8 @@ static const CGFloat kLineXMargin = 4;
 			NSWidth(self.frame),
 			lines.count * NSHeight(_contentView.lineRect)
 		)];
+		[_contentView updatePreparedContentRect];
 		[_contentView invalidateChangedLines:lines];
-		const NSRect preparedRect = _contentView.preparedContentRect;
-		const NSRect visibleRect = _contentView.visibleRect;
-		if (NSIntersectsRect(preparedRect, visibleRect)) {
-			const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
-			if (!NSEqualRects(preparedRect, unionRect))
-				[self prepareContentInRect:unionRect];
-		} else {
-			[self prepareContentInRect:visibleRect];
-		}
 	}];
 	[super viewWillDraw];
 }
