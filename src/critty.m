@@ -274,17 +274,19 @@ static const CGFloat kLineXMargin = 4;
 				[_lineViewReusePool returnObject:lineView];
 				continue;
 			}
-		}
-		if (!lineView)
-			lineView = [_lineViewReusePool getObject];
-		if (!lineView) {
-			lineView = [[TerminalLineView alloc] initWithFrame:NSInsetRect(lineRect, kLineXMargin, 0)];
-			lineView.autoresizingMask = NSViewWidthSizable;
-			lineView.font = _font;
+		} else {
+			NSRect lineFrame = NSInsetRect(lineRect, kLineXMargin, 0);
+			if ((lineView = [_lineViewReusePool getObject])) {
+				lineView.frame = lineFrame;
+			} else {
+				lineView = [[TerminalLineView alloc] initWithFrame:NSInsetRect(lineRect, kLineXMargin, 0)];
+				lineView.autoresizingMask = NSViewWidthSizable;
+				lineView.font = _font;
+			}
+			[_lineViews insertObject:lineView atIndex:i];
+			[self addSubview:lineView];
 		}
 		lineView.line = lines[lines.count - 1 - firstLine - i];
-		[_lineViews insertObject:lineView atIndex:i];
-		[self addSubview:lineView];
 		lineRect.origin.y += NSHeight(lineRect);
 		i += 1;
 	}
