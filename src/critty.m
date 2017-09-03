@@ -216,32 +216,35 @@ static const CGFloat kLineXMargin = 4;
 
 @interface TerminalContentView: NSView
 @property(nonatomic) id<TerminalContentViewDataSource> dataSource;
+@property(nonatomic) NSFont* font;
 @end
 
 @implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
 	NSFont* _font;
+	CGFloat _lineHeight;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		_font = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 		_lineViews = [NSMutableArray array];
 		_lineViewReusePool = [[ViewReusePool alloc] init];
+		self.font = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 	}
 	return self;
 }
 
-- (NSRect)lineRect {
-	return [self backingAlignedRect:NSInsetRect(NSMakeRect(
-		0, 0, NSWidth(self.bounds), NSHeight(_font.boundingRectForFont)
-	), kLineXMargin, 0) options:NSAlignAllEdgesOutward];
+- (void)setFont:(NSFont*)font {
+	_lineHeight = NSHeight([self backingAlignedRect:_font.boundingRectForFont
+											options:NSAlignAllEdgesOutward]);
+}
+
+- (CGFloat)heightForLineCount:(NSUInteger)lineCount {
+	return lineCount * _lineHeight;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	if (NSContainsRect(self.preparedContentRect, rect))
-		return;
 	NSLog(@"PCIR outer %@ %@", NSStringFromRect(self.preparedContentRect), NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
@@ -250,7 +253,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
 	NSLog(@"PCIR inner %@", NSStringFromRect(rect));
-	NSRect lineRect = [self lineRect];
+	NSRect lineRect = NSInsetRect(NSMakeRect(0, 0, NSWidth(rect), _lineHeight), kLineXMargin, 0);
 	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
 	lineRect.origin.y = NSMinY(rect) - yOffset;
 	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
@@ -347,7 +350,7 @@ static const CGFloat kLineXMargin = 4;
 		NSLog(@"willdraw inner");
 		[_contentView setFrameSize:NSMakeSize(
 			NSWidth(self.frame),
-			lines.count * NSHeight(_contentView.lineRect)
+			[_contentView heightForLineCount:lines.count]
 		)];
 		[_contentView invalidateChangedLines:lines];
 	}];
