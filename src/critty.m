@@ -261,7 +261,7 @@ size_t lineId = 0;
 	for (size_t i = 0; NSMinY(lineRect) < NSMaxY(outRect);) {
 		TerminalLineView* lineView = nil;
 		if (i < _lineViews.count) {
-			lineView = [_lineViews objectAtIndex:_lineViews.count - i];
+			lineView = [_lineViews objectAtIndex:_lineViews.count - 1 - i];
 			if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
