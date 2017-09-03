@@ -272,6 +272,7 @@ static const CGFloat kLineXMargin = 4;
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
 				[_lineViewReusePool returnObject:lineView];
+				continue;
 			}
 		}
 		if (!lineView)
