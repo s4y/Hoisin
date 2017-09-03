@@ -162,6 +162,7 @@ static const CGFloat kLineXMargin = 4;
 size_t lineId = 0;
 
 @interface TerminalLineView: NSView
+@property(nonatomic) size_t index;
 @property(nonatomic,strong) NSFont* font;
 @property(nonatomic,strong) TerminalDocumentLine* line;
 - (instancetype)initWithFrame:(NSRect)frameRect NS_DESIGNATED_INITIALIZER;
@@ -195,7 +196,7 @@ size_t lineId = 0;
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
-	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %@", _id, string ? string : @"<nil>"] attributes:@{
+	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
 		NSFontAttributeName: _font,
 	}]));
 	[NSColor.whiteColor setFill];
@@ -280,6 +281,7 @@ size_t lineId = 0;
 			[self addSubview:lineView];
 		}
 		lineView.line = lines[lines.count - 1 - firstLine - i];
+		lineView.index = firstLine + i;
 		lineRect.origin.y += NSHeight(lineRect);
 		i += 1;
 	}
