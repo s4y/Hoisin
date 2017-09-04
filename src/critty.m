@@ -284,6 +284,8 @@ size_t lineId = 0;
 		TerminalLineView* lineView = nil;
 		if (i < _lineViews.count) {
 			lineView = _lineViews[i];
+			if (NSEqualRects(lineView.frame, lineRect))
+				abort();
 		} else {
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
