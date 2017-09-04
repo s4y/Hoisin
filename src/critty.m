@@ -233,6 +233,12 @@ size_t lineId = 0;
 	return self;
 }
 
+- (BOOL)isFlipped {
+	// A flipped coordinate space makes it easier to add lines: the existing
+	// lines "stick" to the top and don't have to be repositioned or redrawn.
+	return YES;
+}
+
 - (void)setFont:(NSFont*)font {
 	_font = font;
 	_lineHeight = NSHeight([self backingAlignedRect:_font.boundingRectForFont
@@ -251,29 +257,39 @@ size_t lineId = 0;
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSRect lineRect = NSMakeRect(0, 0, NSWidth(rect), _lineHeight);
-	CGFloat yOffset = fmod(NSMinY(rect), NSHeight(lineRect));
-	lineRect.origin.y = NSMinY(rect) - yOffset;
-	const size_t visibleLines = ceil((NSHeight(rect) + yOffset) / NSHeight(lineRect));
-	const size_t firstLine = NSMinY(lineRect) / NSHeight(lineRect);
-	const NSRect outRect = NSMakeRect(NSMinX(lineRect), NSMinY(lineRect), NSWidth(lineRect), visibleLines * NSHeight(lineRect));
+	for (size_t i = 0; i < _lineViews.count;) {
+		TerminalLineView* lineView = _lineViews[i];
+		if (NSIntersectsRect(lineView.frame, rect)) {
+			i++;
+		} else {
+			[lineView removeFromSuperview];
+			[_lineViews removeObjectAtIndex:i];
+			[_lineViewReusePool returnObject:lineView];
+		}
+	}
 
-	for (size_t i = 0; i < _lineViews.count || NSMinY(lineRect) < NSMaxY(outRect);) {
+	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
+	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
+	const NSRect preparedRect = NSMakeRect(
+		rect.origin.x, firstLine * _lineHeight,
+		rect.size.width, numLines * _lineHeight
+	);
+
+	NSRect lineRect = NSInsetRect(NSMakeRect(
+		preparedRect.origin.x, preparedRect.origin.y,
+		preparedRect.size.width, _lineHeight
+	), kLineXMargin, 0);
+
+	for (size_t i = 0; i < numLines; i++) {
 		TerminalLineView* lineView = nil;
 		if (i < _lineViews.count) {
-			lineView = [_lineViews objectAtIndex:i];
-			if (NSMinY(lineView.frame) < NSMinY(outRect) || NSMaxY(lineView.frame) > NSMaxY(outRect) ) {
-				[lineView removeFromSuperview];
-				[_lineViews removeObjectAtIndex:i];
-				[_lineViewReusePool returnObject:lineView];
-				continue;
-			}
+			lineView = _lineViews[i];
 		} else {
-			NSRect lineFrame = NSInsetRect(lineRect, kLineXMargin, 0);
-			if ((lineView = [_lineViewReusePool getObject])) {
-				lineView.frame = lineFrame;
+			lineView = [_lineViewReusePool getObject];
+			if (lineView) {
+				lineView.frame = lineRect;
 			} else {
-				lineView = [[TerminalLineView alloc] initWithFrame:NSInsetRect(lineRect, kLineXMargin, 0)];
+				lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 				lineView.autoresizingMask = NSViewWidthSizable;
 				lineView.font = _font;
 			}
@@ -281,12 +297,11 @@ size_t lineId = 0;
 			[self addSubview:lineView];
 		}
 		lineView.line = lines[lines.count - 1 - firstLine - i];
-		lineView.index = firstLine + i;
-		lineRect.origin.y += NSHeight(lineRect);
-		i += 1;
+		lineView.index = firstLine + i; // DEBUG
+		lineRect.origin.y += _lineHeight;
 	}
 	NSLog(@"PCIR, left with %zu lines", _lineViews.count);
-	[super prepareContentInRect:outRect];
+	[super prepareContentInRect:preparedRect];
 }
 
 - (void)invalidateChangedLines:(NSArray<TerminalDocumentLine*>*)lines {
