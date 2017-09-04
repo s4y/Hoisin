@@ -285,7 +285,7 @@ size_t lineId = 0;
 		if (i < _lineViews.count) {
 			lineView = _lineViews[i];
 			if (NSEqualRects(lineView.frame, lineRect))
-				abort();
+				NSLog(@"!!! Unexpected frame: %@ != %@", NSStringFromRect(lineView.frame), NSStringFromRect(lineRect));
 		} else {
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
