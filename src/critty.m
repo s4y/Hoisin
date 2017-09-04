@@ -296,7 +296,7 @@ size_t lineId = 0;
 			[_lineViews insertObject:lineView atIndex:i];
 			[self addSubview:lineView];
 		}
-		lineView.line = lines[lines.count - 1 - firstLine - i];
+		lineView.line = lines[firstLine + i];
 		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
 	}
