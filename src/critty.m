@@ -376,10 +376,10 @@ size_t lineId = 0;
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
-	[_contentView prepareContentInRect:_contentView.visibleRect];
 	NSLog(@"EXIT");
-	//const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
-	//[_scrollView.contentView setBoundsOrigin:newOrigin];
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
+	[_scrollView.contentView setBoundsOrigin:newOrigin];
+	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
 
