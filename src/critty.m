@@ -265,6 +265,7 @@ size_t lineId = 0;
 			[lineView removeFromSuperview];
 			[_lineViews removeObjectAtIndex:i];
 			[_lineViewReusePool returnObject:lineView];
+			continue;
 		}
 	}
 
