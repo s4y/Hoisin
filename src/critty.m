@@ -300,7 +300,7 @@ size_t lineId = 0;
 			[self addSubview:lineView];
 			NSLog(@"end else");
 		}
-		lineView.line = lines[firstLine + i - 1];
+		lineView.line = lines[firstLine];
 		NSLog(@"did set line");
 		lineView.index = firstLine + i; // DEBUG
 		NSLog(@"did set index");
