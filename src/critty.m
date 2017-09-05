@@ -182,9 +182,9 @@ size_t lineId = 0;
 	return self;
 }
 
-// - (BOOL)isOpaque {
-// 	return YES;
-// }
+- (BOOL)isOpaque {
+	return YES;
+}
 
 - (void)setLine:(TerminalDocumentLine*)line {
 	if (_line == line)
@@ -204,8 +204,8 @@ size_t lineId = 0;
 	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
 		NSFontAttributeName: _font,
 	}]));
-	//[NSColor.whiteColor setFill];
-	//CGContextFillRect(context, dirtyRect);
+	[NSColor.whiteColor setFill];
+	CGContextFillRect(context, dirtyRect);
 	CGContextSetTextPosition(context, 0, ceil(-_font.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
@@ -256,11 +256,9 @@ size_t lineId = 0;
 
 - (void)prepareContentInRect:(const NSRect)rect {
 
-	__block NSArray<TerminalDocumentLine*>* linez;
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
-		linez = lines;
+		 [self _prepareContentInRect:rect withLines:lines];
 	}];
-	[self _prepareContentInRect:rect withLines:linez];
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
