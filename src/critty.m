@@ -297,7 +297,6 @@ size_t lineId = 0;
 			}
 			[_lineViews insertObject:lineView atIndex:i];
 			[self addSubview:lineView];
-			NSLog(@"end else");
 		}
 		lineView.line = lines[firstLine];
 		lineView.index = firstLine + i; // DEBUG
