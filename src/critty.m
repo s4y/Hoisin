@@ -371,7 +371,7 @@ size_t lineId = 0;
 		}
 #endif
 	}];
-	usleep(100000);
+	usleep(10000);
 	[_contentView setFrameSize:NSMakeSize(
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
