@@ -380,7 +380,7 @@ size_t lineId = 0;
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 	[_scrollView.contentView setBoundsOrigin:newOrigin];
 	NSLog(@"SET ORIGIN %@", NSStringFromRect(_contentView.visibleRect));
-	//[_contentView prepareContentInRect:_contentView.visibleRect];
+	[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
 
