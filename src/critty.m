@@ -358,7 +358,7 @@ size_t lineId = 0;
 			NSWidth(self.frame),
 			[_contentView heightForLineCount:lines.count]
 		)];
-		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
+		//[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		[_contentView invalidateChangedLines:lines];
 	}];
 	[super viewWillDraw];
