@@ -350,14 +350,11 @@ size_t lineId = 0;
 }
 
 - (void)viewWillDraw {
-	__block NSPoint newOrigin;
+	__block size_t lineCount;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
-		[_contentView setFrameSize:NSMakeSize(
-			NSWidth(self.frame),
-			[_contentView heightForLineCount:lines.count]
-		)];
+		lineCount = lines.count;
+#if 0
 		//[_contentView invalidateChangedLines:lines];
-		newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 		const NSRect preparedRect = self.preparedContentRect;
 		const NSRect visibleRect = NSMakeRect(newOrigin.x, newOrigin.y, NSWidth(_contentView.bounds), NSHeight(_contentView.bounds));
 		if (NSIntersectsRect(preparedRect, visibleRect)) {
@@ -366,7 +363,13 @@ size_t lineId = 0;
 		} else {
 			[_contentView _prepareContentInRect:visibleRect withLines:lines];
 		}
+#endif
 	}];
+	[_contentView setFrameSize:NSMakeSize(
+		NSWidth(self.frame),
+		[_contentView heightForLineCount:lineCount]
+	)];
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 	[_scrollView.contentView scrollToPoint:newOrigin];
 	[super viewWillDraw];
 }
