@@ -301,7 +301,9 @@ size_t lineId = 0;
 			NSLog(@"end else");
 		}
 		lineView.line = lines[firstLine + i];
+		NSLog(@"did set line");
 		lineView.index = firstLine + i; // DEBUG
+		NSLog(@"did set index");
 		lineRect.origin.y += _lineHeight;
 		NSLog(@"end loop");
 	}
