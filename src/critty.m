@@ -199,14 +199,13 @@ size_t lineId = 0;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	return;
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
 	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
 		NSFontAttributeName: _font,
 	}]));
-	[NSColor.whiteColor setFill];
-	CGContextFillRect(context, dirtyRect);
+	//[NSColor.whiteColor setFill];
+	//CGContextFillRect(context, dirtyRect);
 	CGContextSetTextPosition(context, 0, ceil(-_font.descender));
 	CTLineDraw(line, context);
 	CFRelease(line);
