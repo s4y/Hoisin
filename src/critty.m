@@ -409,9 +409,6 @@ int main(int argc, char* argv[]) {
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	[win.contentView addSubview:terminalView];
 
-	sleep(5);
-	sleep(2);
-
 	[win center];
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
