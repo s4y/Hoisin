@@ -263,6 +263,7 @@ size_t lineId = 0;
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
+	NSLog(@"PCIR %@", NSStringFromRect(rect));
 	for (size_t i = 0; i < _lineViews.count;) {
 		TerminalLineView* lineView = _lineViews[i];
 		if (NSIntersectsRect(lineView.frame, rect)) {
