@@ -263,7 +263,6 @@ size_t lineId = 0;
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"start clean");
 	for (size_t i = 0; i < _lineViews.count;) {
 		TerminalLineView* lineView = _lineViews[i];
 		if (NSIntersectsRect(lineView.frame, rect)) {
@@ -274,7 +273,6 @@ size_t lineId = 0;
 			[_lineViewReusePool returnObject:lineView];
 		}
 	}
-	NSLog(@"end clean");
 
 	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
 	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
@@ -308,7 +306,7 @@ size_t lineId = 0;
 		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
 	}
-	NSLog(@"PCIR, left with %zu lines", _lineViews.count);
+	NSLog(@"PCIR, (%@ -> %@) left with %zu lines", NSStringFromRect(rect), NSStringFromRect(preparedRect), _lineViews.count);
 	[super prepareContentInRect:preparedRect];
 }
 
