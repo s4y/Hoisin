@@ -256,9 +256,11 @@ size_t lineId = 0;
 
 - (void)prepareContentInRect:(const NSRect)rect {
 
+	__block NSArray<TerminalDocumentLine*>* linez;
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
-		 [self _prepareContentInRect:rect withLines:lines];
+		linez = lines;
 	}];
+	 [self _prepareContentInRect:rect withLines:linez];
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
