@@ -371,7 +371,6 @@ size_t lineId = 0;
 		}
 #endif
 	}];
-	usleep(10000);
 	[_contentView setFrameSize:NSMakeSize(
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
@@ -380,6 +379,7 @@ size_t lineId = 0;
 	NSLog(@"before scrollToPoint, preparedRect: %@", NSStringFromRect(_contentView.preparedContentRect));
 	[_scrollView.contentView scrollToPoint:newOrigin];
 	NSLog(@"after scrollToPoint, preparedRect: %@", NSStringFromRect(_contentView.preparedContentRect));
+	[CATransaction flush];
 	[super viewWillDraw];
 }
 
@@ -413,9 +413,6 @@ int main(int argc, char* argv[]) {
 	[win center];
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
-
-	sleep(5);
-	sleep(5);
 
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.document = document;
