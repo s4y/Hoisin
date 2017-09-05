@@ -195,7 +195,6 @@ size_t lineId = 0;
 
 - (void)setIndex:(size_t)index {
 	_index = index;
-	self.layer.backgroundColor = ((NSColor*)@[NSColor.redColor, NSColor.greenColor, NSColor.blueColor][_index%3]).CGColor;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
