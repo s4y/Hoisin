@@ -355,7 +355,6 @@ size_t lineId = 0;
 - (void)viewWillDraw {
 	_scrollView.layer.backgroundColor = NSColor.purpleColor.CGColor;
 	_contentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
-	return;
 	__block size_t lineCount;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		lineCount = lines.count;
