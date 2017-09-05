@@ -182,9 +182,9 @@ size_t lineId = 0;
 	return self;
 }
 
-- (BOOL)isOpaque {
-	return YES;
-}
+// - (BOOL)isOpaque {
+// 	return YES;
+// }
 
 - (void)setLine:(TerminalDocumentLine*)line {
 	if (_line == line)
