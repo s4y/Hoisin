@@ -360,7 +360,7 @@ size_t lineId = 0;
 		)];
 		//[_contentView invalidateChangedLines:lines];
 	}];
-	[_scrollView.contentView setBoundsOrigin:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
+	[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 	[super viewWillDraw];
 }
 
