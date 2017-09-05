@@ -358,6 +358,8 @@ size_t lineId = 0;
 			NSWidth(self.frame),
 			[_contentView heightForLineCount:lines.count]
 		)];
+		NSPoint targetPoint = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
+		NSLog(@"targetPoint: %@", NSStringFromPoint(targetPoint));
 		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		[_contentView invalidateChangedLines:lines];
 	}];
