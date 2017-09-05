@@ -414,7 +414,7 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	sleep(5);
+	sleep(10);
 
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.document = document;
