@@ -377,9 +377,8 @@ size_t lineId = 0;
 	)];
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 	NSLog(@"before scrollToPoint, preparedRect: %@", NSStringFromRect(_contentView.preparedContentRect));
-	[_scrollView.contentView scrollToPoint:newOrigin];
+	[_scrollView.contentView setBoundsOrigin:newOrigin];
 	NSLog(@"after scrollToPoint, preparedRect: %@", NSStringFromRect(_contentView.preparedContentRect));
-	[CATransaction flush];
 	[super viewWillDraw];
 }
 
