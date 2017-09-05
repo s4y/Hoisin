@@ -193,6 +193,11 @@ size_t lineId = 0;
 	self.needsDisplay = YES;
 }
 
+- (void)setIndex:(size_t)index {
+	_index = index;
+	self.layer.backgroundColor = ((NSColor*)@[NSColor.redColor, NSColor.greenColor, NSColor.blueColor][_index%3]).CGColor;
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
