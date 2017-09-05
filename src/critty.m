@@ -340,7 +340,6 @@ size_t lineId = 0;
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
 		_scrollView.documentView = _contentView;
-		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSHeight(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		[self addSubview:_scrollView];
 	}
 	return self;
@@ -360,6 +359,7 @@ size_t lineId = 0;
 			[_contentView heightForLineCount:lines.count]
 		)];
 		[_contentView invalidateChangedLines:lines];
+		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 	}];
 	[super viewWillDraw];
 }
