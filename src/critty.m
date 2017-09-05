@@ -355,7 +355,6 @@ size_t lineId = 0;
 
 - (void)viewWillDraw {
 	__block size_t lineCount;
-	[CATransaction begin];
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		lineCount = lines.count;
 #if 0
@@ -378,7 +377,6 @@ size_t lineId = 0;
 	NSLog(@"before scrollToPoint, newOrigin: %@, preparedRect: %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.preparedContentRect));
 	[_scrollView.contentView setBoundsOrigin:newOrigin];
 	NSLog(@"after scrollToPoint, preparedRect: %@", NSStringFromRect(_contentView.preparedContentRect));
-	[CATransaction commit];
 	[super viewWillDraw];
 }
 
@@ -408,6 +406,9 @@ int main(int argc, char* argv[]) {
 	TerminalView* terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	[win.contentView addSubview:terminalView];
+
+	sleep(5);
+	sleep(2);
 
 	[win center];
 	win.frameAutosaveName = @"Window";
