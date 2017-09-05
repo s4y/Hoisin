@@ -306,7 +306,6 @@ size_t lineId = 0;
 		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
 	}
-	NSLog(@"PCIR, (%@ -> %@) left with %zu lines", NSStringFromRect(rect), NSStringFromRect(preparedRect), _lineViews.count);
 	[super prepareContentInRect:preparedRect];
 }
 
