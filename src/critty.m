@@ -359,7 +359,7 @@ size_t lineId = 0;
 			[_contentView heightForLineCount:lines.count]
 		)];
 		[_contentView invalidateChangedLines:lines];
-		//[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
+		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 	}];
 	[super viewWillDraw];
 }
