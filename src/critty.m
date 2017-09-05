@@ -360,9 +360,9 @@ size_t lineId = 0;
 		)];
 		NSPoint targetPoint = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 		NSLog(@"targetPoint: %@", NSStringFromPoint(targetPoint));
-		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 		[_contentView invalidateChangedLines:lines];
 	}];
+		[_scrollView.contentView scrollToPoint:NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds))];
 	[super viewWillDraw];
 }
 
