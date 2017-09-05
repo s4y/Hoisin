@@ -282,10 +282,8 @@ size_t lineId = 0;
 
 	for (size_t i = 0; i < numLines; i++) {
 		TerminalLineView* lineView = nil;
-		if (i < _lineViews.count) {
+		if (i < _lineViews.count && NSEqualRects(_lineViews[i].frame, lineRect)) {
 			lineView = _lineViews[i];
-			if (!NSEqualRects(lineView.frame, lineRect))
-				NSLog(@"!!! Unexpected frame: %@ != %@", NSStringFromRect(lineView.frame), NSStringFromRect(lineRect));
 		} else {
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
