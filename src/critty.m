@@ -287,6 +287,7 @@ size_t lineId = 0;
 		if (i < _lineViews.count && NSEqualRects(_lineViews[i].frame, lineRect)) {
 			lineView = _lineViews[i];
 		} else {
+			NSLog(@"start else");
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
 				lineView.frame = lineRect;
@@ -297,10 +298,12 @@ size_t lineId = 0;
 			}
 			[_lineViews insertObject:lineView atIndex:i];
 			[self addSubview:lineView];
+			NSLog(@"end else");
 		}
 		lineView.line = lines[firstLine + i];
 		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
+		NSLog(@"end loop");
 	}
 	NSLog(@"PCIR, left with %zu lines", _lineViews.count);
 	[super prepareContentInRect:preparedRect];
