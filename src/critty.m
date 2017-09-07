@@ -367,22 +367,13 @@ size_t lineId = 0;
 	__block size_t lineCount;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		lineCount = lines.count;
-#if 0
-		//[_contentView invalidateChangedLines:lines];
-		const NSRect preparedRect = self.preparedContentRect;
-		const NSRect visibleRect = NSMakeRect(newOrigin.x, newOrigin.y, NSWidth(_contentView.bounds), NSHeight(_contentView.bounds));
-		if (NSIntersectsRect(preparedRect, visibleRect)) {
-			const NSRect unionRect = NSUnionRect(preparedRect, visibleRect);
-			[_contentView _prepareContentInRect:unionRect withLines:lines];
-		} else {
-			[_contentView _prepareContentInRect:visibleRect withLines:lines];
-		}
-#endif
 	}];
 	[_contentView setFrameSize:NSMakeSize(
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
+	[_contentView scrollPoint:newOrigin];
 	[super viewWillDraw];
 }
 
