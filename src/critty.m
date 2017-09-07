@@ -314,7 +314,6 @@ size_t lineId = 0;
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
-	NSLog(@"PCIR");
 	[super prepareContentInRect:preparedRect];
 }
 
@@ -360,7 +359,6 @@ size_t lineId = 0;
 }
 
 - (void)layout {
-	NSLog(@"layout");
 	_scrollView.layer.backgroundColor = NSColor.purpleColor.CGColor;
 	_contentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
 	__block size_t lineCount;
