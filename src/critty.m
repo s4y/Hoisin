@@ -204,6 +204,7 @@ size_t lineId = 0;
 
 - (void)viewWillDraw {
 	NSLog(@"%@ WILLDRAW", self);
+	[super viewWillDraw];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
