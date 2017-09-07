@@ -377,6 +377,7 @@ size_t lineId = 0;
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.needsLayout = YES;
+		self.needsDisplay = YES;
 	});
 }
 
