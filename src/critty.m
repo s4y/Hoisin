@@ -62,10 +62,10 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		// _queue = dispatch_queue_create(
-		// 	self.class.className.UTF8String,
-		// 	DISPATCH_QUEUE_CONCURRENT
-		// );
+		_queue = dispatch_queue_create(
+			self.class.className.UTF8String,
+			DISPATCH_QUEUE_CONCURRENT
+		);
 		_lines = [NSMutableArray array];
 		_currentLine = -1;
 		tinybuf_init(&_buf);
@@ -78,7 +78,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
-	/*(dispatch_sync(_queue, ^{*/ block(_lines); /*});*/
+	dispatch_sync(_queue, ^{ block(_lines); });
 }
 
 #if 0
@@ -97,7 +97,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)append:(dispatch_data_t)data {
-	/*dispatch_barrier_sync(_queue, ^{*/ [self _append:data]; /*});*/
+	dispatch_barrier_sync(_queue, ^{ [self _append:data]; });
 }
 
 - (void)_append:(dispatch_data_t)data {
@@ -205,13 +205,7 @@ size_t lineId = 0;
 	_index = index;
 }
 
-- (void)viewWillDraw {
-	NSLog(@"%@ WILLDRAW", self);
-	[super viewWillDraw];
-}
-
 - (void)drawRect:(NSRect)dirtyRect {
-	NSLog(@"%@ DRAW", self);
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
 	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
@@ -268,14 +262,12 @@ size_t lineId = 0;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	NSLog(@"PCIR %@", NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
 	}];
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"_PCIR %@", NSStringFromRect(rect));
 	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
 	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
 	const NSRect preparedRect = NSMakeRect(
@@ -322,7 +314,6 @@ size_t lineId = 0;
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
-	NSLog(@"_PCIR super %@", NSStringFromRect(preparedRect));
 	[super prepareContentInRect:preparedRect];
 }
 
@@ -371,7 +362,6 @@ size_t lineId = 0;
 }
 
 - (void)viewWillDraw {
-	NSLog(@"ENTER");
 	_scrollView.layer.backgroundColor = NSColor.purpleColor.CGColor;
 	_contentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
 	__block size_t lineCount;
@@ -393,26 +383,13 @@ size_t lineId = 0;
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
-	static size_t frameID = 0;
-	NSLog(@"----- FRAME %zu -----", frameID);
-
-	NSLog(@"SET FRAME");
-	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
-	[_contentView scrollPoint:newOrigin];
-	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
-
-	NSLog(@"%@", self._subtreeDescription);
-	NSLog(@"%@", _contentView.layer._NS_subtreeDescription);
-	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
-								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
-	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	//dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_main_queue(), ^{
 		self.needsDisplay = YES;
-	//});
+	});
 }
 
 @end
@@ -444,13 +421,13 @@ int main(int argc, char* argv[]) {
 	terminalView.document = document;
 
 	if (argc > 1) {
-		//dispatch_queue_t queue =
-		// 	dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
+		dispatch_queue_t queue =
+			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, dispatch_get_main_queue(), ^(int err){}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
 		);
 		dispatch_io_read(
-			channel, 0, SIZE_MAX, dispatch_get_main_queue(),
+			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
 				if (!data)
 					return;
