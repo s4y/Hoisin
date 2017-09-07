@@ -437,8 +437,6 @@ int main(int argc, char* argv[]) {
 		[terminalView.contentView prepareContentInRect:NSZeroRect];
 		terminalView.needsDisplay = YES;
 		[CATransaction commit];
-		win.viewsNeedDisplay = YES;
-		[win display];
 	});
 	dispatch_resume(timer);
 
