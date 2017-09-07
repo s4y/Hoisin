@@ -412,7 +412,6 @@ int main(int argc, char* argv[]) {
 		dispatch_io_t channel = dispatch_io_create_with_path(
 			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
 		);
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5000 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
@@ -420,7 +419,7 @@ int main(int argc, char* argv[]) {
 					return;
 				[document append:data];
 			}
-		);});
+		);
 	}
 
 	AppDelegate* appDelegate = [AppDelegate new];
