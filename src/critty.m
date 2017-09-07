@@ -394,7 +394,7 @@ size_t lineId = 0;
 	NSLog(@"----- FRAME %zu -----", frameID);
 
 	NSLog(@"SET FRAME");
-	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
 	[_contentView scrollPoint:newOrigin];
 	_contentView.needsDisplay = YES;
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
