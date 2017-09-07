@@ -202,6 +202,10 @@ size_t lineId = 0;
 	_index = index;
 }
 
+- (void)viewWillDraw {
+	NSLog(@"%@ WILLDRAW", self);
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
 	NSLog(@"%@ DRAW", self);
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
