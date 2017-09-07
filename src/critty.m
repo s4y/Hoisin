@@ -10,6 +10,10 @@
 
 static const CGFloat kLineXMargin = 4;
 
+@interface NSView(DebugAPI)
+@property(readonly) NSString* _subtreeDescription;
+@end
+
 @interface TerminalDocumentLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
 @property(readonly,nonatomic) size_t index;
@@ -383,8 +387,10 @@ size_t lineId = 0;
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
 
 	static size_t frameID = 0;
+	NSLog(@"----- FRAME %zu -----", frameID);
+	NSLog(@"%@", self._subtreeDescription);
 	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
-								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"%zu.tiff", frameID++] atomically:NO];
+								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
