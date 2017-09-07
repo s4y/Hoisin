@@ -381,13 +381,14 @@ size_t lineId = 0;
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
+	static size_t frameID = 0;
+	NSLog(@"----- FRAME %zu -----", frameID);
+
 	NSLog(@"SET FRAME");
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 	[_scrollView.contentView setBoundsOrigin:newOrigin];
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
 
-	static size_t frameID = 0;
-	NSLog(@"----- FRAME %zu -----", frameID);
 	NSLog(@"%@", self._subtreeDescription);
 	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
 								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
