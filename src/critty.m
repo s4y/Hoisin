@@ -370,8 +370,8 @@ size_t lineId = 0;
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
-	//const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
-	[_contentView scrollPoint:NSZeroPoint];
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
+	[_contentView scrollPoint:newOrigin];
 	[super layout];
 }
 
