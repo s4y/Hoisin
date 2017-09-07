@@ -352,9 +352,6 @@ size_t lineId = 0;
 	return self;
 }
 
-- (void)scrollToBottom {
-}
-
 - (void)setDocument:(TerminalDocument*)document {
 	_document.observer = nil;
 	document.observer = self;
@@ -362,7 +359,7 @@ size_t lineId = 0;
 	_contentView.dataSource = document;
 }
 
-- (void)viewWillDraw {
+- (void)layout {
 	_scrollView.layer.backgroundColor = NSColor.purpleColor.CGColor;
 	_contentView.layer.backgroundColor = NSColor.yellowColor.CGColor;
 	__block size_t lineCount;
@@ -373,11 +370,9 @@ size_t lineId = 0;
 		NSWidth(self.frame),
 		[_contentView heightForLineCount:lineCount]
 	)];
-	NSLog(@"viewWillDraw");
-	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
+	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
 	[_contentView scrollPoint:newOrigin];
-	[_contentView prepareContentInRect:_contentView.visibleRect];
-	[super viewWillDraw];
+	[super layout];
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
@@ -437,6 +432,7 @@ int main(int argc, char* argv[]) {
 		[terminalView.contentView prepareContentInRect:NSZeroRect];
 		terminalView.needsDisplay = YES;
 		[CATransaction commit];
+		[win display];
 	});
 	dispatch_resume(timer);
 
