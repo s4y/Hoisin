@@ -435,7 +435,7 @@ int main(int argc, char* argv[]) {
 	dispatch_source_set_event_handler(timer, ^{
 		[terminalView.contentView prepareContentInRect:NSZeroRect];
 		terminalView.contentView.needsDisplay = YES;
-		[terminalView.contentView displayIfNeeded];
+		[terminalView.contentView prepareContentInRect:terminalView.contentView.visibleRect];
 	});
 	dispatch_resume(timer);
 
