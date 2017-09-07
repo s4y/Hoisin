@@ -208,6 +208,7 @@ size_t lineId = 0;
 
 - (void)setNeedsDisplay:(BOOL)needsDisplay {
 	NSLog(@"%@ setNeedsDisplay:%s", self, needsDisplay ? "YES" : "NO");
+	[super setNeedsDisplay:needsDisplay];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
