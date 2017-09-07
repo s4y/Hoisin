@@ -194,7 +194,7 @@ size_t lineId = 0;
 	if (_line == line)
 		return;
 	_line = line;
-	self.needsDisplay = YES;
+	[self setNeedsDisplayInRect:self.bounds];
 }
 
 - (void)setIndex:(size_t)index {
