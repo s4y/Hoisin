@@ -384,7 +384,7 @@ size_t lineId = 0;
 
 	static size_t frameID = 0;
 	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
-								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"%zu.tiff", frameID] atomically:NO];
+								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
