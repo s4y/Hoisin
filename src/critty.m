@@ -350,6 +350,7 @@ size_t lineId = 0;
 		_scrollView = [[NSScrollView alloc] initWithFrame:self.bounds];
 		_scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		_scrollView.hasVerticalScroller = YES;
+		_scrollView.contentView.copiesOnScroll = NO;
 		_scrollView.documentView = _contentView;
 		[self addSubview:_scrollView];
 	}
