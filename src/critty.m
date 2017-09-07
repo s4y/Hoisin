@@ -279,7 +279,7 @@ size_t lineId = 0;
 			lineView = _lineViews[i];
 			if (
 				NSMinY(lineView.frame) < NSMinY(lineRect) ||
-				NSMinY(lineRect) > NSMaxY(preparedRect)
+				NSMinY(lineRect) >= NSMaxY(preparedRect)
 			) {
 				[lineView removeFromSuperview];
 				[_lineViews removeObjectAtIndex:i];
