@@ -62,10 +62,10 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		_queue = dispatch_queue_create(
-			self.class.className.UTF8String,
-			DISPATCH_QUEUE_CONCURRENT
-		);
+		// _queue = dispatch_queue_create(
+		// 	self.class.className.UTF8String,
+		// 	DISPATCH_QUEUE_CONCURRENT
+		// );
 		_lines = [NSMutableArray array];
 		_currentLine = -1;
 		tinybuf_init(&_buf);
@@ -78,7 +78,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
-	dispatch_sync(_queue, ^{ block(_lines); });
+	/*(dispatch_sync(_queue, ^{*/ block(_lines); /*});*/
 }
 
 #if 0
@@ -97,7 +97,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)append:(dispatch_data_t)data {
-	dispatch_barrier_sync(_queue, ^{ [self _append:data]; });
+	/*dispatch_barrier_sync(_queue, ^{*/ [self _append:data]; /*});*/
 }
 
 - (void)_append:(dispatch_data_t)data {
@@ -410,9 +410,9 @@ size_t lineId = 0;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	//dispatch_async(dispatch_get_main_queue(), ^{
 		self.needsDisplay = YES;
-	});
+	//});
 }
 
 @end
@@ -444,13 +444,13 @@ int main(int argc, char* argv[]) {
 	terminalView.document = document;
 
 	if (argc > 1) {
-		dispatch_queue_t queue =
-			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
+		//dispatch_queue_t queue =
+		// 	dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
 		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
+			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, dispatch_get_main_queue(), ^(int err){}
 		);
 		dispatch_io_read(
-			channel, 0, SIZE_MAX, queue,
+			channel, 0, SIZE_MAX, dispatch_get_main_queue(),
 			^(bool done, dispatch_data_t data, int error){
 				if (!data)
 					return;
