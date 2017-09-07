@@ -81,14 +81,15 @@ static const CGFloat kLineXMargin = 4;
 	dispatch_sync(_queue, ^{ block(_lines); });
 }
 
-#if 0
-- (NSArray<TerminalDocumentLine*>*)softWrapLine:(TerminalDocumentLine*)line
-									 startIndex:(size_t)i {
-	NSMutableArray* arr = [NSMutableArray array];
-	for (NSString* hunk in line) {
-	}
+// DEBUG
+- (void)replaceLastLine:(NSString*)string {
+	dispatch_sync(_queue, ^{
+		size_t i = _lines.count - 1;
+		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string index:i];
+		[_lines replaceObjectAtIndex:i withObject:newLine];
+		[_observer terminalDocument:self changedLines:@[newLine]];
+	});
 }
-#endif
 
 - (void)setSoftWrapColumn:(size_t)softWrapColumn {
 	if (_softWrapColumn == softWrapColumn)
@@ -402,6 +403,15 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
+
+	__block size_t counter = 0;
+
+	dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+	dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 100 * NSEC_PER_MSEC, (1ull * NSEC_PER_SEC) / 10);
+	dispatch_source_set_event_handler(timer, ^{
+		[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
+	});
+	dispatch_resume(timer);
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
