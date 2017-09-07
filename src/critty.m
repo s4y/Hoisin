@@ -194,6 +194,7 @@ size_t lineId = 0;
 	if (_line == line)
 		return;
 	_line = line;
+	NSLog(@"%@ WANTWANTWANT", self);
 	self.needsDisplay = YES;
 }
 
