@@ -412,6 +412,7 @@ int main(int argc, char* argv[]) {
 		dispatch_io_t channel = dispatch_io_create_with_path(
 			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
 		);
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 200 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
 		dispatch_io_read(
 			channel, 0, SIZE_MAX, queue,
 			^(bool done, dispatch_data_t data, int error){
@@ -419,21 +420,8 @@ int main(int argc, char* argv[]) {
 					return;
 				[document append:data];
 			}
-		);
+		);});
 	}
-
-#if 0
-	dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-	dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC, (1ull * NSEC_PER_SEC) / 10);
-	dispatch_source_set_event_handler(timer, ^{
-		[CATransaction begin];
-		[terminalView.contentView prepareContentInRect:NSZeroRect];
-		terminalView.needsDisplay = YES;
-		[CATransaction commit];
-		[win display];
-	});
-	dispatch_resume(timer);
-#endif
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
