@@ -254,13 +254,14 @@ size_t lineId = 0;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-
+	NSLog(@"PCIR %@", NSStringFromRect(rect));
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
 	}];
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
+	NSLog(@"_PCIR %@", NSStringFromRect(rect));
 	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
 	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
 	const NSRect preparedRect = NSMakeRect(
@@ -380,7 +381,11 @@ size_t lineId = 0;
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
 	[_scrollView.contentView setBoundsOrigin:newOrigin];
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
-	[_contentView prepareContentInRect:_contentView.visibleRect];
+
+	static size_t frameID = 0;
+	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
+								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"%zu.tiff", frameID] atomically:NO];
+	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
 }
 
