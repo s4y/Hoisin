@@ -14,6 +14,10 @@ static const CGFloat kLineXMargin = 4;
 @property(readonly) NSString* _subtreeDescription;
 @end
 
+@interface CALayer(DebugAPI)
+@property(readonly) NSString* _subtreeDescription;
+@end
+
 @interface TerminalDocumentLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
 @property(readonly,nonatomic) size_t index;
@@ -194,7 +198,7 @@ size_t lineId = 0;
 	if (_line == line)
 		return;
 	_line = line;
-	[self setNeedsDisplayInRect:self.bounds];
+	self.needsDisplay = YES;
 }
 
 - (void)setIndex:(size_t)index {
@@ -204,12 +208,6 @@ size_t lineId = 0;
 - (void)viewWillDraw {
 	NSLog(@"%@ WILLDRAW", self);
 	[super viewWillDraw];
-}
-
-- (void)setNeedsDisplay:(BOOL)needsDisplay {
-	NSLog(@"%@ setNeedsDisplay:%s", self, needsDisplay ? "YES" : "NO");
-	[super setNeedsDisplay:needsDisplay];
-	NSLog(@"%@ <- %s", self, self.needsDisplay ? "YES" : "NO");
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -404,6 +402,7 @@ size_t lineId = 0;
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
 
 	NSLog(@"%@", self._subtreeDescription);
+	NSLog(@"%@", self.layer._subtreeDescription);
 	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
 								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
