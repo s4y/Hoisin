@@ -194,7 +194,6 @@ size_t lineId = 0;
 	if (_line == line)
 		return;
 	_line = line;
-	NSLog(@"%@ WANTWANTWANT", self);
 	self.needsDisplay = YES;
 }
 
@@ -205,6 +204,10 @@ size_t lineId = 0;
 - (void)viewWillDraw {
 	NSLog(@"%@ WILLDRAW", self);
 	[super viewWillDraw];
+}
+
+- (void)setNeedsDisplay:(BOOL)needsDisplay {
+	NSLog(@"%@ setNeedsDisplay:%s", self, needsDisplay ? "YES" : "NO");
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
