@@ -319,6 +319,7 @@ size_t lineId = 0;
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
+	NSLog(@"_PCIR super %@", NSStringFromRect(preparedRect));
 	[super prepareContentInRect:preparedRect];
 }
 
