@@ -15,7 +15,7 @@ static const CGFloat kLineXMargin = 4;
 @end
 
 @interface CALayer(DebugAPI)
-@property(readonly) NSString* _subtreeDescription;
+@property(readonly) NSString* _NS_subtreeDescription;
 @end
 
 @interface TerminalDocumentLine: NSObject
@@ -402,7 +402,7 @@ size_t lineId = 0;
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
 
 	NSLog(@"%@", self._subtreeDescription);
-	NSLog(@"%@", self.layer._subtreeDescription);
+	NSLog(@"%@", self.layer._NS_subtreeDescription);
 	[[[[NSImage alloc] initWithCGImage:CGWindowListCreateImage(NSZeroRect, kCGWindowListOptionIncludingWindow, self.window.windowNumber, kCGWindowImageDefault)
 								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
