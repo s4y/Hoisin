@@ -388,8 +388,8 @@ size_t lineId = 0;
 
 	NSLog(@"SET FRAME");
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds) - NSHeight(_scrollView.bounds));
-	_contentView.preparedContentRect = NSZeroRect;
 	[_scrollView.contentView setBoundsOrigin:newOrigin];
+	_contentView.preparedContentRect = NSZeroRect;
 	NSLog(@"SET ORIGIN %@ %@", NSStringFromPoint(newOrigin), NSStringFromRect(_contentView.visibleRect));
 
 	NSLog(@"%@", self._subtreeDescription);
