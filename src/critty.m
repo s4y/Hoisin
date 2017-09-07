@@ -202,6 +202,7 @@ size_t lineId = 0;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+	NSLog(@"%@ DRAW", self);
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
 	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
@@ -394,7 +395,6 @@ size_t lineId = 0;
 								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
-	[CATransaction flush];
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
