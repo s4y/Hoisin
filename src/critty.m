@@ -261,18 +261,6 @@ size_t lineId = 0;
 }
 
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
-	NSLog(@"PCIR %@", NSStringFromRect(rect));
-	for (size_t i = 0; i < _lineViews.count;) {
-		TerminalLineView* lineView = _lineViews[i];
-		if (NSIntersectsRect(lineView.frame, rect)) {
-			i++;
-		} else {
-			[lineView removeFromSuperview];
-			[_lineViews removeObjectAtIndex:i];
-			[_lineViewReusePool returnObject:lineView];
-		}
-	}
-
 	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
 	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
 	const NSRect preparedRect = NSMakeRect(
@@ -285,25 +273,39 @@ size_t lineId = 0;
 		preparedRect.size.width, _lineHeight
 	), kLineXMargin, 0);
 
-	for (size_t i = 0; i < numLines; i++) {
-		TerminalLineView* lineView = nil;
-		if (i < _lineViews.count && NSEqualRects(_lineViews[i].frame, lineRect)) {
+	for (size_t i = 0;;) {
+		TerminalLineView* lineView;
+		if (i < _lineViews.count) {
 			lineView = _lineViews[i];
-		} else {
+			if (
+				NSMinY(lineView.frame) < NSMinY(lineRect) ||
+				NSMinY(lineRect) > NSMaxY(preparedRect)
+			) {
+				[lineView removeFromSuperview];
+				[_lineViews removeObjectAtIndex:i];
+				[_lineViewReusePool returnObject:lineView];
+				continue;
+			} else if (!NSEqualRects(lineView.frame, lineRect))
+				lineView = nil;
+		}
+		if (NSMinY(lineRect) >= NSMaxY(preparedRect))
+			break;
+		if (!lineView) {
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
 				lineView.frame = lineRect;
 			} else {
 				lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 				lineView.autoresizingMask = NSViewWidthSizable;
-				lineView.font = _font;
 			}
 			[_lineViews insertObject:lineView atIndex:i];
 			[self addSubview:lineView];
 		}
 		lineView.line = lines[firstLine + i];
+		lineView.font = _font;
 		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
+		i++;
 	}
 	[super prepareContentInRect:preparedRect];
 }
