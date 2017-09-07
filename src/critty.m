@@ -311,6 +311,7 @@ size_t lineId = 0;
 		lineView.line = lines[firstLine + i];
 		lineView.font = _font;
 		lineView.index = firstLine + i; // DEBUG
+		[lineView displayIfNeeded];
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
