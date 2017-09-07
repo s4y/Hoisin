@@ -394,6 +394,7 @@ size_t lineId = 0;
 								  size:NSZeroSize] TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"snaps/%zu.tiff", frameID++] atomically:NO];
 	//[_contentView prepareContentInRect:_contentView.visibleRect];
 	[super viewWillDraw];
+	[CATransaction flush];
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
