@@ -74,7 +74,8 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block {
-	dispatch_sync(_queue, ^{ block(_lines); });
+	block(_lines);
+	//dispatch_sync(_queue, ^{ block(_lines); });
 }
 
 #if 0
@@ -311,7 +312,6 @@ size_t lineId = 0;
 		lineView.line = lines[firstLine + i];
 		lineView.font = _font;
 		lineView.index = firstLine + i; // DEBUG
-		[lineView displayIfNeeded];
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
