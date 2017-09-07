@@ -358,7 +358,7 @@ size_t lineId = 0;
 	_contentView.dataSource = document;
 }
 
-- (void)layout {
+- (void)layoutPlz {
 	__block size_t lineCount;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines){
 		lineCount = lines.count;
@@ -369,12 +369,11 @@ size_t lineId = 0;
 	)];
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
 	[_contentView scrollPoint:newOrigin];
-	[super layout];
 }
 
 - (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		self.needsLayout = YES;
+		[self layoutPlz];
 	});
 }
 
