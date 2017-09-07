@@ -170,23 +170,11 @@ static const CGFloat kLineXMargin = 4;
 size_t lineId = 0;
 
 @interface TerminalLineView: NSView
-@property(nonatomic) size_t index;
 @property(nonatomic,strong) NSFont* font;
 @property(nonatomic,strong) TerminalDocumentLine* line;
-- (instancetype)initWithFrame:(NSRect)frameRect NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_UNAVAILABLE;
 @end
 
-@implementation TerminalLineView {
-	size_t _id;
-}
-
-- (instancetype)initWithFrame:(NSRect)frameRect {
-	if ((self = [super initWithFrame:frameRect])) {
-		_id = lineId++;
-	}
-	return self;
-}
+@implementation TerminalLineView
 
 - (BOOL)isOpaque {
 	return YES;
@@ -199,14 +187,10 @@ size_t lineId = 0;
 	self.needsDisplay = YES;
 }
 
-- (void)setIndex:(size_t)index {
-	_index = index;
-}
-
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
-	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%zu %zu %@", _index, _id, string ? string : @"<nil>"] attributes:@{
+	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:string ? string : @"<nil>" attributes:@{
 		NSFontAttributeName: _font,
 	}]));
 	[NSColor.whiteColor setFill];
@@ -308,7 +292,6 @@ size_t lineId = 0;
 		}
 		lineView.line = lines[firstLine + i];
 		lineView.font = _font;
-		lineView.index = firstLine + i; // DEBUG
 		lineRect.origin.y += _lineHeight;
 		i++;
 	}
