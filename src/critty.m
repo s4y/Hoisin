@@ -83,7 +83,7 @@ static const CGFloat kLineXMargin = 4;
 
 // DEBUG
 - (void)replaceLastLine:(NSString*)string {
-	dispatch_sync(_queue, ^{
+	dispatch_barrier_sync(_queue, ^{
 		size_t i = _lines.count - 1;
 		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string index:i];
 		[_lines replaceObjectAtIndex:i withObject:newLine];
