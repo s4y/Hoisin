@@ -103,7 +103,6 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)_append:(dispatch_data_t)data {
 	__block size_t good_length = 0;
-	// TODO: Use a queue to make safe, plz.
 	dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
 		for (size_t i = 0; i < size; i++) {
 			utf8_decode(&_utf8_decode_context, ((unsigned char*)buffer)[i]);
@@ -362,7 +361,7 @@ size_t lineId = 0;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
-	dispatch_sync(dispatch_get_main_queue(), ^{
+	dispatch_async(dispatch_get_main_queue(), ^{
 		if (addedLines) {
 			self.needsLayout = YES;
 		} else if (changedLines) {
@@ -414,22 +413,6 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
-
-	__block size_t counter = 0;
-
-	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-		sleep(1);
-		for (;;) @autoreleasepool {
-			[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
-		}
-	});
-
-	// dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-	// dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1, 0);
-	// dispatch_source_set_event_handler(timer, ^{
-	// 	[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
-	// });
-	// dispatch_resume(timer);
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
