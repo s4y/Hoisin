@@ -419,8 +419,9 @@ int main(int argc, char* argv[]) {
 
 	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
 		sleep(1);
-		for (;;)
+		for (;;) @autoreleasepool {
 			[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
+		}
 	});
 
 	// dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
