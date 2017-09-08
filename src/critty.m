@@ -41,7 +41,7 @@ static const CGFloat kLineXMargin = 4;
 
 @class TerminalDocument;
 @protocol TerminalDocumentObserver
-- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines;
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines;
 @end
 
 @interface TerminalDocument: NSObject
@@ -87,7 +87,7 @@ static const CGFloat kLineXMargin = 4;
 		size_t i = _lines.count - 1;
 		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string index:i];
 		[_lines replaceObjectAtIndex:i withObject:newLine];
-		[_observer terminalDocument:self changedLines:@[newLine]];
+		[_observer terminalDocument:self addedLines:nil changedLines:@[newLine]];
 	});
 }
 
@@ -137,7 +137,7 @@ static const CGFloat kLineXMargin = 4;
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	[_observer terminalDocument:self changedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
+	[_observer terminalDocument:self addedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)] changedLines:nil];
 }
 @end
 
@@ -354,7 +354,7 @@ size_t lineId = 0;
 	[super layout];
 }
 
-- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)lines {
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.needsLayout = YES;
 	});
