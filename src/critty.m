@@ -362,7 +362,7 @@ size_t lineId = 0;
 }
 
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	dispatch_sync(dispatch_get_main_queue(), ^{
 		if (addedLines) {
 			self.needsLayout = YES;
 		} else if (changedLines) {
