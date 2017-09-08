@@ -418,6 +418,7 @@ int main(int argc, char* argv[]) {
 	__block size_t counter = 0;
 
 	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		sleep(1);
 		for (;;)
 			[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
 	});
