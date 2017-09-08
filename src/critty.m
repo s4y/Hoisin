@@ -417,12 +417,17 @@ int main(int argc, char* argv[]) {
 
 	__block size_t counter = 0;
 
-	dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-	dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1, 0);
-	dispatch_source_set_event_handler(timer, ^{
-		[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		for (;;)
+			[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
 	});
-	dispatch_resume(timer);
+
+	// dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+	// dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1, 0);
+	// dispatch_source_set_event_handler(timer, ^{
+	// 	[document replaceLastLine:[NSString stringWithFormat:@"%zu", counter++]];
+	// });
+	// dispatch_resume(timer);
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
