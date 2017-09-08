@@ -299,10 +299,17 @@ size_t lineId = 0;
 	[super prepareContentInRect:preparedRect];
 }
 
-- (void)invalidateChangedLines:(NSArray<TerminalDocumentLine*>*)lines {
-	// for (TerminalLineView* lineView in _lineViews) {
-	// 	lineView.line = lines[lineView.line.index];
-	// }
+- (void)changeLines:(NSArray<TerminalDocumentLine*>*)lines {
+	// TODO: Passing in a dictionary, and dropping the index from the lines themselves, might make more sense.
+	NSMutableDictionary<NSNumber*, TerminalDocumentLine*>* changedLinesDict = [NSMutableDictionary dictionary];
+	for (TerminalDocumentLine* line in lines) {
+		changedLinesDict[@(line.index)] = line;
+	}
+	for (TerminalLineView* lineView in _lineViews) {
+		TerminalDocumentLine* newLine = changedLinesDict[@(lineView.line.index)];
+		if (newLine)
+			lineView.line = newLine;
+	}
 }
 
 @end
@@ -356,7 +363,11 @@ size_t lineId = 0;
 
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		self.needsLayout = YES;
+		if (addedLines) {
+			self.needsLayout = YES;
+		} else if (changedLines) {
+			[_contentView changeLines:changedLines];
+		}
 	});
 }
 
