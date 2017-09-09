@@ -3,6 +3,7 @@
 -Werror
 -Os
 -flto
+-Isrc
 -framework AppKit
 -framework CoreGraphics
 -framework QuartzCore
