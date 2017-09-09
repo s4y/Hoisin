@@ -11,7 +11,6 @@ static const CGFloat kLineXMargin = 4;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
 	NSFont* _font;
 	CGFloat _lineHeight;
-	size_t _lineCharacterWidth;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -31,14 +30,16 @@ static const CGFloat kLineXMargin = 4;
 
 - (void)setFont:(NSFont*)font {
 	_font = font;
-	NSRect charRect = _font.boundingRectForFont;
-	NSLog(@"boundingRectForFont: %@, maximumAdvancement: %@", NSStringFromRect(charRect), NSStringFromSize(_font.maximumAdvancement));
 	_lineHeight = NSHeight([self backingAlignedRect:_font.boundingRectForFont
 											options:NSAlignAllEdgesOutward]);
 }
 
 - (CGFloat)heightForLineCount:(NSUInteger)lineCount {
 	return lineCount * _lineHeight;
+}
+
+- (NSUInteger)maxCharactersForWidth:(CGFloat)width {
+	return floor(width / _font.maximumAdvancement.width);
 }
 
 - (void)purgeLineViewAtIndex:(NSUInteger)i {
