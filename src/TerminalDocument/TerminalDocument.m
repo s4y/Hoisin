@@ -54,7 +54,7 @@
 		size_t i = _lines.count - 1;
 		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string index:i];
 		[_lines replaceObjectAtIndex:i withObject:newLine];
-		[_observer terminalDocument:self addedLines:nil changedLines:@[newLine]];
+		[_observer terminalDocument:self changedLines:@[newLine]];
 	});
 }
 
@@ -103,7 +103,7 @@
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	[_observer terminalDocument:self addedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)] changedLines:nil];
+	[_observer terminalDocument:self addedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
 }
 @end
 

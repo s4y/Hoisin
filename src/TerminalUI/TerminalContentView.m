@@ -38,6 +38,13 @@ static const CGFloat kLineXMargin = 4;
 	return lineCount * _lineHeight;
 }
 
+- (void)purgeLineViewAtIndex:(NSUInteger)i {
+	TerminalLineView* lineView = _lineViews[i];
+	[lineView removeFromSuperview];
+	[_lineViews removeObjectAtIndex:i];
+	[_lineViewReusePool returnObject:lineView];
+}
+
 - (void)prepareContentInRect:(const NSRect)rect {
 	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
@@ -65,9 +72,7 @@ static const CGFloat kLineXMargin = 4;
 				NSMinY(lineView.frame) < NSMinY(lineRect) ||
 				NSMinY(lineRect) >= NSMaxY(preparedRect)
 			) {
-				[lineView removeFromSuperview];
-				[_lineViews removeObjectAtIndex:i];
-				[_lineViewReusePool returnObject:lineView];
+				[self purgeLineViewAtIndex:i];
 				continue;
 			} else if (!NSEqualRects(lineView.frame, lineRect))
 				lineView = nil;
@@ -104,6 +109,11 @@ static const CGFloat kLineXMargin = 4;
 		if (newLine)
 			lineView.line = newLine;
 	}
+}
+
+- (void)invalidateAllLines {
+	while ([_lineViews firstObject])
+		[self purgeLineViewAtIndex:0];
 }
 
 @end

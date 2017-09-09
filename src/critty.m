@@ -54,13 +54,22 @@
 	[super layout];
 }
 
-- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
+	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if (addedLines) {
-			self.needsLayout = YES;
-		} else if (changedLines) {
-			[_contentView changeLines:changedLines];
-		}
+		self.needsLayout = YES;
+	});
+}
+
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_contentView changeLines:changedLines];
+	});
+}
+
+- (void)terminalDocumentInvalidateAllLines:(TerminalDocument*)document {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_contentView invalidateAllLines];
 	});
 }
 

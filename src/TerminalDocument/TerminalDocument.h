@@ -12,11 +12,22 @@
 
 @class TerminalDocument;
 @protocol TerminalDocumentObserver
-- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines changedLines:(NSArray<TerminalDocumentLine*>*)changedLines;
+// Lines were added.
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines;
+
+// Lines were changed.
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)changedLines;
+
+// Any lines, and the number of lines, may have changed. Currently used for
+// re-wrapping. Should be replaced with something better, like a log of edits.
+- (void)terminalDocumentInvalidateAllLines:(TerminalDocument*)document;
 @end
 
 @interface TerminalDocument: NSObject
 @property (nonatomic,weak) id<TerminalDocumentObserver> observer;
+
+// Consider moving this into a "view" layer (view in the sense of "string view"
+// or "buffer view", not NSView).
 @property (nonatomic) size_t softWrapColumn;
 
 - (void)append:(dispatch_data_t)data;
