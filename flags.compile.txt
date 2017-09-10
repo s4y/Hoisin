@@ -1,0 +1,7 @@
+-Wall
+-Wpedantic
+-Werror
+-Os
+-Isrc
+-fobjc-arc
+-g

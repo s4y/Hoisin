@@ -1,0 +1,4 @@
+-framework AppKit
+-framework CoreGraphics
+-framework QuartzCore
+-flto
