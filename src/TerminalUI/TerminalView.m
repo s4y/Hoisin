@@ -27,7 +27,6 @@
 - (void)layout {
 	[_contentView setFrameSize:NSMakeSize(NSWidth(self.bounds), _contentView.desiredHeight)];
 	const NSPoint newOrigin = NSMakePoint(0, NSMaxY(_contentView.bounds));
-	NSLog(@"plz scroll to %@", NSStringFromPoint(newOrigin));
 	[_contentView scrollPoint:newOrigin];
 	[super layout];
 }

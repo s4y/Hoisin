@@ -122,7 +122,6 @@ static const CGFloat kLineXMargin = 4;
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSLog(@"plz be laying out, %@", self.superview);
 		[_delegate terminalContentViewMaybeChangedHeight:self];
 	});
 }
