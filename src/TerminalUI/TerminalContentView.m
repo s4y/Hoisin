@@ -6,6 +6,9 @@
 
 static const CGFloat kLineXMargin = 4;
 
+@interface TerminalContentView (TerminalDocumentObserver) <TerminalDocumentObserver>
+@end
+
 @implementation TerminalContentView {
 	NSMutableArray<TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
@@ -26,6 +29,12 @@ static const CGFloat kLineXMargin = 4;
 	// A flipped coordinate space makes it easier to add lines: the existing
 	// lines "stick" to the top and don't have to be repositioned or redrawn.
 	return YES;
+}
+
+- (void)setDocument:(TerminalDocument*)document {
+	_document.observer = nil;
+	document.observer = self;
+	_document = document;
 }
 
 - (void)setFont:(NSFont*)font {
@@ -91,6 +100,7 @@ static const CGFloat kLineXMargin = 4;
 			[self addSubview:lineView];
 		}
 		lineView.line = lines[firstLine + i];
+		NSLog(@"%@ + %@", lineView, lineView.line);
 		lineView.font = _font;
 		lineRect.origin.y += _lineHeight;
 		i++;
@@ -99,7 +109,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (CGFloat)desiredHeight {
-	__block CGFloat desiredHeight;
+	__block CGFloat desiredHeight = 0;
 	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		desiredHeight = _lineHeight * lines.count;
 	}];
@@ -108,15 +118,11 @@ static const CGFloat kLineXMargin = 4;
 
 @end
 
-@interface TerminalContentView (TerminalDocumentObserver) <TerminalDocumentObserver>
-@end
-
 @implementation TerminalContentView (TerminalDocumentObserver)
 
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
-		self.needsLayout = YES;
 		self.superview.needsLayout = YES;
 	});
 }
@@ -140,7 +146,6 @@ static const CGFloat kLineXMargin = 4;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		while ([_lineViews firstObject])
 			[self purgeLineViewAtIndex:0];
-		self.needsLayout = YES;
 		self.superview.needsLayout = YES;
 	});
 }

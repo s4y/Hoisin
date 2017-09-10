@@ -18,6 +18,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
 	CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 	NSString* string = _line.string;
+	NSLog(@"%@ draw this: %@", self, string);
 	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)([[NSAttributedString alloc] initWithString:string ? string : @"<nil>" attributes:@{
 		NSFontAttributeName: _font,
 	}]));
