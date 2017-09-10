@@ -123,7 +123,7 @@ static const CGFloat kLineXMargin = 4;
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@"plz be laying out, %@", self.superview);
-		self.superview.needsLayout = YES;
+		[_delegate terminalContentViewMaybeChangedHeight:self];
 	});
 }
 
@@ -146,7 +146,7 @@ static const CGFloat kLineXMargin = 4;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		while ([_lineViews firstObject])
 			[self purgeLineViewAtIndex:0];
-		self.superview.needsLayout = YES;
+		[_delegate terminalContentViewMaybeChangedHeight:self];
 	});
 }
 

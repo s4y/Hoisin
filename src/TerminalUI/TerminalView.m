@@ -2,6 +2,9 @@
 
 #import "TerminalContentView.h"
 
+@interface TerminalView(TerminalContentViewDelegate) <TerminalContentViewDelegate>
+@end
+
 @implementation TerminalView {
 	NSScrollView* _scrollView;
 }
@@ -28,4 +31,10 @@
 	[super layout];
 }
 
+@end
+
+@implementation TerminalView(TerminalContentViewDelegate)
+- (void)terminalContentViewMaybeChangedHeight:(TerminalContentView *)terminalContentView { 
+  self.needsLayout = YES;
+}
 @end
