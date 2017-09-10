@@ -121,6 +121,7 @@ static const CGFloat kLineXMargin = 4;
 @implementation TerminalContentView (TerminalDocumentObserver)
 
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
+	NSLog(@"added %zu lines", addedLines.count);
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.superview.needsLayout = YES;
