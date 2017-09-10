@@ -116,6 +116,7 @@ static const CGFloat kLineXMargin = 4;
 - (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
+		self.needsLayout = YES;
 		self.superview.needsLayout = YES;
 	});
 }
@@ -139,6 +140,7 @@ static const CGFloat kLineXMargin = 4;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		while ([_lineViews firstObject])
 			[self purgeLineViewAtIndex:0];
+		self.needsLayout = YES;
 		self.superview.needsLayout = YES;
 	});
 }
