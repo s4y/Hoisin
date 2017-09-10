@@ -30,5 +30,6 @@
 // or "buffer view", not NSView).
 @property (nonatomic) size_t softWrapColumn;
 
+- (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block;
 - (void)append:(dispatch_data_t)data;
 @end

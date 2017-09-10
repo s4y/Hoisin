@@ -2,19 +2,11 @@
 
 #import <AppKit/AppKit.h>
 
-@class TerminalDocumentLine;
-
-@protocol TerminalContentViewDataSource
-- (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block;
-@end
+@class TerminalDocument;
 
 @interface TerminalContentView: NSView
-@property(nonatomic) id<TerminalContentViewDataSource> dataSource;
+@property(nonatomic) TerminalDocument* document;
 @property(nonatomic) NSFont* font;
 
-// TODO: Change to a model where we're the observer and inform the document
-// view when we want to change size.
-- (CGFloat)heightForLineCount:(NSUInteger)lineCount;
-- (void)changeLines:(NSArray<TerminalDocumentLine*>*)lines;
-- (void)invalidateAllLines;
+@property(readonly) CGFloat desiredHeight;
 @end

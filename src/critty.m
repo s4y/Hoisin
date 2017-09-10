@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 	[win makeKeyAndOrderFront:nil];
 
 	TerminalDocument* document = [[TerminalDocument alloc] init];
-	terminalView.document = document;
+	terminalView.contentView.document = document;
 
 	if (argc > 1) {
 		dispatch_queue_t queue =

@@ -1,8 +1,8 @@
 #import "TerminalContentView.h"
 
+#import "TerminalDocument/TerminalDocument.h"
 #import "TerminalLineView.h"
 #import "ViewReusePool.h"
-#import "TerminalDocument/TerminalDocument.h"
 
 static const CGFloat kLineXMargin = 4;
 
@@ -34,10 +34,6 @@ static const CGFloat kLineXMargin = 4;
 											options:NSAlignAllEdgesOutward]);
 }
 
-- (CGFloat)heightForLineCount:(NSUInteger)lineCount {
-	return lineCount * _lineHeight;
-}
-
 - (NSUInteger)maxCharactersForWidth:(CGFloat)width {
 	return floor(width / _font.maximumAdvancement.width);
 }
@@ -50,7 +46,7 @@ static const CGFloat kLineXMargin = 4;
 }
 
 - (void)prepareContentInRect:(const NSRect)rect {
-	[_dataSource performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
+	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
 		 [self _prepareContentInRect:rect withLines:lines];
 	}];
 }
@@ -102,22 +98,49 @@ static const CGFloat kLineXMargin = 4;
 	[super prepareContentInRect:preparedRect];
 }
 
-- (void)changeLines:(NSArray<TerminalDocumentLine*>*)lines {
-	// TODO: Passing in a dictionary, and dropping the index from the lines themselves, might make more sense.
-	NSMutableDictionary<NSNumber*, TerminalDocumentLine*>* changedLinesDict = [NSMutableDictionary dictionary];
-	for (TerminalDocumentLine* line in lines) {
-		changedLinesDict[@(line.index)] = line;
-	}
-	for (TerminalLineView* lineView in _lineViews) {
-		TerminalDocumentLine* newLine = changedLinesDict[@(lineView.line.index)];
-		if (newLine)
-			lineView.line = newLine;
-	}
+- (CGFloat)desiredHeight {
+	__block CGFloat desiredHeight;
+	[_document performWithLines:^(NSArray<TerminalDocumentLine*>* lines) {
+		desiredHeight = _lineHeight * lines.count;
+	}];
+	return desiredHeight;
 }
 
-- (void)invalidateAllLines {
-	while ([_lineViews firstObject])
-		[self purgeLineViewAtIndex:0];
+@end
+
+@interface TerminalContentView (TerminalDocumentObserver) <TerminalDocumentObserver>
+@end
+
+@implementation TerminalContentView (TerminalDocumentObserver)
+
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
+	// TODO: Let us specify a queue for observing the document.
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.superview.needsLayout = YES;
+	});
+}
+
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		// TODO: Passing in a dictionary, and dropping the index from the lines themselves, might make more sense.
+		NSMutableDictionary<NSNumber*, TerminalDocumentLine*>* changedLinesDict = [NSMutableDictionary dictionary];
+		for (TerminalDocumentLine* line in changedLines) {
+			changedLinesDict[@(line.index)] = line;
+		}
+		for (TerminalLineView* lineView in _lineViews) {
+			TerminalDocumentLine* newLine = changedLinesDict[@(lineView.line.index)];
+			if (newLine)
+				lineView.line = newLine;
+		}
+	});
+}
+
+- (void)terminalDocumentInvalidateAllLines:(TerminalDocument*)document {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		while ([_lineViews firstObject])
+			[self purgeLineViewAtIndex:0];
+		self.superview.needsLayout = YES;
+	});
 }
 
 @end
