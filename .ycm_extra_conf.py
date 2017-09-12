@@ -5,7 +5,6 @@ def FlagsForFile(filename, **kwargs):
         'flags': [
             '-isysroot',
             subprocess.check_output(['xcrun', '--show-sdk-path']).strip(),
-            '-m',
-            'objective-c',
+            '-x', 'objective-c',
         ] + open('flags.compile.txt').read().strip().split(),
     }

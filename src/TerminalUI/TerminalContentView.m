@@ -10,7 +10,7 @@ static const CGFloat kLineXMargin = 4;
 @end
 
 @implementation TerminalContentView {
-	NSMutableArray<TerminalLineView*>* _lineViews;
+	NSMutableDictionary<NSNumber*,TerminalLineView*>* _lineViews;
 	ViewReusePool<TerminalLineView*>* _lineViewReusePool;
 	NSFont* _font;
 	CGFloat _lineHeight;
@@ -18,7 +18,7 @@ static const CGFloat kLineXMargin = 4;
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect])) {
-		_lineViews = [NSMutableArray array];
+		_lineViews = [NSMutableDictionary dictionary];
 		_lineViewReusePool = [[ViewReusePool alloc] init];
 		self.font = [NSFont userFixedPitchFontOfSize:[NSFont systemFontSize]];
 	}
@@ -47,10 +47,10 @@ static const CGFloat kLineXMargin = 4;
 	return floor(width / _font.maximumAdvancement.width);
 }
 
-- (void)purgeLineViewAtIndex:(NSUInteger)i {
-	TerminalLineView* lineView = _lineViews[i];
+- (void)purgeLineView:(NSUInteger)i {
+	TerminalLineView* lineView = _lineViews[@(i)];
 	[lineView removeFromSuperview];
-	[_lineViews removeObjectAtIndex:i];
+	[_lineViews removeObjectForKey:@(i)];
 	[_lineViewReusePool returnObject:lineView];
 }
 
@@ -63,32 +63,22 @@ static const CGFloat kLineXMargin = 4;
 - (void)_prepareContentInRect:(const NSRect)rect withLines:(NSArray<TerminalDocumentLine*>*)lines {
 	const size_t firstLine = floor(NSMinY(rect) / _lineHeight);
 	const size_t numLines = ceil(NSMaxY(rect) / _lineHeight) - firstLine;
+	for (NSNumber* k in _lineViews.allKeys) {
+		NSUInteger i = k.unsignedIntegerValue;
+		if (i < firstLine || i >= firstLine + numLines)
+			[self purgeLineView:i];
+	}
 	const NSRect preparedRect = NSMakeRect(
-		rect.origin.x, firstLine * _lineHeight,
-		rect.size.width, numLines * _lineHeight
+		0, firstLine * _lineHeight,
+		NSWidth(self.bounds), numLines * _lineHeight
 	);
-
-	NSRect lineRect = NSInsetRect(NSMakeRect(
-		preparedRect.origin.x, preparedRect.origin.y,
-		preparedRect.size.width, _lineHeight
-	), kLineXMargin, 0);
-
-	for (size_t i = 0;;) {
-		TerminalLineView* lineView;
-		if (i < _lineViews.count) {
-			lineView = _lineViews[i];
-			if (
-				NSMinY(lineView.frame) < NSMinY(lineRect) ||
-				NSMinY(lineRect) >= NSMaxY(preparedRect)
-			) {
-				[self purgeLineViewAtIndex:i];
-				continue;
-			} else if (!NSEqualRects(lineView.frame, lineRect))
-				lineView = nil;
-		}
-		if (NSMinY(lineRect) >= NSMaxY(preparedRect))
-			break;
+	for (size_t i = firstLine; i < firstLine + numLines; i++) {
+		TerminalLineView* lineView = _lineViews[@(i)];
 		if (!lineView) {
+			NSRect lineRect = NSInsetRect(NSMakeRect(
+				0, _lineHeight * i, NSWidth(preparedRect), _lineHeight
+			), kLineXMargin, 0);
+
 			lineView = [_lineViewReusePool getObject];
 			if (lineView) {
 				lineView.frame = lineRect;
@@ -96,13 +86,11 @@ static const CGFloat kLineXMargin = 4;
 				lineView = [[TerminalLineView alloc] initWithFrame:lineRect];
 				lineView.autoresizingMask = NSViewWidthSizable;
 			}
-			[_lineViews insertObject:lineView atIndex:i];
+			_lineViews[@(i)] = lineView;
 			[self addSubview:lineView];
 		}
 		lineView.line = lines[firstLine + i];
 		lineView.font = _font;
-		lineRect.origin.y += _lineHeight;
-		i++;
 	}
 	[super prepareContentInRect:preparedRect];
 }
@@ -119,32 +107,27 @@ static const CGFloat kLineXMargin = 4;
 
 @implementation TerminalContentView (TerminalDocumentObserver)
 
-- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines {
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSDictionary<NSNumber*,TerminalDocumentLine*>*)addedLines {
 	// TODO: Let us specify a queue for observing the document.
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[_delegate terminalContentViewMaybeChangedHeight:self];
 	});
 }
 
-- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)changedLines {
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSDictionary<NSNumber*,TerminalDocumentLine*>*)changedLines {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		// TODO: Passing in a dictionary, and dropping the index from the lines themselves, might make more sense.
-		NSMutableDictionary<NSNumber*, TerminalDocumentLine*>* changedLinesDict = [NSMutableDictionary dictionary];
-		for (TerminalDocumentLine* line in changedLines) {
-			changedLinesDict[@(line.index)] = line;
-		}
-		for (TerminalLineView* lineView in _lineViews) {
-			TerminalDocumentLine* newLine = changedLinesDict[@(lineView.line.index)];
-			if (newLine)
-				lineView.line = newLine;
-		}
+		[changedLines enumerateKeysAndObjectsUsingBlock:^(NSNumber* k, TerminalDocumentLine* v, BOOL* stop) {
+			TerminalLineView* lineView = _lineViews[k];
+			if (lineView)
+				lineView.line = v;
+		}];
 	});
 }
 
 - (void)terminalDocumentInvalidateAllLines:(TerminalDocument*)document {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		while ([_lineViews firstObject])
-			[self purgeLineViewAtIndex:0];
+		for (NSNumber* k in _lineViews.allKeys)
+			[self purgeLineView:k.unsignedIntegerValue];
 		[_delegate terminalContentViewMaybeChangedHeight:self];
 	});
 }

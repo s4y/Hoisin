@@ -4,13 +4,12 @@
 #include "tinybuf/tinybuf.h"
 
 @implementation TerminalDocumentLine
-- (instancetype)initWithString:(NSString*)string index:(size_t)index {
+- (instancetype)initWithString:(NSString*)string {
 	if ((self = [super init])) {
 		if (!string) {
 			abort();
 		}
 		_string = string;
-		_index = index;
 	}
 	return self;
 }
@@ -52,9 +51,9 @@
 - (void)replaceLastLine:(NSString*)string {
 	dispatch_barrier_sync(_queue, ^{
 		size_t i = _lines.count - 1;
-		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string index:i];
+		TerminalDocumentLine* newLine = [[TerminalDocumentLine alloc] initWithString:string];
 		[_lines replaceObjectAtIndex:i withObject:newLine];
-		[_observer terminalDocument:self changedLines:@[newLine]];
+		[_observer terminalDocument:self changedLines:@{@(i): newLine}];
 	});
 }
 
@@ -97,13 +96,17 @@
 				[[NSString alloc] initWithBytes:_buf.buf + start
 										 length:(i - start) * sizeof(_buf.buf[0])
 									   encoding:NSUTF32LittleEndianStringEncoding]
-			index:_lines.count]];
+			]];
 			i++; // Skip the '\n'
 			start = i;
 		}
 	}
 	tinybuf_delete_front(&_buf, good_length);
-	[_observer terminalDocument:self addedLines:[_lines subarrayWithRange:NSMakeRange(oldcount, _lines.count-oldcount)]];
+	NSMutableDictionary* newLines = [NSMutableDictionary dictionary];
+	for (size_t i = oldcount; i < _lines.count; i++) {
+		newLines[@(i)] = _lines[i];
+	}
+	[_observer terminalDocument:self addedLines:newLines];
 }
 @end
 

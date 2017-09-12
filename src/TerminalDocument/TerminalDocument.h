@@ -4,19 +4,18 @@
 
 @interface TerminalDocumentLine: NSObject
 @property(readonly,nonatomic,strong) NSString* string;
-@property(readonly,nonatomic) size_t index;
 
-- (instancetype)initWithString:(NSString*)string index:(size_t)index NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString*)string;
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
 @class TerminalDocument;
 @protocol TerminalDocumentObserver
 // Lines were added.
-- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSArray<TerminalDocumentLine*>*)addedLines;
+- (void)terminalDocument:(TerminalDocument*)document addedLines:(NSDictionary<NSNumber*,TerminalDocumentLine*>*)addedLines;
 
 // Lines were changed.
-- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSArray<TerminalDocumentLine*>*)changedLines;
+- (void)terminalDocument:(TerminalDocument*)document changedLines:(NSDictionary<NSNumber*,TerminalDocumentLine*>*)changedLines;
 
 // Any lines, and the number of lines, may have changed. Currently used for
 // re-wrapping. Should be replaced with something better, like a log of edits.
