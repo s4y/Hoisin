@@ -89,7 +89,7 @@ static const CGFloat kLineXMargin = 4;
 			_lineViews[@(i)] = lineView;
 			[self addSubview:lineView];
 		}
-		lineView.line = lines[firstLine + i];
+		lineView.line = lines[i];
 		lineView.font = _font;
 	}
 	[super prepareContentInRect:preparedRect];
