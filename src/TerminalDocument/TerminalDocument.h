@@ -26,8 +26,8 @@
 @interface TerminalDocument: NSObject
 @property (nonatomic,weak) id<TerminalDocumentObserver> observer;
 
-// Consider moving this into a "view" layer (view in the sense of "string view"
-// or "buffer view", not NSView).
+// TODO: Move this into a "view" layer (view in the sense of "string view" or
+// "buffer view", not NSView).
 @property (nonatomic) size_t softWrapColumn;
 
 - (void)performWithLines:(void(^)(NSArray<TerminalDocumentLine*>*))block;
