@@ -3,6 +3,7 @@
 #include <memory>
 
 namespace critty {
+namespace io {
 
 struct Pipe {
 	struct Observer {
@@ -17,4 +18,5 @@ struct Pipe {
 	virtual void close() = 0;
 };
 
+}  // namespace io
 }  // namespace critty
