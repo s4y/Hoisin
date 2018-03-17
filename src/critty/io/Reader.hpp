@@ -5,7 +5,7 @@
 namespace critty {
 namespace io {
 
-struct Pipe {
+struct Reader {
 	struct Observer {
 		virtual ~Observer() {}
 		virtual void didRead(void* buf, size_t len) = 0;

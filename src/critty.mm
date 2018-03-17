@@ -4,7 +4,7 @@
 
 #import <AppKit/AppKit.h>
 
-#include <critty/io/CreateFilePipe.hpp>
+#include <critty/io/CreateFileReader.hpp>
 
 // #import "TerminalUI/TerminalUI.h"
 
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	std::unique_ptr<critty::io::Pipe> reader = critty::io::CreateFilePipe(argv[1]);
+	std::unique_ptr<critty::io::Reader> reader = critty::io::CreateFileReader(argv[1]);
 
 #if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
