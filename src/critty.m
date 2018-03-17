@@ -4,8 +4,7 @@
 
 #import <AppKit/AppKit.h>
 
-#import "TerminalDocument/TerminalDocument.h"
-#import "TerminalUI/TerminalUI.h"
+// #import "TerminalUI/TerminalUI.h"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 @end
@@ -22,14 +21,17 @@ int main(int argc, char* argv[]) {
 	NSWindow* win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
 	win.contentView.wantsLayer = YES;
 
+#if 0
 	TerminalView* terminalView = [[TerminalView alloc] initWithFrame:win.contentView.frame];
 	terminalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 	[win.contentView addSubview:terminalView];
+#endif
 
 	[win center];
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+#if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.contentView.document = document;
 
@@ -48,6 +50,7 @@ int main(int argc, char* argv[]) {
 			}
 		);
 	}
+#endif
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
