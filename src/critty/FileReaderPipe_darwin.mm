@@ -1,9 +1,15 @@
 #include "FileReaderPipe.hpp"
 
-#import <dispatch/io.h>
+#import <dispatch/dispatch.h>
 
-struct FileReaderPipe::handle {
-};
+namespace critty {
+
+FileReaderPipe FileReaderPipe::Create(const char* path) {
+	return FileReaderPipe{Guts<FileReaderPipe>{}};
+}
+
+FileReaderPipe::FileReaderPipe(Guts<FileReaderPipe>&& guts) : guts_{std::move(guts)} {
+}
 
 void FileReaderPipe::resume() {
 }
@@ -13,3 +19,5 @@ void FileReaderPipe::pause() {
 
 void FileReaderPipe::close() {
 }
+
+}  // namespace critty

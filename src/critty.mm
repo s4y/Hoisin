@@ -33,6 +33,8 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+	auto reader = critty::FileReaderPipe::Create(argv[1]);
+
 #if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
 	terminalView.contentView.document = document;
