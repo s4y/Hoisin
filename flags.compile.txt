@@ -1,6 +1,7 @@
 -Wall
 -Wpedantic
 -Werror
+-std=c++11
 -Os
 -Isrc
 -fobjc-arc

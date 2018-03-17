@@ -2,6 +2,8 @@
 
 #include <memory>
 
+namespace critty {
+
 struct Pipe {
 	struct Observer {
 		virtual ~Observer() {}
@@ -14,3 +16,5 @@ struct Pipe {
 	virtual void pause() = 0;
 	virtual void close() = 0;
 };
+
+}  // namespace critty

@@ -4,6 +4,8 @@
 
 #import <AppKit/AppKit.h>
 
+#include <critty/critty.hpp>
+
 // #import "TerminalUI/TerminalUI.h"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>

@@ -2,6 +2,8 @@
 
 #include "Pipe.hpp"
 
+namespace critty {
+
 class FileReaderPipe final: Pipe {
 	static FileReaderPipe Create(const char* path);
 
@@ -15,3 +17,5 @@ class FileReaderPipe final: Pipe {
 	struct guts;
 	FileReaderPipe(guts);
 };
+
+}  // namespace critty

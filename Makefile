@@ -11,5 +11,9 @@ build/%.o: src/%.m $(DEPS)
 	@mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
+build/%.o: src/%.mm $(DEPS)
+	@mkdir -p $(dir $@)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
 critty: $(OBJECTS) $(DEPS)
 	$(CC) $(CFLAGS) $(LINKFLAGS) -o $@ $(OBJECTS)
