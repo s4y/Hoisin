@@ -16,7 +16,15 @@ std::unique_ptr<Reader> CreateFileReader(const char* path) {
 			)}
 		{}
 
-		void resume() {}
+		void resume() {
+			dispatch_io_read(
+				channel, 0, SIZE_MAX, queue,
+				^(bool done, dispatch_data_t data, int error){
+					if (!data)
+						return;
+				}
+			);
+		}
 		void pause() {}
 		void close() {}
 		
