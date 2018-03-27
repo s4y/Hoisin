@@ -11,7 +11,9 @@ struct Reader {
 		virtual void didRead(void* buf, size_t len) = 0;
 	};
 
+	Reader() = default;
 	Reader(const Reader&) = delete;
+	virtual ~Reader() = default;
 };
 
 }  // namespace io

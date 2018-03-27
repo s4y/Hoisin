@@ -20,7 +20,6 @@ std::unique_ptr<Reader> CreateFileReader(
 			const char* path,
 			std::unique_ptr<Reader::Observer> observer
 		) :
-			Reader{},
 			channel{dispatch_io_create_with_path(
 				DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){}
 			)},
@@ -34,6 +33,8 @@ std::unique_ptr<Reader> CreateFileReader(
 				}
 			);
 		};
+
+		~FileReader() = default;
 		
 	};
 
