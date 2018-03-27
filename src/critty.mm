@@ -33,11 +33,19 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	std::unique_ptr<critty::io::Reader> reader = critty::io::CreateFileReader(argv[1]);
+	struct ReadObserver: critty::io::Reader::Observer {
+		void didRead(void* buf, size_t len) override {
+			NSLog(@"Read: %p of size %zu", buf, len);
+		}
+	};
+
+	std::unique_ptr<critty::io::Reader> reader = critty::io::CreateFileReader(
+		argv[1], std::make_unique<ReadObserver>()
+	);
 
 #if 0
 	TerminalDocument* document = [[TerminalDocument alloc] init];
-	terminalView.contentView.document = document;
+	terminalView.contentView.document = document; 
 
 	if (argc > 1) {
 		dispatch_queue_t queue =

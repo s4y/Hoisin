@@ -10,7 +10,8 @@ struct Reader {
 		virtual ~Observer() {}
 		virtual void didRead(void* buf, size_t len) = 0;
 	};
-	virtual ~Reader() = 0;
+
+	Reader(const Reader&) = delete;
 };
 
 }  // namespace io
