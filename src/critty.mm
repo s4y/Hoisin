@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	[win makeKeyAndOrderFront:nil];
 
 	struct ReadObserver: critty::io::Reader::Observer {
-		void didRead(void* buf, size_t len) override {
+		void didRead(const void* buf, size_t len) override {
 			NSLog(@"Read: %p of size %zu", buf, len);
 		}
 	};

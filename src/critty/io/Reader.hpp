@@ -8,7 +8,7 @@ namespace io {
 struct Reader {
 	struct Observer {
 		virtual ~Observer() {}
-		virtual void didRead(void* buf, size_t len) = 0;
+		virtual void didRead(const void* buf, size_t len) = 0;
 	};
 
 	Reader() = default;

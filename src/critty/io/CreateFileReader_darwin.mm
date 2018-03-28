@@ -20,16 +20,20 @@ std::unique_ptr<Reader> CreateFileReader(
 			const char* path,
 			std::unique_ptr<Reader::Observer> observer
 		) :
-			channel{dispatch_io_create_with_path(
+			channel(dispatch_io_create_with_path(
 				DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){}
-			)},
+			)),
 			observer{std::move(observer)}
 		{
 			dispatch_io_read(
 				channel, 0, SIZE_MAX, queue,
 				^(bool done, dispatch_data_t data, int error){
 					if (!data)
-						return;
+						return this->observer->didRead(nullptr, 0);
+					dispatch_data_apply(data, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
+						this->observer->didRead(buffer, size);
+						return YES;
+					});
 				}
 			);
 		};
