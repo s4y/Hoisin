@@ -5,10 +5,7 @@
 namespace critty {
 namespace io {
 
-std::unique_ptr<Reader> CreateFileReader(
-	const char* path,
-	std::unique_ptr<Reader::Observer>
-);
+std::unique_ptr<Reader> ReaderForFile(const char* path);
 
 }  // namespace io
 }  // namespace critty

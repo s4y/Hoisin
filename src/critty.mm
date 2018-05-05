@@ -4,7 +4,7 @@
 
 #import <AppKit/AppKit.h>
 
-#include <critty/io/CreateFileReader.hpp>
+#include <critty/io/FileReader.hpp>
 
 // #import "TerminalUI/TerminalUI.h"
 
@@ -33,36 +33,11 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
-	struct ReadObserver: critty::io::Reader::Observer {
-		void didRead(const void* buf, size_t len) override {
+	std::unique_ptr<critty::io::Reader> reader =
+		critty::io::ReaderForFile(argv[1]);
+	reader->read([&](const void* buf, size_t len){
 			NSLog(@"Read: %p of size %zu", buf, len);
-		}
-	};
-
-	std::unique_ptr<critty::io::Reader> reader = critty::io::CreateFileReader(
-		argv[1], std::make_unique<ReadObserver>()
-	);
-
-#if 0
-	TerminalDocument* document = [[TerminalDocument alloc] init];
-	terminalView.contentView.document = document; 
-
-	if (argc > 1) {
-		dispatch_queue_t queue =
-			dispatch_queue_create("reader", DISPATCH_QUEUE_SERIAL);
-		dispatch_io_t channel = dispatch_io_create_with_path(
-			DISPATCH_IO_STREAM, argv[1], O_RDONLY, 0, queue, ^(int err){}
-		);
-		dispatch_io_read(
-			channel, 0, SIZE_MAX, queue,
-			^(bool done, dispatch_data_t data, int error){
-				if (!data)
-					return;
-				[document append:data];
-			}
-		);
-	}
-#endif
+	});
 
 	AppDelegate* appDelegate = [AppDelegate new];
 	app.delegate = appDelegate;
