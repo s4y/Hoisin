@@ -7,15 +7,11 @@ namespace io {
 
 std::unique_ptr<Reader> ReaderForFile(const char* path) {
 	struct FileReader: Reader {
-		dispatch_queue_t queue =
-			dispatch_queue_create("critty::io::Reader", DISPATCH_QUEUE_SERIAL);
+		dispatch_queue_t queue;
 		dispatch_io_t channel;
+		FileReader(dispatch_queue_t queue, dispatch_io_t channel) :
+			queue{queue}, channel{channel} {}
 
-		FileReader(const char* path) :
-			channel(dispatch_io_create_with_path(
-				DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){}
-			)) {}
-		
 		void read(std::function<void(const void* buf, size_t len)> cb) override {
 			dispatch_io_read(channel, 0, SIZE_MAX, queue,
 				^(bool done, dispatch_data_t data, int error){
@@ -29,7 +25,13 @@ std::unique_ptr<Reader> ReaderForFile(const char* path) {
 			);
 		}
 	};
-	return std::make_unique<FileReader>(path);
+	auto queue =
+			dispatch_queue_create("critty::io::Reader", DISPATCH_QUEUE_SERIAL);
+	if (auto channel = dispatch_io_create_with_path(
+		DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){}
+	))
+		return std::make_unique<FileReader>(queue, channel);
+	return nullptr;
 }
 
 }  // namespace io
