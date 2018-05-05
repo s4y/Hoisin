@@ -1,5 +1,6 @@
 #include "FileReader.hpp"
 
+#import <Foundation/Foundation.h>
 #import <dispatch/dispatch.h>
 
 namespace critty {
@@ -25,10 +26,11 @@ std::unique_ptr<Reader> ReaderForFile(const char* path) {
 			);
 		}
 	};
-	auto queue =
-			dispatch_queue_create("critty::io::Reader", DISPATCH_QUEUE_SERIAL);
+	auto queue = dispatch_queue_create("critty::io::Reader", DISPATCH_QUEUE_SERIAL);
 	if (auto channel = dispatch_io_create_with_path(
-		DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){}
+		DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){
+			NSLog(@"FileReader failed: %d", err);
+		}
 	))
 		return std::make_unique<FileReader>(queue, channel);
 	return nullptr;
