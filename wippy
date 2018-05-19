@@ -6,7 +6,7 @@ while make && (
 	./critty "$@" || exit $?
 ); do :; done
 
-exit $?
+./critty "%@"
 
 #while :; do
 #	git add . && git commit -m WIP
