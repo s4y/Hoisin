@@ -34,6 +34,10 @@ int main(int argc, char* argv[]) {
 
 	std::unique_ptr<critty::io::Reader> reader =
 		critty::io::ReaderForFile(argv[1]);
+	if (!reader) {
+		return 1;
+	}
+
 	reader->read([&](const void* buf, size_t len){
 			NSLog(@"Read: %p of size %zu", buf, len);
 	});

@@ -31,8 +31,7 @@ std::unique_ptr<Reader> ReaderForFile(const char* path) {
 		DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){
 			NSLog(@"FileReader failed: %d", err);
 		}
-	))
-		return std::make_unique<FileReader>(queue, channel);
+	)) return std::make_unique<FileReader>(queue, channel);
 	return nullptr;
 }
 
