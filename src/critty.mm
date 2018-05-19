@@ -32,10 +32,10 @@ int main(int argc, char* argv[]) {
 	win.frameAutosaveName = @"Window";
 	[win makeKeyAndOrderFront:nil];
 
+return 1;
 	std::unique_ptr<critty::io::Reader> reader =
 		critty::io::ReaderForFile(argv[1]);
 	if (!reader) {
-		exit(1);
 	}
 
 	reader->read([&](const void* buf, size_t len){
