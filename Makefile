@@ -1,9 +1,23 @@
 CC = cc
-CFLAGS += $(shell cat flags.compile.txt)
-LINKFLAGS = $(shell cat flags.link.txt)
+CFLAGS := \
+	-Wall \
+	-Wpedantic \
+	-Werror \
+	-std=c++14 \
+	-Os \
+	-Isrc \
+	-fobjc-arc \
+	-g \
 
-OBJECTS += $(patsubst src/%.mm, build/%.o, $(shell find src -type f -name '*.mm'))
-OBJECTS += $(patsubst src/%.cpp, build/%.o, $(shell find src -type f -name '*.cpp'))
+LDFLAGS = \
+	-framework AppKit \
+	-framework CoreGraphics \
+	-framework QuartzCore \
+	-lc++ \
+	-flto \
+
+SOURCES = $(shell find src -type f -name '*.mm' -or -name '*.cpp')
+OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
 DEPS = $(shell find src -type f -name '*.h') Makefile flags.compile.txt flags.link.txt
 
 build/%.o: src/%.m $(DEPS)
@@ -15,4 +29,4 @@ build/%.o: src/%.mm $(DEPS)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 critty: $(OBJECTS) $(DEPS)
-	$(CC) $(CFLAGS) $(LINKFLAGS) -o $@ $(OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS)
