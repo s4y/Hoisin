@@ -4,8 +4,9 @@ while make && (
 	git add . &&
 	git commit -m WIP
 	./critty "$@"
+); do 
 	STATUS=$?
-); do :; done
+done
 
 exit $STATUS
 
