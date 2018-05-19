@@ -6,6 +6,8 @@ while make && (
 	./critty "$@"
 ); do :; done
 
+return $?
+
 #while :; do
 #	git add . && git commit -m WIP
 #	sleep 10
