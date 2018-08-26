@@ -14,9 +14,10 @@
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		cell_added_handle_ = document_.addObserver([self] (critty::Document::CellAddedEvent e){
-			NSLog(@"Made it to here with %@", self);
-			[self handleCellAdded:e.cell];
+		__weak Document* weakSelf = self;
+		cell_added_handle_ = document_.addObserver([weakSelf] (critty::Document::CellAddedEvent e){
+			NSLog(@"Made it to here with %@", weakSelf);
+			[weakSelf handleCellAdded:e.cell];
 		});
 	}
 	return self;
