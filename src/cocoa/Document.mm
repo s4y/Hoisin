@@ -27,8 +27,11 @@
 }
 
 // I didn't believe/consider it at first, but NSData may point to a memory mapped file!
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-	NSLog(@"plz read: %@", data);
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
+	NSLog(@"type: %@", typeName);
+	NSFileHandle* readHandle = [NSFileHandle fileHandleForReadingFromURL:url error:outError];
+	if (!readHandle)
+		return NO;
 	return YES;
 }
 @end
