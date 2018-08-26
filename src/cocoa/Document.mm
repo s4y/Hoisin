@@ -26,8 +26,8 @@
 	return [NSData data];
 }
 
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-	NSLog(@"plz read: %@", data);
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
+	NSLog(@"plz read: %@", fileWrapper.regularFileContents);
 	return YES;
 }
 @end
