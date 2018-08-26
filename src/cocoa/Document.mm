@@ -14,7 +14,7 @@
 
 - (instancetype)init {
 	if ((self = [super init])) {
-		cell_added_handle_ = document_.addObserver([&] (critty::Document::CellAddedEvent e){
+		cell_added_handle_ = document_.addObserver([self] (critty::Document::CellAddedEvent e){
 			NSLog(@"Made it to here with %@", self);
 			[self handleCellAdded:e.cell];
 		});
