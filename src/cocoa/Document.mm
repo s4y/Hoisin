@@ -26,8 +26,9 @@
 	return [NSData data];
 }
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
-	NSLog(@"plz read: %@", fileWrapper.regularFileContents);
+// I didn't believe/consider it at first, but NSData may point to a memory mapped file!
+- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
+	NSLog(@"plz read: %@", data);
 	return YES;
 }
 @end
