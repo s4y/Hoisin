@@ -5,9 +5,9 @@
 @end
 
 @implementation Document
-+ (BOOL)autosavesInPlace {
-	return YES;
-}
+// + (BOOL)autosavesInPlace {
+// 	return YES;
+// }
 
 - (void)makeWindowControllers {
 	NSWindow* window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 300, 300) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:NO];
@@ -26,4 +26,7 @@
 	return [NSData data];
 }
 
+- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
+	return YES;
+}
 @end
