@@ -19,6 +19,7 @@ static void addSubmenu(NSMenu* menu, NSString* title, void(^build)(NSMenu*)) {
 		[fileMenu addItem:[NSMenuItem separatorItem]];
 		[fileMenu addItemWithTitle:@"Close" action:@selector(performClose:) keyEquivalent:@"w"];
 	});
+	NSLog(@"mainMenu: %@", mainMenu);
 	NSApp.mainMenu = mainMenu;
 }
 @end
