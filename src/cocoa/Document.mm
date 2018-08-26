@@ -27,6 +27,7 @@
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
+	NSLog(@"plz read: %@", data);
 	return YES;
 }
 @end
