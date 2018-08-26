@@ -7,6 +7,9 @@
 namespace critty {
 
 struct ObservableBase {
+	ObservableBase() {}
+	ObservableBase(const ObservableBase&) = delete;
+
 	struct Handle {
 		Handle() = default;
 		Handle(const Handle&) = delete;
@@ -41,7 +44,9 @@ class ObservableImpl {
 
 	std::unique_ptr<ObservableBase::Handle> addObserver(std::function<void(T)> cb) {
 		auto handle = std::make_unique<HandleImpl>(this, std::move(cb));
+		fprintf(stderr, "before: %zu", handles_.size());
 		handles_.insert(handle.get());
+		fprintf(stderr, "after: %zu", handles_.size());
 		return handle;
 	}
 
