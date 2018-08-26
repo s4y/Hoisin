@@ -51,6 +51,7 @@ class ObservableImpl {
 	}
 
 	void emit(const T& e) {
+		fprintf(stderr, "handles: %zu\n", handles_.size());
 		for (auto* handle_ : handles_)
 			handle_->cb_(e);
 	}
