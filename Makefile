@@ -3,7 +3,7 @@ CFLAGS := \
 	-Wall \
 	-Wpedantic \
 	-Werror \
-	-std=c++14 \
+	-std=c++17 \
 	-Os \
 	-Isrc \
 	-fobjc-arc \

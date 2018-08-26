@@ -9,6 +9,19 @@
 
 @implementation Document {
 	critty::Document document_;
+	std::unique_ptr<critty::Document::Handle> cell_added_handle_;
+}
+
+- (instancetype)init {
+	if ((self = [super init])) {
+		cell_added_handle_ = document_.addObserver([&] (critty::Document::CellAddedEvent e){
+			[self handleCellAdded:e.cell];
+		});
+	}
+	return self;
+}
+
+- (void)handleCellAdded:(critty::Cell&)cell {
 }
 
 // + (BOOL)autosavesInPlace {
