@@ -16,7 +16,7 @@
 	if ((self = [super init])) {
 		__weak Document* weakSelf = self;
 		cell_added_handle_ = document_.addObserver([weakSelf] (critty::Document::CellAddedEvent e){
-			NSLog(@"Made it to here with %@", weakSelf);
+			assert(weakSelf);
 			[weakSelf handleCellAdded:e.cell];
 		});
 	}
