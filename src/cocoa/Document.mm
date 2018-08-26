@@ -22,6 +22,7 @@
 }
 
 - (void)handleCellAdded:(critty::Cell&)cell {
+	NSLog(@"new cell!");
 }
 
 // + (BOOL)autosavesInPlace {
