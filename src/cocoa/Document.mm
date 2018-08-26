@@ -27,7 +27,6 @@
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-	[self invalidateRestorableState];
 	return YES;
 }
 @end
