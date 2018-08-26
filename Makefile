@@ -7,6 +7,7 @@ CFLAGS := \
 	-Os \
 	-Isrc \
 	-fobjc-arc \
+	-mmacosx-version-min=10.13 \
 	-g \
 
 LDFLAGS = \
@@ -18,7 +19,7 @@ LDFLAGS = \
 
 SOURCES = $(shell find src -type f -name '*.mm' -or -name '*.cpp')
 OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
-DEPS = $(shell find src -type f -name '*.h') Makefile flags.compile.txt flags.link.txt
+DEPS = $(shell find src -type f -name '*.hpp') Makefile flags.compile.txt flags.link.txt
 
 build/%.o: src/%.m $(DEPS)
 	@mkdir -p $(dir $@)
@@ -28,5 +29,17 @@ build/%.o: src/%.mm $(DEPS)
 	@mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-critty: $(OBJECTS) $(DEPS)
+build/%.o: src/%.cpp $(DEPS)
+	@mkdir -p $(dir $@)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+build/Critty.app: build/Critty.app/Contents/MacOS/Critty build/Critty.app/Contents/Info.plist
+	touch "$@"
+
+build/Critty.app/Contents/MacOS/Critty: $(OBJECTS) $(DEPS)
+	mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS)
+
+build/Critty.app/Contents/Info.plist: src/cocoa/Info.plist
+	mkdir -p $(shell dirname $@)
+	cp "$<" "$@"

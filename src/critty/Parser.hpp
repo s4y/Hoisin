@@ -1,8 +1,15 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 
-template <typename Delegate>
-struct Parser {
-	void Feed(const void* buffer, size_t size);
+namespace critty {
+
+class Parser {
+	public:
+	std::function<void()> onRead;
+
+	void FeedBytes(const void* buffer, size_t size);
 };
+
+}  // namespace critty
