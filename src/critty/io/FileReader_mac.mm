@@ -6,7 +6,7 @@
 namespace critty {
 namespace io {
 
-std::unique_ptr<Reader> ReaderForFile(const char* path) {
+std::unique_ptr<Reader> ReaderForFile(int fd) {
 	struct FileReader: Reader {
 		dispatch_queue_t queue;
 		dispatch_io_t channel;
@@ -27,9 +27,10 @@ std::unique_ptr<Reader> ReaderForFile(const char* path) {
 		}
 	};
 	auto queue = dispatch_queue_create("critty::io::Reader", DISPATCH_QUEUE_SERIAL);
-	if (auto channel = dispatch_io_create_with_path(
-		DISPATCH_IO_STREAM, path, O_RDONLY, 0, queue, ^(int err){
-			NSLog(@"FileReader failed: %d", err);
+	if (auto channel = dispatch_io_create(
+		DISPATCH_IO_STREAM, fd, queue, ^(int err){
+			if (err)
+				NSLog(@"FileReader failed: %d", err);
 		}
 	)) return std::make_unique<FileReader>(queue, channel);
 	return nullptr;

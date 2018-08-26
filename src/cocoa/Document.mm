@@ -1,10 +1,16 @@
 #import "Document.h"
 
+#import "critty/Document.hpp"
+#include "critty/io/FileReader.hpp"
+
 @interface Document ()
 @property (readwrite,nonatomic) NSPoint cascadePoint;
 @end
 
-@implementation Document
+@implementation Document {
+	critty::Document document_;
+}
+
 // + (BOOL)autosavesInPlace {
 // 	return YES;
 // }
@@ -26,12 +32,15 @@
 	return [NSData data];
 }
 
-// I didn't believe/consider it at first, but NSData may point to a memory mapped file!
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
-	NSLog(@"type: %@", typeName);
-	NSFileHandle* readHandle = [NSFileHandle fileHandleForReadingFromURL:url error:outError];
-	if (!readHandle)
-		return NO;
-	return YES;
+	if (UTTypeConformsTo((__bridge CFStringRef)(typeName), kUTTypePlainText)) {
+		if (NSFileHandle* readHandle = [NSFileHandle fileHandleForReadingFromURL:url error:outError]) {
+			critty::Cell cell;
+			cell.AddInput(critty::io::ReaderForFile(dup(readHandle.fileDescriptor)));
+			document_.AddCell(std::move(cell));
+			return YES;
+		}
+	}
+	return NO;
 }
 @end
