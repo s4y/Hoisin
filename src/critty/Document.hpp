@@ -44,6 +44,11 @@ class ObservableImpl {
 		handles_.insert(handle.get());
 		return handle;
 	}
+
+	void emit(const T& e) {
+		for (auto* handle_ : handles_)
+			handle_->cb_(e);
+	}
 };
 
 template <typename ...T>
@@ -51,6 +56,8 @@ class Observable :
 	public ObservableBase,
 	public ObservableImpl<T>...
 {
+	protected:
+		using ObservableImpl<T>::emit...;
 	public:
 		using ObservableImpl<T>::addObserver...;
 };
@@ -76,6 +83,7 @@ class Document :
 
 	void AddCell(Cell cell) {
 		cells.push_back(std::move(cell));
+		emit(CellAddedEvent{cell});
 	}
 };
 
