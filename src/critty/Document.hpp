@@ -44,14 +44,11 @@ class ObservableImpl {
 
 	std::unique_ptr<ObservableBase::Handle> addObserver(std::function<void(T)> cb) {
 		auto handle = std::make_unique<HandleImpl>(this, std::move(cb));
-		fprintf(stderr, "before: %zu\n", handles_.size());
 		handles_.insert(handle.get());
-		fprintf(stderr, "after: %zu\n", handles_.size());
 		return handle;
 	}
 
 	void emit(const T& e) {
-		fprintf(stderr, "handles: %zu\n", handles_.size());
 		for (auto* handle_ : handles_)
 			handle_->cb_(e);
 	}
