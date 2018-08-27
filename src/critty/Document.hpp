@@ -1,7 +1,7 @@
 #pragma once
 
 #include "critty/Cell.hpp"
-#include "critty/Observer.hpp"
+#include "critty/Observable.hpp"
 
 namespace critty {
 
@@ -12,11 +12,13 @@ struct DocumentEvents {
 	struct CellRemovedEvent{
 		critty::Cell& cell;
 	};
+
+	typedef Observable<CellAddedEvent, CellRemovedEvent> Observable;
 };
 
 class Document :
 	public DocumentEvents,
-	public Observable<DocumentEvents::CellAddedEvent, DocumentEvents::CellRemovedEvent>
+	public DocumentEvents::Observable
 {
 	std::vector<critty::Cell> cells;
 
